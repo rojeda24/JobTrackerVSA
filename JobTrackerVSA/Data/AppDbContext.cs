@@ -5,6 +5,7 @@ namespace JobTrackerVSA.Web.Data
 {
     public class AppDbContext (DbContextOptions<AppDbContext> options) : DbContext(options)
     {
+        static AppDbContext() => SQLitePCL.Batteries.Init();
         public DbSet<JobApplication> JobApplications => Set<JobApplication>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
