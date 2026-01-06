@@ -15,7 +15,7 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Register
             {
                 CompanyName = string.Empty,
                 Position = string.Empty,
-                AppliedAt = DateTime.Today // El usuario ve la fecha de hoy por defecto
+                AppliedAt = DateTime.Today 
             };
         }
         public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
@@ -25,13 +25,9 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Register
                 return Page();
             }
 
-            // Enviamos el comando al Handler a través de MediatR
-            // Observa cómo pasamos el cancellationToken que viene del navegador
             await mediator.Send(Command, cancellationToken);
 
-            // Redirigimos a la lista de postulaciones (que crearemos después) 
-            // o al Index por ahora
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Index"); // TODO Change to the List of Applications
         }
     }
 }

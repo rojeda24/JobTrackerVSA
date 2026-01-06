@@ -7,7 +7,7 @@
         public required string CompanyName { get; set; }
         public required string Position { get; set; }
         public string? JobDescriptionUrl { get; set; }
-        public DateTime AppliedAt { get; set; } = DateTime.UtcNow;
+        public DateTime AppliedAt { get; set; } = DateTime.UtcNow; //TODO Check if it is good practice to default to UtcNow
         public ApplicationStatus Status { get; set; }
         public string? Notes { get; set; }
 
