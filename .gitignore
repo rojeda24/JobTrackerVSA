@@ -13,3 +13,6 @@
 # VS Code / Visual Studio
 .vs/
 .vscode/
+
+# Generated for AI promp
+codigo_completo.txt
