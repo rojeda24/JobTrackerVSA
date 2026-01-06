@@ -2,11 +2,11 @@
 using JobTrackerVSA.Web.Domain;
 using MediatR;
 
-namespace JobTrackerVSA.Web.Features.JobApplications.Register
+namespace JobTrackerVSA.Web.Features.JobApplications.Add
 {
-    public class RegisterJobApplicationHandler (AppDbContext context): IRequestHandler<RegisterJobApplicationCommand, Guid>
+    public class AddJobApplicationHandler (AppDbContext context): IRequestHandler<AddJobApplicationCommand, Guid>
     {
-        public async Task<Guid> Handle(RegisterJobApplicationCommand command, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(AddJobApplicationCommand command, CancellationToken cancellationToken)
         {
             var application = new JobApplication
             {

@@ -1,8 +1,8 @@
 ﻿using MediatR;
 
-namespace JobTrackerVSA.Web.Features.JobApplications.Register
+namespace JobTrackerVSA.Web.Features.JobApplications.Add
 {
-    public record RegisterJobApplicationCommand : IRequest<Guid>
+    public record AddJobApplicationCommand : IRequest<Guid>
     {
         public required string CompanyName { get; init; }
         public required string Position { get; init; }

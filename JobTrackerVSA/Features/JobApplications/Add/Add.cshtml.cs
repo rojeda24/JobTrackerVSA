@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace JobTrackerVSA.Web.Features.JobApplications.Register
+namespace JobTrackerVSA.Web.Features.JobApplications.Add
 {
-    public class RegisterModel(IMediator mediator) : PageModel
+    public class AddModel(IMediator mediator) : PageModel
     {
         [BindProperty]
-        public RegisterJobApplicationCommand Command { get; set; } = default!;
+        public AddJobApplicationCommand Command { get; set; } = default!;
         public void OnGet()
         {
-            Command = new RegisterJobApplicationCommand
+            Command = new AddJobApplicationCommand
             {
                 CompanyName = string.Empty,
                 Position = string.Empty,
@@ -27,7 +27,7 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Register
 
             await mediator.Send(Command, cancellationToken);
 
-            return RedirectToPage("/Index"); // TODO Change to the List of Applications
+            return RedirectToPage("/JobApplications/List/Index");
         }
     }
 }
