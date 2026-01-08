@@ -19,6 +19,23 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
             return Page();
         }
 
+        public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid) return Page(); //TODO: Add Error Message
+
+            await mediator.Send(new EditJobApplicationCommand(
+            Form.Id,
+            Form.CompanyName,
+            Form.Position,
+            Form.JobDescriptionUrl,
+            Form.AppliedAt,
+            Form.Status,
+            Form.Notes
+            ), cancellationToken);
+
+            return RedirectToPage("/JobApplications/List/Index");
+        }
+
         public class InputModel
         {
             public Guid Id { get; set; }

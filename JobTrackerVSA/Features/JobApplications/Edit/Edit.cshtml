@@ -35,6 +35,13 @@
             </div>
 
             <div class="mb-3">
+                <label asp-for="Form.AppliedAt" class="form-label">Date Applied</label>
+                <input asp-for="Form.AppliedAt" type="date" class="form-control"
+                       value="@Model.Form.AppliedAt.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="Form.AppliedAt" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
                 <label asp-for="Form.Notes" class="form-label">Notes</label>
                 <textarea asp-for="Form.Notes" class="form-control" rows="3"></textarea>
             </div>
