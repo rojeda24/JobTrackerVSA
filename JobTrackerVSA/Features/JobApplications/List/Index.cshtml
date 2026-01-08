@@ -19,7 +19,7 @@
                 <th>Position</th>
                 <th>Status</th>
                 <th>Notes</th>
-                <th>Link</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -38,12 +38,17 @@
                         <small class="text-muted">@app.NotesPreview</small>
                     </td>
                     <td>
-                        @if (!string.IsNullOrEmpty(app.JobDescriptionUrl))
-                        {
-                            <a href="@app.FinalJobUrl" target="_blank" class="btn btn-sm btn-outline-info">
-                                <i class="bi bi-box-arrow-up-right">🔗</i>
+                        <div class="btn-group">
+                            <a href="/edit/@app.Id" class="btn btn-sm btn-outline-primary">
+                                ✏️
                             </a>
-                        }
+                            @if (!string.IsNullOrEmpty(app.JobDescriptionUrl))
+                            {
+                                <a href="@app.FinalJobUrl" target="_blank" class="btn btn-sm btn-outline-info">
+                                    🔗
+                                </a>
+                            }
+                        </div>
                     </td>
                 </tr>
             }

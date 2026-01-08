@@ -1,0 +1,48 @@
+﻿@page "/edit/{id:guid}"
+@model JobTrackerVSA.Web.Features.JobApplications.Edit.EditModel
+@{
+    ViewData["Title"] = "Edit Application";
+}
+
+<h1><i class="bi bi-pencil-square me-2"></i>Edit Application</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form method="post">
+            <input type="hidden" asp-for="Form.Id" />
+
+            <div class="mb-3">
+                <label asp-for="Form.CompanyName" class="form-label">Company Name</label>
+                <input asp-for="Form.CompanyName" class="form-control" />
+                <span asp-validation-for="Form.CompanyName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Form.Position" class="form-label">Position</label>
+                <input asp-for="Form.Position" class="form-control" />
+                <span asp-validation-for="Form.Position" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Form.JobDescriptionUrl" class="form-label">Job URL</label>
+                <input asp-for="Form.JobDescriptionUrl" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Form.Status" class="form-label">Status</label>
+                <select asp-for="Form.Status" asp-items="Html.GetEnumSelectList<JobTrackerVSA.Web.Domain.JobApplication.ApplicationStatus>()" class="form-select">
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Form.Notes" class="form-label">Notes</label>
+                <textarea asp-for="Form.Notes" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-success">Update Application</button>
+                <a href="/" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
