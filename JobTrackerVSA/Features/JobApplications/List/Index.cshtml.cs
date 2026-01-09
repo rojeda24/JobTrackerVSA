@@ -8,10 +8,17 @@ namespace JobTrackerVSA.Web.Features.JobApplications.List
     public class IndexModel(IMediator mediator) : PageModel
     {
         public List<JobApplicationSummaryViewModel> Applications { get; private set; } = [];
-        public async Task OnGetAsync(CancellationToken cancellationToken)
+        public async Task<IActionResult> OnGetAsync(CancellationToken cancellationToken)
         {
             var query = new GetJobApplicationsQuery();
-            Applications = await mediator.Send(query, cancellationToken);
+            var appsResult = await mediator.Send(query, cancellationToken);
+
+            if (appsResult.IsSuccess)
+                Applications = appsResult.Value;
+            else
+                TempData["ErrorMessage"] = appsResult.Error;
+
+            return Page();
         }
     }
 }

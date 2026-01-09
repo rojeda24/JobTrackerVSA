@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using JobTrackerVSA.Web.Infrastructure.Shared;
+using MediatR;
 using static JobTrackerVSA.Web.Domain.JobApplication;
 
 namespace JobTrackerVSA.Web.Features.JobApplications.Edit
@@ -12,5 +13,5 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
         DateTime AppliedAt,
         ApplicationStatus Status,
         string? Notes
-    ) : IRequest;
+    ) : IRequest<Result>;
 }

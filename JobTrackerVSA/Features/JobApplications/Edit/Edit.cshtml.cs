@@ -13,15 +13,23 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
         {
             var result = await mediator.Send(new GetJobApplicationForEditQuery(id), cancellationToken);
 
-            if (result == null) return NotFound();
+            if (result.IsFailure)
+            {
+                TempData["ErrorMessage"] = result.Error;
+                return RedirectToPage("/JobApplications/List/Index");
+            }
 
-            Form = result;
+            Form = result.Value;
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid) return Page(); //TODO: Add Error Message
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Please, check and correct any error in form";
+                return Page();
+            }
 
             await mediator.Send(new EditJobApplicationCommand(
             Form.Id,
