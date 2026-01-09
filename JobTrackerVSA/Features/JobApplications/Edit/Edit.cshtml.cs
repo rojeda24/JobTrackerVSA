@@ -31,7 +31,7 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
                 return Page();
             }
 
-            await mediator.Send(new EditJobApplicationCommand(
+            var result = await mediator.Send(new EditJobApplicationCommand(
             Form.Id,
             Form.CompanyName,
             Form.Position,
@@ -40,6 +40,12 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
             Form.Status,
             Form.Notes
             ), cancellationToken);
+
+            if (result.IsFailure)
+            {
+                TempData["ErrorMessage"] = result.Error;
+                return Page();
+            }
 
             return RedirectToPage("/JobApplications/List/Index");
         }
