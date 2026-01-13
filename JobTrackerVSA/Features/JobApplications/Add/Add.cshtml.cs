@@ -1,3 +1,4 @@
+using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
@@ -20,14 +21,19 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Add
         }
         public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid) return Page();
+
+            var result = await mediator.Send(Command, cancellationToken);
+
+            if (result.IsFailure)
             {
+                TempData["ErrorMessage"] = result.Error;
                 return Page();
             }
 
-            await mediator.Send(Command, cancellationToken);
+            TempData["SuccessMessage"] = "Application saved! Now, let's schedule an interview.";
 
-            return RedirectToPage("/JobApplications/List/Index");
+            return RedirectToPage("/JobApplications/List/Index", new { jobId = result.Value });
         }
     }
 }

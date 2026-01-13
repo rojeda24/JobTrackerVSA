@@ -1,0 +1,70 @@
+﻿@page "/job-applications/{jobId:guid}/interviews/add"
+@using JobTrackerVSA.Web.Domain
+@model JobTrackerVSA.Web.Features.Interviews.Add.IndexModel
+@{
+    ViewData["Title"] = "Schedule Interview";
+}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            @* Header matches Add Job Application style *@
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h3 class="card-title mb-0">Schedule Interview</h3>
+            </div>
+
+            <div class="card-body">
+                @* Context Header *@
+                <div class="mb-4 p-3 bg-light rounded border-start border-4 border-primary">
+                    <h5 class="mb-1 text-primary">@Model.JobHeader.CompanyName</h5>
+                    <p class="mb-0 text-muted"><i class="bi bi-briefcase me-2"></i>@Model.JobHeader.Position</p>
+                </div>
+
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    @* Hidden ID is mandatory for the Postback *@
+                    <input type="hidden" asp-for="Form.JobApplicationId" />
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Form.Type" class="form-label fw-bold">Interview Type</label>
+                            <select asp-for="Form.Type"
+                                    asp-items="Html.GetEnumSelectList<Interview.InterviewType>()"
+                                    class="form-select">
+                            </select>
+                            <span asp-validation-for="Form.Type" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Form.ScheduledAt" class="form-label fw-bold">Date & Time</label>
+                            <input asp-for="Form.ScheduledAt" type="datetime-local" class="form-control"
+                                   value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                            <span asp-validation-for="Form.ScheduledAt" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Form.Notes" class="form-label fw-bold">Notes</label>
+                        <textarea asp-for="Form.Notes" class="form-control" rows="4"
+                                  placeholder="What do you need to prepare? (Technical topics, specific questions, etc.)"></textarea>
+                        <span asp-validation-for="Form.Notes" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-4">
+                        @* The Skip button takes the user back to the list *@
+                        <a href="/edit/@Model.Form.JobApplicationId" class="btn btn-outline-secondary">
+                            <i class="bi bi-x-lg me-1"></i> Back to Job Application
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            Save Interview <i class="bi bi-check-lg ms-1"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

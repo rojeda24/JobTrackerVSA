@@ -11,6 +11,7 @@
         public ApplicationStatus Status { get; set; }
         public string? Notes { get; set; }
 
+        public List<Interview> Interviews { get; set; } = [];
 
         public enum ApplicationStatus
         {

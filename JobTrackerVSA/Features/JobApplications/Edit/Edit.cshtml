@@ -4,52 +4,90 @@
     ViewData["Title"] = "Edit Application";
 }
 
-<h1><i class="bi bi-pencil-square me-2"></i>Edit Application</h1>
+<div class="mb-4">
+    <h1><i class="bi bi-pencil-square me-2"></i>Edit Application</h1>
+</div>
 
-<div class="card shadow-sm">
-    <div class="card-body">
-        <form method="post">
-            <input type="hidden" asp-for="Form.Id" />
+<div class="row">
+    @* Left Side: Edit Form *@
+    <div class="col-lg-5 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form method="post">
+                    <input type="hidden" asp-for="Form.Id" />
 
-            <div class="mb-3">
-                <label asp-for="Form.CompanyName" class="form-label">Company Name</label>
-                <input asp-for="Form.CompanyName" class="form-control" />
-                <span asp-validation-for="Form.CompanyName" class="text-danger"></span>
+                    <div class="mb-3">
+                        <label asp-for="Form.CompanyName" class="form-label">Company Name</label>
+                        <input asp-for="Form.CompanyName" class="form-control" />
+                        <span asp-validation-for="Form.CompanyName" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Form.Position" class="form-label">Position</label>
+                        <input asp-for="Form.Position" class="form-control" />
+                        <span asp-validation-for="Form.Position" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Form.JobDescriptionUrl" class="form-label">Job URL</label>
+                        <input asp-for="Form.JobDescriptionUrl" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Form.Status" class="form-label">Status</label>
+                        <select asp-for="Form.Status" asp-items="Html.GetEnumSelectList<JobTrackerVSA.Web.Domain.JobApplication.ApplicationStatus>()" class="form-select">
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Form.AppliedAt" class="form-label">Date Applied</label>
+                        <input asp-for="Form.AppliedAt" type="date" class="form-control"
+                               value="@Model.Form.AppliedAt.ToString("yyyy-MM-dd")" />
+                        <span asp-validation-for="Form.AppliedAt" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Form.Notes" class="form-label">Notes</label>
+                        <textarea asp-for="Form.Notes" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-between">
+                        <a href="/" class="btn btn-outline-secondary">Back to List</a>
+                        <button type="submit" class="btn btn-success">Update Application</button>
+                    </div>
+                </form>
             </div>
+        </div>
+    </div>
 
-            <div class="mb-3">
-                <label asp-for="Form.Position" class="form-label">Position</label>
-                <input asp-for="Form.Position" class="form-control" />
-                <span asp-validation-for="Form.Position" class="text-danger"></span>
-            </div>
+    @* Right Side: Interviews List *@
+    <div class="col-lg-7">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3>Interviews</h3>
+            <a href="/job-applications/@Model.Form.Id/interviews/add" class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i> Add Interview
+            </a>
+        </div>
 
-            <div class="mb-3">
-                <label asp-for="Form.JobDescriptionUrl" class="form-label">Job URL</label>
-                <input asp-for="Form.JobDescriptionUrl" class="form-control" />
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Form.Status" class="form-label">Status</label>
-                <select asp-for="Form.Status" asp-items="Html.GetEnumSelectList<JobTrackerVSA.Web.Domain.JobApplication.ApplicationStatus>()" class="form-select">
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Form.AppliedAt" class="form-label">Date Applied</label>
-                <input asp-for="Form.AppliedAt" type="date" class="form-control"
-                       value="@Model.Form.AppliedAt.ToString("yyyy-MM-dd")" />
-                <span asp-validation-for="Form.AppliedAt" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Form.Notes" class="form-label">Notes</label>
-                <textarea asp-for="Form.Notes" class="form-control" rows="3"></textarea>
-            </div>
-
-            <div class="mt-4">
-                <button type="submit" class="btn btn-success">Update Application</button>
-                <a href="/" class="btn btn-outline-secondary">Cancel</a>
-            </div>
-        </form>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Notes</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* Placeholder for empty list *@
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-4">
+                            No interviews scheduled yet.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

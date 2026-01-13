@@ -16,3 +16,6 @@
 
 # Generated for AI promp
 codigo_completo.txt
+
+# Ignore third-party client-side libraries
+wwwroot/lib/

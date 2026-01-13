@@ -7,11 +7,19 @@ namespace JobTrackerVSA.Web.Data
     {
         static AppDbContext() => SQLitePCL.Batteries.Init();
         public DbSet<JobApplication> JobApplications => Set<JobApplication>();
+        public DbSet<Interview> Interviews => Set<Interview>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<JobApplication>()
                 .Property(j => j.CompanyName).HasMaxLength(200);
+
+            modelBuilder.Entity<Interview>()
+                .HasOne(i => i.JobApplication)
+                .WithMany(j => j.Interviews)
+                .HasForeignKey(i => i.JobApplicationId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             base.OnModelCreating(modelBuilder);
         }
     }
