@@ -33,7 +33,7 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Add
 
             TempData["SuccessMessage"] = "Application saved! Now, let's schedule an interview.";
 
-            return RedirectToPage("/JobApplications/List/Index", new { jobId = result.Value });
+            return RedirectToPage("/JobApplications/Edit/Edit", new { id = result.Value });
         }
     }
 }

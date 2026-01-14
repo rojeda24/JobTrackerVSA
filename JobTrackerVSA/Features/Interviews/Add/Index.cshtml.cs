@@ -48,7 +48,7 @@ namespace JobTrackerVSA.Web.Features.Interviews.Add
             }
 
             TempData["SuccessMessage"] = "Interview scheduled successfully!";
-            return RedirectToPage("/JobApplications/List/Index");
+            return RedirectToPage("/JobApplications/Edit/Edit", new { id = Form.JobApplicationId });
         }
         private async Task<bool> TryPopulateHeader(Guid jobId, CancellationToken ct)
         {

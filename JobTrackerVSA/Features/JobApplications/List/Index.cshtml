@@ -40,12 +40,12 @@
                     <td>
                         <div class="btn-group">
                             <a href="/edit/@app.Id" class="btn btn-sm btn-outline-primary">
-                                ✏️
+                                <i class="bi bi-pencil"></i>
                             </a>
                             @if (!string.IsNullOrEmpty(app.JobDescriptionUrl))
                             {
-                                <a href="@app.FinalJobUrl" target="_blank" class="btn btn-sm btn-outline-info">
-                                    🔗
+                                <a href="@app.FinalJobUrl" target="_blank" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
                                 </a>
                             }
                         </div>

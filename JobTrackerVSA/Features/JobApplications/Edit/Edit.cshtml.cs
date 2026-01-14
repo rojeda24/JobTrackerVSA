@@ -1,4 +1,5 @@
 using JobTrackerVSA.Web.Domain;
+using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,17 +10,19 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
     {
         [BindProperty]
         public InputModel Form { get; set; } = new();
+
         public async Task<IActionResult> OnGetAsync(Guid id, CancellationToken cancellationToken)
         {
-            var result = await mediator.Send(new GetJobApplicationForEditQuery(id), cancellationToken);
+            Form.Id = id;
+
+            // Centralized data loading
+            var result = await PopulateViewDataAsync(cancellationToken, forceFullLoad: true);
 
             if (result.IsFailure)
             {
-                TempData["ErrorMessage"] = result.Error;
-                return RedirectToPage("/JobApplications/List/Index");
+                return NotFound();
             }
 
-            Form = result.Value;
             return Page();
         }
 
@@ -27,27 +30,65 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
         {
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Please, check and correct any error in form";
+                // If model state is invalid, we MUST reload the read-only data (Interviews)
+                // before returning the Page to avoid NullReferenceException in Razor.
+                await PopulateViewDataAsync(cancellationToken, forceFullLoad: false);
                 return Page();
             }
 
-            var result = await mediator.Send(new EditJobApplicationCommand(
-            Form.Id,
-            Form.CompanyName,
-            Form.Position,
-            Form.JobDescriptionUrl,
-            Form.AppliedAt,
-            Form.Status,
-            Form.Notes
-            ), cancellationToken);
+            var command = new EditJobApplicationCommand(
+                Form.Id,
+                Form.CompanyName,
+                Form.Position,
+                Form.JobDescriptionUrl,
+                Form.AppliedAt,
+                Form.Status,
+                Form.Notes);
+
+            var result = await mediator.Send(command, cancellationToken);
 
             if (result.IsFailure)
             {
-                TempData["ErrorMessage"] = result.Error;
+                ModelState.AddModelError(string.Empty, result.Error);
+                // Same logic: failure in domain/persistence requires data repopulation.
+                await PopulateViewDataAsync(cancellationToken, forceFullLoad: false);
                 return Page();
             }
 
             return RedirectToPage("/JobApplications/List/Index");
+        }
+
+        /// <summary>
+        /// Fetches existing data from the database to populate the UI.
+        /// Used in both Initial GET and Postback failures.
+        /// </summary>
+        private async Task<Result<Unit>> PopulateViewDataAsync(CancellationToken cancellationToken, bool forceFullLoad)
+        {
+            var result = await mediator.Send(new GetJobApplicationForEditQuery(Form.Id), cancellationToken);
+
+            if (result.IsFailure)
+            {
+                return Result<Unit>.Failure(result.Error);
+            }
+
+            // Map data from the Query result to our BindProperty 'Form'
+            var data = result.Value;
+
+            // Mapping read-only/auxiliary data (Always required for Razor)
+            Form.Interviews = data.Interviews;
+
+            // Mapping editable fields only if it's the first time loading (GET)
+            if (forceFullLoad)
+            {
+                Form.CompanyName = data.CompanyName;
+                Form.Position = data.Position;
+                Form.JobDescriptionUrl = data.JobDescriptionUrl;
+                Form.AppliedAt = data.AppliedAt;
+                Form.Status = data.Status;
+                Form.Notes = data.Notes;
+            }
+
+            return Result<Unit>.Success(Unit.Value);
         }
 
         public class InputModel
@@ -60,6 +101,9 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
             public JobApplication.ApplicationStatus Status { get; set; }
             public string? Notes { get; set; }
 
+            public List<InterviewSummaryViewModel> Interviews { get; set; } = [];
         }
+
+        public record InterviewSummaryViewModel(Guid Id, DateTime ScheduledAt, string Type, string? Notes);
     }
 }

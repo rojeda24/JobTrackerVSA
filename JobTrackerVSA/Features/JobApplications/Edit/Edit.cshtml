@@ -76,16 +76,48 @@
                         <th>Date</th>
                         <th>Type</th>
                         <th>Notes</th>
-                        <th></th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @* Placeholder for empty list *@
-                    <tr>
-                        <td colspan="4" class="text-center text-muted py-4">
-                            No interviews scheduled yet.
-                        </td>
-                    </tr>
+                    @if (!Model.Form.Interviews.Any())
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-4">
+                                <p class="mb-0">No interviews recorded for this application.</p>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var interview in Model.Form.Interviews)
+                        {
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="fw-bold">@interview.ScheduledAt.ToString("MMM dd, yyyy")</div>
+                                    <small class="text-muted">@interview.ScheduledAt.ToString("t")</small>
+                                </td>
+                                <td class="align-middle">
+                                    <span class="badge rounded-pill bg-secondary">@interview.Type</span>
+                                </td>
+                                <td class="pt-0">
+                                    <small class="text-muted italic">
+                                        @interview.Notes
+                                    </small>
+                                </td>
+                                <td class="text-end align-middle">
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-primary" title="Edit Interview">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-outline-danger" title="Delete Interview">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
                 </tbody>
             </table>
         </div>

@@ -11,6 +11,7 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
         {
             var app = await context.JobApplications
                 .AsNoTracking()
+                .Include(j => j.Interviews)
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             if (app == null)
@@ -24,7 +25,13 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
                 JobDescriptionUrl = app.JobDescriptionUrl,
                 AppliedAt = app.AppliedAt,
                 Status = app.Status,
-                Notes = app.Notes
+                Notes = app.Notes,
+                Interviews = app.Interviews.Select(i => new EditModel.InterviewSummaryViewModel(
+                    i.Id,
+                    i.ScheduledAt,
+                    i.Type.ToString(),
+                    i.Notes
+                )).ToList()
             };
             return Result<EditModel.InputModel>.Success(model);
 
