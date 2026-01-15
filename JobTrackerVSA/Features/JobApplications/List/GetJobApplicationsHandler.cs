@@ -28,7 +28,7 @@ namespace JobTrackerVSA.Web.Features.JobApplications.List
                 return Result<List<JobApplicationSummaryViewModel>>.Success(apps);
             }
             catch (Exception ex) {
-                return Result<List<JobApplicationSummaryViewModel>>.Failure("Unexpected server error when trying to load job applications");
+                return Result<List<JobApplicationSummaryViewModel>>.Failure($"Unexpected server error when trying to load job applications: {ex}");
             }
         }
     }

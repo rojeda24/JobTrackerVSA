@@ -107,9 +107,13 @@
                                 </td>
                                 <td class="text-end align-middle">
                                     <div class="btn-group btn-group-sm">
-                                        <button class="btn btn-outline-primary" title="Edit Interview">
+                                        <a 
+                                            asp-page="/Interviews/Edit/Index" 
+                                            asp-route-id="@interview.Id" 
+                                            class="btn btn-sm btn-outline-primary"
+                                            title="Edit Interview">
                                             <i class="bi bi-pencil"></i>
-                                        </button>
+                                        </a>
                                         <button class="btn btn-outline-danger" title="Delete Interview">
                                             <i class="bi bi-trash"></i>
                                         </button>
