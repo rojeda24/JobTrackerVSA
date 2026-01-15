@@ -4,52 +4,73 @@
     ViewData["Title"] = "Add Job Application";
 }
 
+<div class="mb-4">
+    <h1><i class="bi bi-plus-circle me-2"></i>New Application</h1>
+</div>
+
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <h3 class="card-title mb-0">New Application</h3>
-            </div>
+        <div class="card shadow-sm border-0">
             <div class="card-body">
                 <form method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
+                    <div class="row g-3">
+                        <div class="col-md-6">
                             <label asp-for="Command.CompanyName" class="form-label">Company Name</label>
-                            <input asp-for="Command.CompanyName" class="form-control" placeholder="e.g. Google, Microsoft..." />
-                            <span asp-validation-for="Command.CompanyName" class="text-danger"></span>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-building"></i></span>
+                                <input asp-for="Command.CompanyName" class="form-control" placeholder="e.g. Google, Microsoft..." />
+                            </div>
+                            <span asp-validation-for="Command.CompanyName" class="text-danger small"></span>
                         </div>
 
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6">
                             <label asp-for="Command.Position" class="form-label">Position / Job Title</label>
-                            <input asp-for="Command.Position" class="form-control" placeholder="e.g. Senior .NET Developer" />
-                            <span asp-validation-for="Command.Position" class="text-danger"></span>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
+                                <input asp-for="Command.Position" class="form-control" placeholder="e.g. Senior .NET Developer" />
+                            </div>
+                            <span asp-validation-for="Command.Position" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Command.JobDescriptionUrl" class="form-label">Job URL</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
+                                <input asp-for="Command.JobDescriptionUrl" class="form-control" placeholder="https://linkedin.com/jobs/..." />
+                            </div>
+                            <span asp-validation-for="Command.JobDescriptionUrl" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Command.AppliedAt" class="form-label">Date Applied</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+                                <input asp-for="Command.AppliedAt" type="date" class="form-control"
+                                       value="@Model.Command.AppliedAt?.ToString("yyyy-MM-dd")" />
+                            </div>
+                            <span asp-validation-for="Command.AppliedAt" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Command.Notes" class="form-label fw-bold">
+                                <i class="bi bi-sticky me-1"></i> Additional Notes
+                            </label>
+                            <textarea asp-for="Command.Notes" class="form-control" rows="4"
+                                      placeholder="Salary range, tech stack, referral name..."></textarea>
+                            <span asp-validation-for="Command.Notes" class="text-danger small"></span>
                         </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="Command.JobDescriptionUrl" class="form-label">Job Description URL</label>
-                        <input asp-for="Command.JobDescriptionUrl" type="text" class="form-control" placeholder="https://linkedin.com/jobs/..." />
-                        <span asp-validation-for="Command.JobDescriptionUrl" class="text-danger"></span>
-                    </div>
+                    <div class="mt-4 d-flex justify-content-between">
+                        <a href="/" class="btn btn-outline-secondary px-4">
+                            <i class="bi bi-arrow-left"></i> Cancel
+                        </a>
 
-                    <div class="mb-3">
-                        <label asp-for="Command.AppliedAt" class="form-label">Date Applied</label>
-                        <input asp-for="Command.AppliedAt" type="date" class="form-control" 
-                               value="@Model.Command.AppliedAt?.ToString("yyyy-MM-dd")" />
-                        <span asp-validation-for="Command.AppliedAt" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Command.Notes" class="form-label">Additional Notes</label>
-                        <textarea asp-for="Command.Notes" class="form-control" rows="3" placeholder="Salary range, tech stack, referral name..."></textarea>
-                        <span asp-validation-for="Command.Notes" class="text-danger"></span>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center border-top pt-3">
-                        <a href="/" class="btn btn-outline-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-primary px-4">Save Application</button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-plus-lg"></i> Save Application
+                        </button>
                     </div>
                 </form>
             </div>
