@@ -128,7 +128,7 @@
                                     </small>
                                 </td>
                                 <td class="text-end align-middle">
-                                    <div class="btn-group btn-group-sm">
+                                    <div class="d-flex gap-2">
                                         <a 
                                             asp-page="/Interviews/Edit/Index" 
                                             asp-route-id="@interview.Id" 
@@ -136,9 +136,16 @@
                                             title="Edit Interview">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <button class="btn btn-outline-danger" title="Delete Interview">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
+                                        <form method="post"
+                                              asp-page-handler="DeleteInterview"
+                                              asp-route-interviewId="@interview.Id"
+                                              class="d-inline"
+                                              onsubmit="return confirm('Delete this interview?');">
+
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

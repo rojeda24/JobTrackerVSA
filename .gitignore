@@ -16,6 +16,7 @@
 
 # Generated for AI promp
 codigo_completo.txt
+stage.diff
 
 # Ignore third-party client-side libraries
 JobTrackerVSA/wwwroot/lib/

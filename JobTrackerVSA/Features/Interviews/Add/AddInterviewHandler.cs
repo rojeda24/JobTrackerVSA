@@ -32,6 +32,7 @@ namespace JobTrackerVSA.Web.Features.Interviews.Add
             }
             catch (Exception)
             {
+                //TODO: LOG EXCEPTION
                 return Result<Guid>.Failure($"An error occurred while scheduling the interview for JobApplication with ID={command.JobApplicationId}");
             }
         }

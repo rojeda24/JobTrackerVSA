@@ -1,4 +1,5 @@
 using JobTrackerVSA.Web.Domain;
+using JobTrackerVSA.Web.Features.Interviews.Delete;
 using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -56,6 +57,18 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
             }
 
             return RedirectToPage("/JobApplications/List/Index");
+        }
+
+        public async Task<IActionResult> OnPostDeleteInterviewAsync(Guid interviewId, CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(new DeleteInterviewCommand(interviewId), cancellationToken);
+
+            if (result.IsFailure)
+                TempData["ErrorMessage"] = result.Error;
+            else
+                TempData["SuccessMessage"] = "Interview deleted successfully.";
+
+            return RedirectToPage(new { id = Form.Id });
         }
 
         /// <summary>

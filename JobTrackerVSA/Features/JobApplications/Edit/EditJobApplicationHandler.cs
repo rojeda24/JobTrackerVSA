@@ -26,9 +26,10 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
                 await context.SaveChangesAsync(cancellationToken);
                 return Result.Success();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Result.Failure($"Unexpected error when trying to save Job Application with ID {command.Id} in database: {ex.ToString()}");
+                //TODO: LOG EXCEPTION
+                return Result.Failure($"Unexpected error when trying to save Job Application with ID {command.Id} in database");
             }          
         }
     }
