@@ -7,6 +7,12 @@
 
 <div class="mb-4">
     <h1><i class="bi bi-pencil-square me-2"></i>Edit Interview</h1>
+    @if (Model.JobHeader != null)
+    {
+        <h5 class="text-muted ms-1">
+            for <span class="fw-bold text-dark">@Model.JobHeader.Position</span> at @Model.JobHeader.CompanyName
+        </h5>
+    }
 </div>
 
 
@@ -20,34 +26,7 @@
                     <input type="hidden" asp-for="Form.Id" />
                     <input type="hidden" asp-for="Form.JobApplicationId" />
 
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label asp-for="Form.ScheduledAt" class="form-label fw-bold">Date & Time</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="bi bi-clock"></i></span>
-                                <input asp-for="Form.ScheduledAt" class="form-control" type="datetime-local" />
-                            </div>
-                            <span asp-validation-for="Form.ScheduledAt" class="text-danger small"></span>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label asp-for="Form.Type" class="form-label fw-bold">Interview Type</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="bi bi-tag"></i></span>
-                                <select asp-for="Form.Type" class="form-select"
-                                        asp-items="Html.GetEnumSelectList<Interview.InterviewType>()">
-                                </select>
-                            </div>
-                            <span asp-validation-for="Form.Type" class="text-danger small"></span>
-                        </div>
-
-                        <div class="col-12">
-                            <label asp-for="Form.Notes" class="form-label fw-bold">Notes & Preparation</label>
-                            <textarea asp-for="Form.Notes" class="form-control" rows="5"
-                                        placeholder="e.g. Prepare system design questions, review resume..."></textarea>
-                            <span asp-validation-for="Form.Notes" class="text-danger small"></span>
-                        </div>
-                    </div>
+                    <partial name="/Features/Interviews/Shared/_InterviewForm.cshtml" For="Form" />
 
                     <div class="mt-4 d-flex justify-content-between">
                         <a asp-page="/JobApplications/Edit/Edit" asp-route-id="@Model.Form.JobApplicationId"

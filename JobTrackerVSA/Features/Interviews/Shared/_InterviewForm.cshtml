@@ -1,0 +1,33 @@
+﻿@using JobTrackerVSA.Web.Features.Interviews.Shared
+@using JobTrackerVSA.Web.Domain
+@model IInterviewForm
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="ScheduledAt" class="form-label fw-bold">Date & Time</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-clock"></i></span>
+            <input asp-for="ScheduledAt" class="form-control" type="datetime-local" />
+        </div>
+        <span asp-validation-for="ScheduledAt" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Type" class="form-label">Interview Type</label>
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-tag"></i></span>
+            <select asp-for="Type"
+                    asp-items="Html.GetEnumSelectList<Interview.InterviewType>()"
+                    class="form-select">
+            </select>
+        </div>
+        <span asp-validation-for="Type" class="text-danger small"></span>
+    </div>
+
+    <div class="col-12">
+        <label asp-for="Notes" class="form-label fw-bold">Notes & Preparation</label>
+        <textarea asp-for="Notes" class="form-control" rows="5"
+                  placeholder="e.g. Prepare system design questions, review resume..."></textarea>
+        <span asp-validation-for="Notes" class="text-danger small"></span>
+    </div>
+</div>

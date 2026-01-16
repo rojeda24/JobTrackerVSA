@@ -1,4 +1,5 @@
-﻿using JobTrackerVSA.Web.Infrastructure.Shared;
+﻿using JobTrackerVSA.Web.Features.Interviews.Shared;
+using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
 using static JobTrackerVSA.Web.Domain.Interview;
 
@@ -11,5 +12,5 @@ namespace JobTrackerVSA.Web.Features.Interviews.Edit
         DateTime ScheduledAt,
         InterviewType Type,
         string? Notes
-    ) : IRequest<Result>;
+    ) : IRequest<Result>, IInterviewForm;
 }
