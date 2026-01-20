@@ -28,7 +28,7 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
                 Notes = app.Notes,
                 Interviews = app.Interviews.Select(i => new EditModel.InterviewSummaryViewModel(
                     i.Id,
-                    i.ScheduledAt,
+                    DateTime.SpecifyKind(i.ScheduledAt, DateTimeKind.Utc),
                     i.Type.ToString(),
                     i.Notes
                 )).ToList()

@@ -18,6 +18,7 @@
 codigo_completo.txt
 stage.diff
 stagediff.txt
+.opencode
 
 # Ignore third-party client-side libraries
 JobTrackerVSA/wwwroot/lib/

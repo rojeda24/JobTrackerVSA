@@ -1,4 +1,4 @@
-﻿@page "/job-applications/{jobId:guid}/interviews/add"
+@page "/job-applications/{jobId:guid}/interviews/add"
 @using JobTrackerVSA.Web.Domain
 @model JobTrackerVSA.Web.Features.Interviews.Add.IndexModel
 @{
@@ -47,7 +47,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            initializeDateTimeInputWithLocalTime('input[type="datetime-local"]');
+            syncUtcAndLocalTime('ScheduledAtHidden', 'ScheduledAtVisual');
         });
     </script>
 }

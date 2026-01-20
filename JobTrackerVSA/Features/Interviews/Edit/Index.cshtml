@@ -1,4 +1,4 @@
-﻿@page "{id:guid}"
+@page "{id:guid}"
 @using JobTrackerVSA.Web.Domain
 @model JobTrackerVSA.Web.Features.Interviews.Edit.IndexModel
 @{
@@ -46,4 +46,10 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            syncUtcAndLocalTime('ScheduledAtHidden', 'ScheduledAtVisual');
+        });
+    </script>
 }

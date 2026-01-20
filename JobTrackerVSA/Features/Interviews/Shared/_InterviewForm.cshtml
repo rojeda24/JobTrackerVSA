@@ -1,4 +1,4 @@
-﻿@using JobTrackerVSA.Web.Features.Interviews.Shared
+@using JobTrackerVSA.Web.Features.Interviews.Shared
 @using JobTrackerVSA.Web.Domain
 @model IInterviewForm
 
@@ -7,7 +7,12 @@
         <label asp-for="ScheduledAt" class="form-label fw-bold">Date & Time</label>
         <div class="input-group">
             <span class="input-group-text"><i class="bi bi-clock"></i></span>
-            <input asp-for="ScheduledAt" class="form-control" type="datetime-local" />
+            
+            @* Real input sent to server (UTC) *@
+            <input type="hidden" asp-for="ScheduledAt" id="ScheduledAtHidden" value="@Model.ScheduledAt.ToString("O")" />
+            
+            @* Visual input for user (Local Time) *@
+            <input type="datetime-local" class="form-control" id="ScheduledAtVisual" />
         </div>
         <span asp-validation-for="ScheduledAt" class="text-danger small"></span>
     </div>

@@ -1,4 +1,4 @@
-﻿@page "/edit/{id:guid}"
+@page "/edit/{id:guid}"
 @model JobTrackerVSA.Web.Features.JobApplications.Edit.EditModel
 @{
     ViewData["Title"] = "Edit Application";
@@ -65,8 +65,8 @@
                         <div class="mb-3">
                             <label asp-for="Form.Notes" class="form-label">Notes</label>
                             <textarea asp-for="Form.Notes" class="form-control" rows="3"></textarea>
-                        </div>
-                    </div>
+    </div>
+</div>
 
                     <div class="mt-4 d-flex justify-content-between">
                         <a asp-page="/JobApplications/List/Index"
@@ -116,8 +116,12 @@
                         {
                             <tr>
                                 <td class="align-middle">
-                                    <div class="fw-bold">@interview.ScheduledAt.ToString("MMM dd, yyyy")</div>
-                                    <small class="text-muted">@interview.ScheduledAt.ToString("t")</small>
+                                    <div class="fw-bold local-date" data-utc="@interview.ScheduledAt.ToString("O")" data-format="date">
+                                        @interview.ScheduledAt.ToString("MMM dd, yyyy")
+                                    </div>
+                                    <small class="text-muted local-date" data-utc="@interview.ScheduledAt.ToString("O")" data-format="time">
+                                        @interview.ScheduledAt.ToString("t")
+                                    </small>
                                 </td>
                                 <td class="align-middle">
                                     <span class="badge rounded-pill bg-secondary">@interview.Type</span>
@@ -156,3 +160,11 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            convertUtcLabelsToLocal();
+        });
+    </script>
+}

@@ -1,4 +1,4 @@
-﻿using JobTrackerVSA.Web.Data;
+using JobTrackerVSA.Web.Data;
 using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +19,7 @@ namespace JobTrackerVSA.Web.Features.Interviews.Edit
             var command = new EditInterviewCommand(
                 interview.Id,
                 interview.JobApplicationId,
-                interview.ScheduledAt,
+                DateTime.SpecifyKind(interview.ScheduledAt, DateTimeKind.Utc),
                 interview.Type,
                 interview.Notes
             );
