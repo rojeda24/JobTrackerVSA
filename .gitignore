@@ -14,10 +14,7 @@
 .vs/
 .vscode/
 
-# Generated for AI promp
-codigo_completo.txt
-stage.diff
-stagediff.txt
+# AI
 .opencode
 
 # Ignore third-party client-side libraries

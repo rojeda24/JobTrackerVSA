@@ -1,4 +1,4 @@
-﻿using JobTrackerVSA.Web.Data;
+using JobTrackerVSA.Web.Data;
 using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +18,7 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
             app.CompanyName = command.CompanyName;
             app.Position = command.Position;
             app.JobDescriptionUrl = command.JobDescriptionUrl;
-            app.AppliedAt = command.AppliedAt;
+            app.AppliedAt = DateTime.SpecifyKind(command.AppliedAt, DateTimeKind.Utc);
             app.Status = command.Status;
             app.Notes = command.Notes;
 

@@ -1,4 +1,4 @@
-﻿using JobTrackerVSA.Web.Data;
+using JobTrackerVSA.Web.Data;
 using JobTrackerVSA.Web.Domain;
 using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
@@ -17,7 +17,9 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Add
                 JobDescriptionUrl = command.JobDescriptionUrl,
                 Notes = command.Notes,
                 Status = JobApplication.ApplicationStatus.Applied,
-                AppliedAt = command.AppliedAt ?? DateTime.UtcNow
+                AppliedAt = command.AppliedAt.HasValue 
+                    ? DateTime.SpecifyKind(command.AppliedAt.Value, DateTimeKind.Utc) 
+                    : DateTime.UtcNow
             };
 
             context.JobApplications.Add(application);
