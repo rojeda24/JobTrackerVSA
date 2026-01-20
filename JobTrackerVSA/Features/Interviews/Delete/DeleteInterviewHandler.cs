@@ -19,16 +19,16 @@ namespace JobTrackerVSA.Web.Features.Interviews.Delete
 
             context.Interviews.Remove(interview);
 
-            try
-            {
+            //try
+            //{
                 await context.SaveChangesAsync(cancellationToken);
                 return Result.Success();
-            }
-            catch (Exception)
-            {
-                //TODO: LOG EXCEPTION
-                return Result.Failure($"An unexpected error occurred when trying to delete Interview with ID {request.Id} in database.");
-            }
+            //}
+            //catch (DbUpdateException)
+            //{
+            //    //TODO: LOG EXCEPTION
+            //    return Result.Failure($"An unexpected error occurred when trying to delete Interview with ID {request.Id} in database.");
+            //}
         }
     }
 }

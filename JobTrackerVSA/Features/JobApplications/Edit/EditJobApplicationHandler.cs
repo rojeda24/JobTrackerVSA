@@ -1,6 +1,7 @@
 ﻿using JobTrackerVSA.Web.Data;
 using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobTrackerVSA.Web.Features.JobApplications.Edit
 {
@@ -21,16 +22,16 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
             app.Status = command.Status;
             app.Notes = command.Notes;
 
-            try
-            {
+            //try
+            //{
                 await context.SaveChangesAsync(cancellationToken);
                 return Result.Success();
-            }
-            catch (Exception)
-            {
-                //TODO: LOG EXCEPTION
-                return Result.Failure($"Unexpected error when trying to save Job Application with ID {command.Id} in database");
-            }          
+            //}
+            //catch (DbUpdateException)
+            //{
+            //    //TODO: LOG EXCEPTION
+            //    return Result.Failure($"Unexpected error when trying to save Job Application with ID {command.Id} in database");
+            //}          
         }
     }
 }

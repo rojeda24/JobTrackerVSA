@@ -1,4 +1,10 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function initializeDateTimeInputWithLocalTime(selector) {
+    const now = new Date();
+    const offset = now.getTimezoneOffset() * 60000; //Transform to milliseconds
+    const localISOTime = new Date(now - offset).toISOString().slice(0, 16);//Excluding seconds and milliseconds
 
-// Write your JavaScript code.
+    const input = document.querySelector(selector);
+    if (input) {
+        input.value = localISOTime;
+    }
+}

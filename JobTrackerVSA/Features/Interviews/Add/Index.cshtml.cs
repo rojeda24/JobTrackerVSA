@@ -24,7 +24,9 @@ namespace JobTrackerVSA.Web.Features.Interviews.Add
             }
 
             // 2. Initialize the form now that we know the job exists
-            Form = new AddInterviewCommand(jobId, DateTime.Now, InterviewType.General, string.Empty);
+            var now = DateTime.UtcNow; //Includes seconds
+            var nowHourMinute = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerMinute)); //Excludes seconds and milliseconds
+            Form = new AddInterviewCommand(jobId, nowHourMinute, InterviewType.General, string.Empty);
 
             return Page();
         }

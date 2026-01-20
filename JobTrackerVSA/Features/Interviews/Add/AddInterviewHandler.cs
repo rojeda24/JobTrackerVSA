@@ -24,17 +24,17 @@ namespace JobTrackerVSA.Web.Features.Interviews.Add
                 Notes = command.Notes
             };
 
-            try
-            {
+            //try
+            //{
                 context.Interviews.Add(interview);
                 await context.SaveChangesAsync(cancellationToken);
                 return Result<Guid>.Success(interview.Id);
-            }
-            catch (Exception)
-            {
+            //}
+            //catch (DbUpdateException)
+            //{
                 //TODO: LOG EXCEPTION
-                return Result<Guid>.Failure($"An error occurred while scheduling the interview for JobApplication with ID={command.JobApplicationId}");
-            }
+                //return Result<Guid>.Failure($"An error occurred while scheduling the interview for JobApplication with ID={command.JobApplicationId}");
+            //}
         }
     }
 }

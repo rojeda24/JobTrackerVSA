@@ -1,3 +1,4 @@
+using JobTrackerVSA.Web.Features.JobApplications.Delete;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,6 +20,21 @@ namespace JobTrackerVSA.Web.Features.JobApplications.List
                 TempData["ErrorMessage"] = appsResult.Error;
 
             return Page();
+        }
+        public async Task<IActionResult> OnPostDeleteAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var result = await mediator.Send(new DeleteJobApplicationCommand(id), cancellationToken);
+
+            if (result.IsFailure)
+            {
+                TempData["ErrorMessage"] = result.Error;
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Job application deleted successfully.";
+            }
+
+            return RedirectToPage();
         }
     }
 }

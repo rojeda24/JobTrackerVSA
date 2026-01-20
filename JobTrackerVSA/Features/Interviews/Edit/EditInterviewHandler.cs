@@ -1,6 +1,7 @@
 ﻿using JobTrackerVSA.Web.Data;
 using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobTrackerVSA.Web.Features.Interviews.Edit
 {
@@ -16,16 +17,16 @@ namespace JobTrackerVSA.Web.Features.Interviews.Edit
             interview.Type = command.Type;
             interview.Notes = command.Notes;
 
-            try
-            {
+            //try
+            //{
                 await context.SaveChangesAsync(cancellationToken);
                 return Result.Success();
-            }
-            catch (Exception)
-            {
-                //TODO: LOG EXCEPTION
-                return Result.Failure($"Unexpected error when trying to save Interview with ID {command.Id} in database");
-            }
+            //}
+            //catch (DbUpdateException)
+            //{
+            //    //TODO: LOG EXCEPTION
+            //    return Result.Failure($"Unexpected error when trying to save Interview with ID {command.Id} in database");
+            //}
         }
     }
 }

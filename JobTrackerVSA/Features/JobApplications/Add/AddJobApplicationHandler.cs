@@ -2,6 +2,7 @@
 using JobTrackerVSA.Web.Domain;
 using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobTrackerVSA.Web.Features.JobApplications.Add
 {
@@ -21,16 +22,16 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Add
 
             context.JobApplications.Add(application);
 
-            try
-            {
+            //try
+            //{
                 await context.SaveChangesAsync(cancellationToken);
                 return Result<Guid>.Success(application.Id);
-            }
-            catch (Exception)
-            {
-                //TODO: LOG EXCEPTION
-                return Result<Guid>.Failure($"Unexpected error when trying to add new job application in database");
-            }
+            //}
+            //catch (DbUpdateException)
+            //{
+            //    //TODO: LOG EXCEPTION
+            //    return Result<Guid>.Failure($"Unexpected error when trying to add new job application in database");
+            //}
         }
     }
 }

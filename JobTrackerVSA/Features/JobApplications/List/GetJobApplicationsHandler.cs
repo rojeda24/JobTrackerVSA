@@ -9,29 +9,21 @@ namespace JobTrackerVSA.Web.Features.JobApplications.List
     {
         public async Task<Result<List<JobApplicationSummaryViewModel>>> Handle(GetJobApplicationsQuery request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var apps = await context.JobApplications
-                    .AsNoTracking()
-                    .OrderByDescending(x => x.AppliedAt)
-                    .Select(x => new JobApplicationSummaryViewModel
-                    {
-                        Id = x.Id,
-                        CompanyName = x.CompanyName,
-                        Position = x.Position,
-                        JobDescriptionUrl = x.JobDescriptionUrl,
-                        AppliedAt = x.AppliedAt,
-                        Status = x.Status,
-                        Notes = x.Notes
-                    })
-                    .ToListAsync(cancellationToken);
-                return Result<List<JobApplicationSummaryViewModel>>.Success(apps);
-            }
-            catch (Exception)
-            {
-                //TODO: LOG EXCEPTION
-                return Result<List<JobApplicationSummaryViewModel>>.Failure("Unexpected server error when trying to load job applications.");
-            }
+            var apps = await context.JobApplications
+                .AsNoTracking()
+                .OrderByDescending(x => x.AppliedAt)
+                .Select(x => new JobApplicationSummaryViewModel
+                {
+                    Id = x.Id,
+                    CompanyName = x.CompanyName,
+                    Position = x.Position,
+                    JobDescriptionUrl = x.JobDescriptionUrl,
+                    AppliedAt = x.AppliedAt,
+                    Status = x.Status,
+                    Notes = x.Notes
+                })
+                .ToListAsync(cancellationToken);
+            return Result<List<JobApplicationSummaryViewModel>>.Success(apps);
         }
     }
 }
