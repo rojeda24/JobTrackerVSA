@@ -1,3 +1,15 @@
+/**
+ * Synchronizes a hidden input (containing a UTC ISO string) with a visible datetime-local input (displaying local time).
+ * 
+ * This function performs two main actions:
+ * 1. Initialization: Converts the UTC value from the hidden input to the user's local timezone for display.
+ *    It also immediately normalizes the hidden input value to ensure a valid UTC string is ready for submission.
+ * 2. Change Handling: Listens for input on the visual element, converts the selected local time back to UTC,
+ *    and updates the hidden input.
+ * 
+ * @param {string} hiddenInputId - The ID of the hidden input element storing the UTC value (sent to server).
+ * @param {string} visualInputId - The ID of the visible input element used for user interaction (local time).
+*/
 function syncUtcAndLocalTime(hiddenInputId, visualInputId) {
     const hiddenInput = document.getElementById(hiddenInputId);
     const visualInput = document.getElementById(visualInputId);
@@ -46,6 +58,17 @@ function syncUtcAndLocalTime(hiddenInputId, visualInputId) {
     });
 }
 
+/**
+ * Converts UTC date strings in HTML elements to the user's local time.
+ * 
+ * Required HTML structure:
+ * - Element must have class "local-date".
+ * - Element must have attribute "data-utc" containing a valid UTC ISO string (e.g., "2023-10-27T10:00:00Z").
+ * - Optional: Attribute "data-format" to specify display format: "date", "time", or default (full date + time).
+ * 
+ * Example:
+ * <span class="local-date" data-utc="2023-10-27T10:00:00Z" data-format="date"></span>
+ */
 function convertUtcLabelsToLocal() {
     const elements = document.querySelectorAll('.local-date');
     elements.forEach(el => {
