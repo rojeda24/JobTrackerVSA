@@ -5,7 +5,7 @@ A modern Vertical Slice Architecture application for tracking job applications a
 ## Prerequisites
 
 - **.NET 10 SDK**
-- **Docker Desktop** (for the database)
+- **Docker** (for the database)
 - **Auth0 Account** (free tier is fine)
 
 ## Quick Start
