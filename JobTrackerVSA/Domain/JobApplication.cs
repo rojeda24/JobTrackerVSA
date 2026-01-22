@@ -1,9 +1,9 @@
-﻿namespace JobTrackerVSA.Web.Domain
+namespace JobTrackerVSA.Web.Domain
 {
     public class JobApplication
     {
         public Guid Id { get; set; } = Guid.NewGuid();
-
+        public required string UserId { get; set; }
         public required string CompanyName { get; set; }
         public required string Position { get; set; }
         public string? JobDescriptionUrl { get; set; }

@@ -19,3 +19,6 @@
 
 # Ignore third-party client-side libraries
 JobTrackerVSA/wwwroot/lib/
+# Local configuration
+appsettings.Local.json
+
