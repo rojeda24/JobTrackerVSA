@@ -28,6 +28,9 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Create Resource Group
+        run: az group create --name rg-jobtracker-prod --location centralus
+
       - name: Deploy Infrastructure
         id: deploy
         uses: azure/arm-deploy@v2
@@ -54,6 +57,12 @@ jobs:
 
       - name: Restore
         run: dotnet restore JobTrackerVSA/JobTrackerVSA.Web.csproj
+
+      - name: Install LibMan
+        run: dotnet tool install -g Microsoft.Web.LibraryManager.Cli
+
+      - name: Restore Client-Side Libraries
+        run: libman restore --project JobTrackerVSA/libman.json
 
       - name: Publish
         run: dotnet publish JobTrackerVSA/JobTrackerVSA.Web.csproj -c Release -o ./publish
