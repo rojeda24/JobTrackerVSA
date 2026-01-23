@@ -111,3 +111,4 @@ resource allowAzureIps 'Microsoft.Sql/servers/firewallRules@2023-08-01' = {
 
 output webAppName string = webApp.name
 output webAppUrl string = webApp.properties.defaultHostName
+output sqlServerName string = sqlServer.name

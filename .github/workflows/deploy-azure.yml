@@ -18,6 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       webAppName: ${{ steps.deploy.outputs.webAppName }}
+      sqlServerName: ${{ steps.deploy.outputs.sqlServerName }}
     steps:
       - uses: actions/checkout@v4
 
@@ -52,6 +53,30 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Install EF Tool
+        run: dotnet tool install -g dotnet-ef
+
+      - name: Run Database Migrations
+        run: |
+          ip_address=$(curl -s https://api.ipify.org)
+          rule_name="GitHubRunner-${{ github.run_id }}"
+          server_name="${{ needs.infrastructure.outputs.sqlServerName }}"
+          
+          az sql server firewall-rule create --resource-group rg-jobtracker-prod --server $server_name --name $rule_name --start-ip-address $ip_address --end-ip-address $ip_address
+          
+          conn_string="Server=tcp:$server_name.database.windows.net,1433;Initial Catalog=JobTrackerVSA;User ID=sqladmin;Password=${{ secrets.SQL_ADMIN_PASSWORD }};Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+          
+          dotnet ef database update --project JobTrackerVSA/JobTrackerVSA.Web.csproj --connection "$conn_string"
+          
+          az sql server firewall-rule delete --resource-group rg-jobtracker-prod --server $server_name --name $rule_name
+
       - name: Restore
         run: dotnet restore JobTrackerVSA/JobTrackerVSA.Web.csproj
 
@@ -64,13 +89,6 @@ jobs:
 
       - name: Publish
         run: dotnet publish JobTrackerVSA/JobTrackerVSA.Web.csproj -c Release -o ./publish
-
-      - name: Azure Login
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Deploy to Web App
         uses: azure/webapps-deploy@v3
