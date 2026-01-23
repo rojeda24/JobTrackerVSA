@@ -15,13 +15,14 @@ namespace JobTrackerVSA.Web.Migrations
                 name: "JobApplications",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CompanyName = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Position = table.Column<string>(type: "text", nullable: false),
-                    JobDescriptionUrl = table.Column<string>(type: "text", nullable: true),
-                    AppliedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
-                    Notes = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CompanyName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JobDescriptionUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AppliedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,11 +33,11 @@ namespace JobTrackerVSA.Web.Migrations
                 name: "Interviews",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    JobApplicationId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ScheduledAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Type = table.Column<int>(type: "integer", nullable: false),
-                    Notes = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    JobApplicationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ScheduledAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

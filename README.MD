@@ -1,20 +1,17 @@
 # JobTrackerVSA
 
-A modern Vertical Slice Architecture application for tracking job applications and interviews, built with ASP.NET Core 10 and PostgreSQL.
+A modern Vertical Slice Architecture application for tracking job applications and interviews, built with ASP.NET Core 10 and SQL Server LocalDB.
 
 ## Prerequisites
 
 - **.NET 10 SDK**
-- **Docker** (for the database)
+- **Visual Studio 2022** (or SQL Server LocalDB installed separately)
 - **Auth0 Account** (free tier is fine)
 
 ## Quick Start
 
 ### 1. Database Setup
-Start the PostgreSQL container:
-```bash
-docker run --name jobtracker-postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=JobTrackerVSA -p 5432:5432 -d postgres
-```
+The project is configured to use **SQL Server LocalDB** (`(localdb)\mssqllocaldb`) by default, which usually comes installed with Visual Studio's ASP.NET and web development workload. No manual database server setup is required.
 
 ### 2. Authentication Setup (Auth0)
 1.  Go to [Auth0 Dashboard](https://manage.auth0.com/).

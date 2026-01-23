@@ -7,8 +7,8 @@ This file documents the architectural decisions, technical stack, and current st
 
 ### Tech Stack
 - **Framework:** .NET 10 (ASP.NET Core Razor Pages)
-- **Database:** PostgreSQL (running in Docker container `jobtracker-postgres` on port 5432)
-- **ORM:** Entity Framework Core (Npgsql)
+- **Database:** MS SQL Server LocalDB (`(localdb)\mssqllocaldb`)
+- **ORM:** Entity Framework Core (SQL Server)
 - **Authentication:** Auth0 (OpenID Connect)
 - **Architecture:** Vertical Slice Architecture (Features folder), CQRS pattern with MediatR.
 
