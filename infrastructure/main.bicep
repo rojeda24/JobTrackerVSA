@@ -78,7 +78,7 @@ resource webApp 'Microsoft.Web/sites@2025-03-01' = {
 }
 
 // 3. SQL Server
-resource sqlServer 'Microsoft.Sql/servers@2024-11-01' = {
+resource sqlServer 'Microsoft.Sql/servers@2023-08-01' = {
   name: sqlServerName
   location: location
   properties: {
@@ -88,7 +88,7 @@ resource sqlServer 'Microsoft.Sql/servers@2024-11-01' = {
 }
 
 // 4. SQL Database (S0 - Standard 10 DTUs - 12 Months Free Offer compatible)
-resource sqlDatabase 'Microsoft.Sql/servers/databases@2024-11-01' = {
+resource sqlDatabase 'Microsoft.Sql/servers/databases@2023-08-01' = {
   parent: sqlServer
   name: databaseName
   location: location
