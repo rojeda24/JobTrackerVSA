@@ -21,7 +21,7 @@ param auth0ClientId string
 @secure()
 param auth0ClientSecret string
 
-var appName = '${appNamePrefix}-${uniqueString(resourceGroup().id)}'
+var appName = 'jobtracker-raul'
 var sqlServerName = 'sql-${appName}'
 var databaseName = 'JobTrackerVSA'
 
