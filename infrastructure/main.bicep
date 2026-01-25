@@ -1,9 +1,6 @@
 @description('The location for all resources.')
 param location string = resourceGroup().location
 
-@description('The name prefix for the app. Must be unique.')
-param appNamePrefix string = 'jtracker'
-
 @description('The SQL Admin Login.')
 param sqlAdminLogin string = 'sqladmin'
 
@@ -40,7 +37,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2025-03-01' = {
 }
 
 // 2. Web App (Linux)
-resource webApp 'Microsoft.Web/sites@2025-03-01' = {
+resource webApp 'Microsoft.Web/sites@2022-03-01' = {
   name: appName
   location: location
   properties: {
