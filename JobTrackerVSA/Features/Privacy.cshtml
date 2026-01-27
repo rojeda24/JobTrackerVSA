@@ -1,9 +1,161 @@
-﻿@page
+@page
 @using JobTrackerVSA.Web.Features
 @model PrivacyModel
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Privacy Policy & Terms";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container">
+    <h1 class="mb-4">@ViewData["Title"]</h1>
+
+    <ul class="nav nav-tabs mb-4" id="privacyTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button 
+                class="nav-link active" 
+                id="en-tab" 
+                data-bs-toggle="tab" 
+                data-bs-target="#en" 
+                type="button" 
+                role="tab" 
+                aria-controls="en" 
+                aria-selected="true">
+
+                English
+
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button 
+                class="nav-link" 
+                id="es-tab" 
+                data-bs-toggle="tab" 
+                data-bs-target="#es" 
+                type="button" 
+                role="tab" 
+                aria-controls="es" 
+                aria-selected="false">
+
+                Español
+
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="privacyTabsContent">
+        
+        <!-- English Version -->
+        <div class="tab-pane fade show active" id="en" role="tabpanel" aria-labelledby="en-tab">
+            <h2 class="h4">PRIVACY NOTICE AND TERMS OF USE (DEMO PROJECT)</h2>
+                    
+            <h3 class="h5">1. Data Controller</h3>
+            <p>
+                This "Job Tracker" project is developed and managed by <strong>Raúl Ojeda</strong> 
+                (hereinafter the "Developer") based in Mexico. This is an <strong>open-source, non-profit 
+                    software project for demonstration purposes (professional portfolio)</strong>.
+            </p>
+
+            <h3 class="h5">2. Collected Data</h3>
+            <p>
+                To provide functionality, we use third-party services for authentication. The data we 
+                process includes:
+            </p>
+            <ul>
+                <li><strong>Identification:</strong> Name and email address (provided by Auth0/Google).</li>
+                <li>
+                    <strong>Content:</strong> Information about job applications you voluntarily enter 
+                    (Companies, positions, notes).
+                </li>
+            </ul>
+
+            <h3 class="h5">3. Purpose of Processing</h3>
+            <p>Your data will be used exclusively to:</p>
+            <ul>
+                <li>Allow you access and use of "Job Tracker" features.</li>
+                <li>Demonstrate technical software development skills.</li>
+            </ul>
+            <p>
+                <strong>WE WILL NOT</strong> use your information for commercial purposes, database sales, 
+                advertising, or commercial prospecting.
+            </p>
+
+            <h3 class="h5">4. Transfer and Hosting</h3>
+            <p>
+                Data is processed and stored using <strong>Microsoft Azure</strong> infrastructure in the 
+                <strong>Mexico Central</strong> region. By using this service, you agree to have your 
+                information hosted on said servers under Azure's standard security measures.
+            </p>
+
+            <h3 class="h5">5. Limitation of Liability ("AS-IS" Clause)</h3>
+            <p>This software is provided <strong>"AS IS"</strong>, without warranty of any kind, express or implied.</p>
+            <ul>
+                <li>The Developer <strong>does not guarantee</strong> continuous, uninterrupted, or error-free availability of the service.</li>
+                <li>The Developer <strong>disclaims all liability</strong> for direct, indirect, incidental, or consequential damages resulting from the use of the service, including but not limited to: data loss, service interruption, or unauthorized access (hacks) despite implemented security measures.</li>
+                <li>The user acknowledges they use this service at their own risk as a demonstration tool.</li>
+            </ul>
+
+            <h3 class="h5">6. Protocol in Case of Breach</h3>
+            <p>Although we implement standard security measures (HTTPS, Encryption, Auth0), in the event of a security breach affecting your personal data:</p>
+            <ul>
+                <li>The Developer commits to notifying affected users at their registered email address.</li>
+                <li>Such notification will be made <strong>as soon as technically possible</strong> after confirming the breach, estimating a response period of up to <strong>60 calendar days</strong> due to the sole-proprietor and non-commercial nature of the project's maintenance.</li>
+            </ul>
+
+            <h3 class="h5">7. ARCO Rights and Contact</h3>
+            <p>To request the deletion of your account and data, or to report security issues, you may contact the Developer directly at:</p>
+            <p>📧 <strong>raul.ojeda.dev@gmail.com</strong></p>
+
+            <h3 class="h5">8. Changes to this Notice</h3>
+            <p>Any modification to this notice will be published on this same page.</p>
+        </div>
+
+        <!-- Spanish Version -->
+        <div class="tab-pane fade" id="es" role="tabpanel" aria-labelledby="es-tab">
+            <h2 class="h4 card-title mb-3">AVISO DE PRIVACIDAD Y TÉRMINOS DE USO (PROYECTO DEMO)</h2>
+
+            <h3 class="h5">1. Responsable del Tratamiento</h3>
+            <p>El presente proyecto "Job Tracker" es desarrollado y administrado por <strong>Raúl Ojeda</strong> (en adelante, el "Desarrollador") con domicilio en México. Este es un proyecto de software de <strong>código abierto, sin fines de lucro y con fines demostrativos (portafolio profesional)</strong>.</p>
+
+            <h3 class="h5">2. Datos Recabados</h3>
+            <p>Para la funcionalidad del sistema, utilizamos servicios de terceros para la autenticación. Los datos que tratamos son:</p>
+            <ul>
+                <li><strong>Identificación:</strong> Nombre y correo electrónico (provistos por Auth0/Google).</li>
+                <li><strong>Contenido:</strong> Información sobre postulaciones laborales que usted ingrese voluntariamente (Empresas, puestos, notas).</li>
+            </ul>
+
+            <h3 class="h5">3. Finalidad del Tratamiento</h3>
+            <p>Sus datos serán utilizados exclusivamente para:</p>
+            <ul>
+                <li>Permitirle el acceso y uso de las funcionalidades del "Job Tracker".</li>
+                <li>Demostración técnica de habilidades de desarrollo de software.</li>
+            </ul>
+            <p><strong>NO</strong> utilizaremos su información para fines comerciales, venta de bases de datos, publicidad ni prospección comercial.</p>
+
+            <h3 class="h5">4. Transferencia y Alojamiento</h3>
+            <p>Los datos se procesan y almacenan utilizando la infraestructura de <strong>Microsoft Azure</strong> en la región <strong>México Central</strong>. Al usar este servicio, usted acepta que su información sea alojada en dichos servidores bajo las medidas de seguridad estándar de Azure.</p>
+
+            <h3 class="h5">5. Limitación de Responsabilidad (Cláusula "AS-IS")</h3>
+            <p>Este software se proporciona <strong>"TAL CUAL"</strong>, sin garantía de ningún tipo, expresa o implícita.</p>
+            <ul>
+                <li>El Desarrollador <strong>no garantiza</strong> la disponibilidad continua, ininterrumpida o libre de errores del servicio.</li>
+                <li>El Desarrollador <strong>se deslinda de toda responsabilidad</strong> por daños directos, indirectos, incidentales o consecuentes que resulten del uso del servicio, incluyendo pero no limitado a: pérdida de datos, interrupción del servicio o accesos no autorizados (hackeos) a pesar de las medidas de seguridad implementadas.</li>
+                <li>El usuario reconoce que utiliza este servicio bajo su propio riesgo como una herramienta de demostración.</li>
+            </ul>
+
+            <h3 class="h5">6. Protocolo en Caso de Vulneración</h3>
+            <p>Aunque implementamos medidas de seguridad estándar (HTTPS, Cifrado, Auth0), en caso de ocurrir una vulneración de seguridad que afecte sus datos personales:</p>
+            <ul>
+                <li>El Desarrollador se compromete a notificar a los afectados al correo electrónico registrado.</li>
+                <li>Dicha notificación se realizará <strong>tan pronto como sea técnicamente posible</strong> tras confirmar la vulneración, estimando un periodo de respuesta de hasta <strong>60 días naturales</strong> debido a la naturaleza unipersonal y no comercial del mantenimiento del proyecto.</li>
+            </ul>
+
+            <h3 class="h5">7. Derechos ARCO y Contacto</h3>
+            <p>Para solicitar la eliminación de su cuenta y sus datos, o reportar fallos de seguridad, puede contactar directamente al Desarrollador en:</p>
+            <p>📧 <strong>raul.ojeda.dev@gmail.com</strong></p>
+
+            <h3 class="h5">8. Cambios al Aviso</h3>
+            <p>Cualquier modificación a este aviso será publicada en esta misma página.</p>
+
+        </div>
+
+    </div>
+</div>
