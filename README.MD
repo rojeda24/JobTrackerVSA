@@ -4,6 +4,7 @@ A modern Vertical Slice Architecture Web App for tracking job applications and i
 
 ## 🟢 Live Demo
 **Try the app here:** [https://jobtracker-raul.azurewebsites.net/](https://jobtracker-raul.azurewebsites.net/)
+
 ![Demo](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhnZDh0NXFuanNtZWlkb20ycnBkdG9idzd5MzkyNHFqYmNsZmY0OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/disN31EHucKJdGQalA/giphy.gif)
 
 ## Architecture
