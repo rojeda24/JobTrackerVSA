@@ -1,11 +1,35 @@
-# JobTrackerVSA
+﻿# JobTrackerVSA
 
-A modern Vertical Slice Architecture application for tracking job applications and interviews, built with ASP.NET Core 10 and SQL Server LocalDB.
+A modern Vertical Slice Architecture Web App for tracking job applications and interviews, built with ASP.NET Core 10 and SQL Server.
+
+## 🟢 Live Demo
+**Try the app here:** [https://jobtracker-raul.azurewebsites.net/](https://jobtracker-raul.azurewebsites.net/)
+
+## Architecture
+- **Vertical Slice Architecture:** Logic organized by Features (`Features/JobApplications/Add`, etc.).
+- **CQRS:** Using MediatR for clean separation of commands and queries.
+- **Security:** "Secure by Default" policy. All endpoints require authentication unless marked `[AllowAnonymous]`.
+
+## 🚀 Deployment & DevOps
+This project implements a professional, fully automated **CI/CD pipeline** targeting **Microsoft Azure**.
+
+### Infrastructure as Code (IaC)
+- **Azure Bicep:** The entire infrastructure (Linux App Service, SQL Server/Database, Firewall Rules) is defined in code (`infrastructure/main.bicep`).
+- **Reproducible:** The environment can be recreated from scratch automatically.
+
+### CI/CD Pipeline (GitHub Actions)
+- **Secure Authentication:** Uses **OpenID Connect (OIDC)** for "passwordless" security between GitHub and Azure (No Client Secrets stored).
+- **Automated Workflow:**
+  1.  **Infrastructure Job:** Validates and applies Bicep templates.
+  2.  **Build & Deploy Job:** Compiles .NET 10, and deploys to Azure Web App.
+  3.  **Auto-Migration:** Database schemas are applied automatically on application startup.
+
+# 💻 Local Environment Installation
 
 ## Prerequisites
 
 - **.NET 10 SDK**
-- **Visual Studio 2022** (or SQL Server LocalDB installed separately)
+- **Visual Studio 2026** (or SQL Server LocalDB installed separately)
 - **Auth0 Account** (free tier is fine)
 
 ## Quick Start
@@ -48,8 +72,3 @@ dotnet run --project JobTrackerVSA.Web.csproj
 ```
 
 Visit `https://localhost:7206`. You will be redirected to Auth0 to log in.
-
-## Architecture
-- **Vertical Slice Architecture:** Logic organized by Features (`Features/JobApplications/Add`, etc.).
-- **CQRS:** Using MediatR for clean separation of commands and queries.
-- **Security:** "Secure by Default" policy. All endpoints require authentication unless marked `[AllowAnonymous]`.
