@@ -1,61 +1,67 @@
 /**
- * Synchronizes a hidden input (containing a UTC ISO string) with a visible datetime-local input (displaying local time).
+ * Synchronizes a hidden input (containing a UTC ISO string) with separate visible Date and Time inputs (displaying local time).
  * 
  * This function performs two main actions:
  * 1. Initialization: Converts the UTC value from the hidden input to the user's local timezone for display.
- *    It also immediately normalizes the hidden input value to ensure a valid UTC string is ready for submission.
- * 2. Change Handling: Listens for input on the visual element, converts the selected local time back to UTC,
+ *    It splits the local time into date and time parts to populate the visual inputs.
+ * 2. Change Handling: Listens for input on the visual elements, combines the selected local date and time back to UTC,
  *    and updates the hidden input.
  * 
  * @param {string} hiddenInputId - The ID of the hidden input element storing the UTC value (sent to server).
- * @param {string} visualInputId - The ID of the visible input element used for user interaction (local time).
+ * @param {string} visualDateId - The ID of the visible input element for the date (local time).
+ * @param {string} visualTimeId - The ID of the visible input element for the time (local time).
 */
-function syncUtcAndLocalTime(hiddenInputId, visualInputId) {
+function syncUtcAndLocalTime(hiddenInputId, visualDateId, visualTimeId) {
     const hiddenInput = document.getElementById(hiddenInputId);
-    const visualInput = document.getElementById(visualInputId);
+    const dateInput = document.getElementById(visualDateId);
+    const timeInput = document.getElementById(visualTimeId);
 
-    if (!hiddenInput || !visualInput) return;
+    if (!hiddenInput || !dateInput || !timeInput) return;
 
     // 1. Init: UTC (Server) -> Local (Visual)
     if (hiddenInput.value) {
         const utcDate = new Date(hiddenInput.value);
         if (!isNaN(utcDate.getTime()) && utcDate.getFullYear() > 1) {
-             // Get local ISO string (yyyy-MM-ddTHH:mm)
-            // Subtract timezone offset to shift "UTC time" to "Local numbers", then slice
+            // Get local time components
             const offset = utcDate.getTimezoneOffset() * 60000;
-            const localISOTime = new Date(utcDate.getTime() - offset).toISOString().slice(0, 16);
-            visualInput.value = localISOTime;
-
-            // CRITICAL FIX: Ensure hidden input is consistent with the visual input immediately.
-            // This handles cases where the server sent a local time string (unspecified kind) 
-            // or we just want to guarantee a clean UTC string is sent back.
-            // We take the local time displayed and convert it back to a full UTC ISO string.
-            const normalizedUtc = new Date(visualInput.value).toISOString();
-            hiddenInput.value = normalizedUtc;
-        }
-        else {
-             // If date is empty or invalid (e.g. MinValue), set current local time
+            const localISOTime = new Date(utcDate.getTime() - offset).toISOString();
+            
+            // Split into date and time parts
+            dateInput.value = localISOTime.slice(0, 10);
+            timeInput.value = localISOTime.slice(11, 16);
+        } else {
+             // Default to now
             const now = new Date();
             const offset = now.getTimezoneOffset() * 60000;
-
-            //Excluding seconds and milliseconds
-            const localISOTime = new Date(now - offset).toISOString().slice(0, 16);
-            visualInput.value = localISOTime;
+            const localISOTime = new Date(now - offset).toISOString();
             
-            // And update hidden to be valid UTC
+            dateInput.value = localISOTime.slice(0, 10);
+            timeInput.value = localISOTime.slice(11, 16);
+            
             hiddenInput.value = now.toISOString();
         }
     }
 
     // 2. Change: Local (Visual) -> UTC (Hidden)
-    visualInput.addEventListener('input', function () {
-        if (!this.value) {
+    function updateHidden() {
+        if (!dateInput.value || !timeInput.value) {
             hiddenInput.value = '';
             return;
         }
-        const localDate = new Date(this.value); // Browser creates date in local timezone
-        hiddenInput.value = localDate.toISOString(); // Converts to UTC string
-    });
+        
+        const localIsoString = `${dateInput.value}T${timeInput.value}`;
+        const localDate = new Date(localIsoString);
+        
+        if (!isNaN(localDate.getTime())) {
+            hiddenInput.value = localDate.toISOString();
+        }
+    }
+
+    dateInput.addEventListener('input', updateHidden);
+    timeInput.addEventListener('input', updateHidden);
+    
+    // Initial sync to ensure hidden value is normalized if it was populated with defaults
+    updateHidden(); 
 }
 
 /**

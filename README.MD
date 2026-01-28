@@ -62,9 +62,12 @@ The project is configured to use **SQL Server LocalDB** (`(localdb)\mssqllocaldb
     }
     ```
 
-### 4. Run the App
-Restore client-side libraries, apply database migrations, and start the server:
+4. Restore client-side libraries, apply database migrations, and start the server:
 ```bash
+# Install Entity Framework Core tools and libman if not already installed
+dotnet tool install --global dotnet-ef
+dotnet tool install --global Microsoft.Web.LibraryManager.Cli
+
 # Restore CSS/JS libraries (Bootstrap, etc.)
 libman restore
 
@@ -73,4 +76,6 @@ dotnet ef database update --project JobTrackerVSA.Web.csproj
 dotnet run --project JobTrackerVSA.Web.csproj
 ```
 
-Visit `https://localhost:7206`. You will be redirected to Auth0 to log in.
+### 4. Run the App
+
+Run the app (F5) and visit `https://localhost:7206`. You will be redirected to Auth0 to log in.

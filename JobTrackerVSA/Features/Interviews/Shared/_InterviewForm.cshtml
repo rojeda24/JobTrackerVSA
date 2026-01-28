@@ -5,16 +5,22 @@
 <div class="row g-3">
     <div class="col-md-6">
         <label asp-for="ScheduledAt" class="form-label fw-bold">Date & Time</label>
+        
+        @* Real input sent to server (UTC) *@
+        <input type="hidden" asp-for="ScheduledAt" id="ScheduledAtHidden" value="@Model.ScheduledAt.ToString("O")" />
+        
+        @* Visual input for user (Local Time - Split) *@
+        <div class="input-group mb-2">
+            <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+            <input type="date" class="form-control" id="ScheduledAtDate" />
+        </div>
+        
         <div class="input-group">
             <span class="input-group-text"><i class="bi bi-clock"></i></span>
-            
-            @* Real input sent to server (UTC) *@
-            <input type="hidden" asp-for="ScheduledAt" id="ScheduledAtHidden" value="@Model.ScheduledAt.ToString("O")" />
-            
-            @* Visual input for user (Local Time) *@
-            <input type="datetime-local" class="form-control" id="ScheduledAtVisual" />
+            <input type="time" class="form-control" id="ScheduledAtTime" />
         </div>
-        <span asp-validation-for="ScheduledAt" class="text-danger small"></span>
+        
+        <span asp-validation-for="ScheduledAt" class="text-danger small d-block"></span>
     </div>
 
     <div class="col-md-6">
