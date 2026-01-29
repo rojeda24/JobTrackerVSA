@@ -7,7 +7,7 @@ using Xunit;
 
 namespace JobTrackerVSA.UnitTests.Features.Interviews.Edit
 {
-    public class GetInterviewForEditQueryHandlerTests
+    public class GetInterviewForEditHandlerTests
     {
         [Fact]
         public async Task Handle_Should_ReturnCommand_When_InterviewExistsAndBelongsToUser()
@@ -35,7 +35,7 @@ namespace JobTrackerVSA.UnitTests.Features.Interviews.Edit
             context.Interviews.Add(interview);
             await context.SaveChangesAsync();
 
-            var handler = new GetInterviewForEditQueryHandler(context);
+            var handler = new GetInterviewForEditHandler(context);
             var query = new GetInterviewForEditQuery(interview.Id);
 
             // Act
@@ -75,7 +75,7 @@ namespace JobTrackerVSA.UnitTests.Features.Interviews.Edit
             context.Interviews.Add(interview);
             await context.SaveChangesAsync();
 
-            var handler = new GetInterviewForEditQueryHandler(context);
+            var handler = new GetInterviewForEditHandler(context);
             var query = new GetInterviewForEditQuery(interview.Id);
 
             // Act
@@ -91,7 +91,7 @@ namespace JobTrackerVSA.UnitTests.Features.Interviews.Edit
         {
             // Arrange
             using var context = TestDbContextFactory.Create();
-            var handler = new GetInterviewForEditQueryHandler(context);
+            var handler = new GetInterviewForEditHandler(context);
             var query = new GetInterviewForEditQuery(Guid.NewGuid());
 
             // Act

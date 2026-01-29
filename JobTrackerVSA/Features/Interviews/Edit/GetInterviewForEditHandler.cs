@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobTrackerVSA.Web.Features.Interviews.Edit
 {
-    public class GetInterviewForEditQueryHandler(AppDbContext context)
+    public class GetInterviewForEditHandler(AppDbContext context)
         : IRequestHandler<GetInterviewForEditQuery, Result<EditInterviewCommand>>
     {
         public async Task<Result<EditInterviewCommand>> Handle(GetInterviewForEditQuery request, CancellationToken cancellationToken) //Change EditInterviewCommand to a new ViewModel/DTO if different data is needed

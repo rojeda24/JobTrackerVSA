@@ -66,6 +66,12 @@ jobs:
       - name: Build
         run: dotnet build JobTrackerVSA/JobTrackerVSA.Web.csproj
 
+      - name: Restore Tests
+        run: dotnet restore tests/JobTrackerVSA.UnitTests/JobTrackerVSA.UnitTests.csproj
+
+      - name: Run Unit Tests
+        run: dotnet test tests/JobTrackerVSA.UnitTests/JobTrackerVSA.UnitTests.csproj --no-restore --verbosity normal
+
       - name: Install EF Tool
         run: dotnet tool install -g dotnet-ef
 
