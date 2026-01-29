@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="JobTrackerVSA/JobTrackerVSA.Web.csproj" />
+  <Project Path="tests/JobTrackerVSA.UnitTests/JobTrackerVSA.UnitTests.csproj" />
 </Solution>

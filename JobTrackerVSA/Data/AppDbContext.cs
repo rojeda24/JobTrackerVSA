@@ -19,6 +19,9 @@ namespace JobTrackerVSA.Web.Data
                 .HasQueryFilter(j => j.UserId == currentUserService.UserId);
 
             modelBuilder.Entity<Interview>()
+                .HasQueryFilter(i => i.JobApplication.UserId == currentUserService.UserId);
+
+            modelBuilder.Entity<Interview>()
                 .HasOne(i => i.JobApplication)
                 .WithMany(j => j.Interviews)
                 .HasForeignKey(i => i.JobApplicationId)
