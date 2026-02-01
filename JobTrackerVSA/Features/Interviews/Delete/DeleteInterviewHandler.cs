@@ -1,4 +1,4 @@
-﻿using JobTrackerVSA.Web.Data;
+using JobTrackerVSA.Web.Data;
 using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -19,16 +19,8 @@ namespace JobTrackerVSA.Web.Features.Interviews.Delete
 
             context.Interviews.Remove(interview);
 
-            //try
-            //{
-                await context.SaveChangesAsync(cancellationToken);
-                return Result.Success();
-            //}
-            //catch (DbUpdateException)
-            //{
-            //    //TODO: LOG EXCEPTION
-            //    return Result.Failure($"An unexpected error occurred when trying to delete Interview with ID {request.Id} in database.");
-            //}
+            await context.SaveChangesAsync(cancellationToken);
+            return Result.Success();
         }
     }
 }

@@ -2,6 +2,7 @@ using JobTrackerVSA.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Auth0.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using JobTrackerVSA.Web.Infrastructure.MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +31,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+builder.Services.AddMediatR(cfg => {
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    cfg.AddOpenBehavior(typeof(UnhandledExceptionBehavior<,>));
+});
 
 // Auth Services
 builder.Services.AddHttpContextAccessor();

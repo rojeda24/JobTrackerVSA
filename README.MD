@@ -1,4 +1,4 @@
-﻿# JobTrackerVSA
+# JobTrackerVSA
 
 A modern Vertical Slice Architecture Web App for tracking job applications and interviews, built with ASP.NET Core 10 and SQL Server.
 
@@ -10,6 +10,8 @@ A modern Vertical Slice Architecture Web App for tracking job applications and i
 ## Architecture
 - **Vertical Slice Architecture:** Logic organized by Features (`Features/JobApplications/Add`, etc.).
 - **CQRS:** Using MediatR for clean separation of commands and queries.
+- **Unit Testing:** Comprehensive test suite for all features using xUnit and EF Core In-Memory(DB).
+- **Observability:** Centralized exception logging via MediatR Pipeline Behavior.
 - **Security:** "Secure by Default" policy. All endpoints require authentication unless marked `[AllowAnonymous]`.
 
 ## 🚀 Deployment & DevOps
@@ -23,8 +25,10 @@ This project implements a professional, fully automated **CI/CD pipeline** targe
 - **Secure Authentication:** Uses **OpenID Connect (OIDC)** for "passwordless" security between GitHub and Azure (No Client Secrets stored).
 - **Automated Workflow:**
   1.  **Infrastructure Job:** Validates and applies Bicep templates.
-  2.  **Build & Deploy Job:** Compiles .NET 10, and deploys to Azure Web App.
-  3.  **Auto-Migration:** Database schemas are applied automatically on application startup.
+  2.  **Build Job:** Compiles .NET 10.
+  3.  **Test Job:** Runs unit tests automatically to ensure quality before deployment.
+  4.  **Deploy Job:** Deploys to Azure Web App.
+  5.  **Auto-Migration:** Database schemas are applied automatically on application startup.
 
 # 💻 Local Environment Installation
 

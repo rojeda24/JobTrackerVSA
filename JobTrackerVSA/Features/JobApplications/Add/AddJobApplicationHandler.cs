@@ -25,17 +25,8 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Add
             };
 
             context.JobApplications.Add(application);
-
-            //try
-            //{
-                await context.SaveChangesAsync(cancellationToken);
-                return Result<Guid>.Success(application.Id);
-            //}
-            //catch (DbUpdateException)
-            //{
-            //    //TODO: LOG EXCEPTION
-            //    return Result<Guid>.Failure($"Unexpected error when trying to add new job application in database");
-            //}
+            await context.SaveChangesAsync(cancellationToken);
+            return Result<Guid>.Success(application.Id);
         }
     }
 }

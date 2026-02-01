@@ -1,4 +1,4 @@
-﻿using JobTrackerVSA.Web.Data;
+using JobTrackerVSA.Web.Data;
 using JobTrackerVSA.Web.Domain;
 using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
@@ -24,17 +24,9 @@ namespace JobTrackerVSA.Web.Features.Interviews.Add
                 Notes = command.Notes
             };
 
-            //try
-            //{
-                context.Interviews.Add(interview);
-                await context.SaveChangesAsync(cancellationToken);
-                return Result<Guid>.Success(interview.Id);
-            //}
-            //catch (DbUpdateException)
-            //{
-                //TODO: LOG EXCEPTION
-                //return Result<Guid>.Failure($"An error occurred while scheduling the interview for JobApplication with ID={command.JobApplicationId}");
-            //}
+            context.Interviews.Add(interview);
+            await context.SaveChangesAsync(cancellationToken);
+            return Result<Guid>.Success(interview.Id);
         }
     }
 }

@@ -24,15 +24,25 @@ The application is organized by **Features** rather than technical layers.
 - **Queries:** Handle reads (e.g., `GetJobApplicationsQuery`).
 - **Mediator:** Used to decouple Pages from Handlers.
 
+### Logging & Error Handling
+- **Centralized Logging:** Handled via `Infrastructure/MediatR/UnhandledExceptionBehavior.cs`.
+- **Convention:** DO NOT use manual `try-catch` blocks in Handlers for logging purposes. The MediatR pipeline captures request details and logs them automatically on failure.
+
 ## 3. Key File Locations
-- **DbContext:** `Data/AppDbContext.cs`
+- **DbContext:** `Data/AppDbContext.cs` (Includes Global Query Filters for Security).
 - **Auth Service:** `Infrastructure/Auth/CurrentUserService.cs`
-- **Login/Logout:** `Features/Account/`
+- **Unit Tests:** `tests/JobTrackerVSA.UnitTests/`
 - **JS Utilities:** `wwwroot/js/site.js`
 
-## 4. Workflow Guidelines for AI
+## 4. Unit Testing
+- **Frameworks:** xUnit, FluentAssertions, NSubstitute.
+- **Strategy:** Uses EF Core In-Memory and `TestDbContextFactory` to mock `ICurrentUserService` and provide clean databases per test.
+- **Pipeline:** Tests run automatically on every push to `main` via GitHub Actions.
+
+## 5. Workflow Guidelines for AI
 - **Git Workflow:** 
   - **DO NOT** stage files (`git add`).
   - **DO NOT** commit changes (`git commit`).
   - The user reviews all changes in the "Unstaged" state and manually stages/commits them.
   - Role ends after `write`/`edit` operations are confirmed successful via compilation/verification.
+

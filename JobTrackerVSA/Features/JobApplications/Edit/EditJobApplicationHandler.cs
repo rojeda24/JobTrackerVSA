@@ -22,16 +22,8 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Edit
             app.Status = command.Status;
             app.Notes = command.Notes;
 
-            //try
-            //{
-                await context.SaveChangesAsync(cancellationToken);
-                return Result.Success();
-            //}
-            //catch (DbUpdateException)
-            //{
-            //    //TODO: LOG EXCEPTION
-            //    return Result.Failure($"Unexpected error when trying to save Job Application with ID {command.Id} in database");
-            //}          
+            await context.SaveChangesAsync(cancellationToken);
+            return Result.Success();
         }
     }
 }
