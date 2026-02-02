@@ -18,10 +18,11 @@
             </div>
 
             <div class="d-flex gap-3">
-                @* Placeholder for Try It Out implementation *@
-                <button class="btn btn-secondary px-4 py-2" disabled title="Coming soon">
-                    Try It Out
-                </button>
+                <form method="post" asp-page-handler="Demo">
+                    <button type="submit" class="btn btn-secondary px-4 py-2">
+                        Try It Out
+                    </button>
+                </form>
 
                 <form method="post" asp-page-handler="Login">
                     <button type="submit" class="btn btn-dark px-4 py-2">
