@@ -1,4 +1,37 @@
 @page "/account/login"
 @model JobTrackerVSA.Web.Features.Account.LoginModel
 @{
+    ViewData["Title"] = "Welcome";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <partial name="_LayoutCssPartial" />
+</head>
+<body>
+    <main role="main">
+        <div class="container d-flex flex-column justify-content-center align-items-center min-vh-100 text-center">
+            <div class="mb-5">
+                <h1 class="display-4 fw-bold text-dark mb-2">JOB TRACKER</h1>
+                <p class="text-secondary">By Raul Ojeda</p>
+            </div>
+
+            <div class="d-flex gap-3">
+                @* Placeholder for Try It Out implementation *@
+                <button class="btn btn-secondary px-4 py-2" disabled title="Coming soon">
+                    Try It Out
+                </button>
+
+                <form method="post" asp-page-handler="Login">
+                    <button type="submit" class="btn btn-dark px-4 py-2">
+                        Log In / Sign Up
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+    <partial name="_LayoutScriptsPartial" />
+</body>
+</html>
