@@ -4,17 +4,20 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using NSubstitute;
 
 namespace JobTrackerVSA.UnitTests.Features.Account
 {
     public class LoginModelTests
     {
+        private readonly IConfiguration _config = Substitute.For<IConfiguration>();
+
         [Fact]
         public void OnGet_Should_Redirect_When_UserIsAlreadyAuthenticated()
         {
             // Arrange
-            var loginModel = new LoginModel();
+            var loginModel = new LoginModel(_config);
             
             // Mock HttpContext and User
             var httpContext = new DefaultHttpContext();
@@ -43,7 +46,8 @@ namespace JobTrackerVSA.UnitTests.Features.Account
         public async Task OnPostDemoAsync_Should_SignIn_And_Redirect()
         {
             // Arrange
-            var loginModel = new LoginModel();
+            _config["Maintenance:DemoUserId"].Returns("demo-user-shared");
+            var loginModel = new LoginModel(_config);
             
             // Setup Authentication Service Mock
             var authService = Substitute.For<IAuthenticationService>();

@@ -9,7 +9,7 @@ using System.Security.Claims;
 namespace JobTrackerVSA.Web.Features.Account
 {
     [AllowAnonymous]
-    public class LoginModel : PageModel
+    public class LoginModel(IConfiguration config) : PageModel
     {
         public void OnGet(string returnUrl = "/")
         {
@@ -23,7 +23,7 @@ namespace JobTrackerVSA.Web.Features.Account
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, "demo-user-shared"),
+                new Claim(ClaimTypes.NameIdentifier, config["Maintenance:DemoUserId"]!),
                 new Claim(ClaimTypes.Name, "Demo User"),
                 new Claim(ClaimTypes.Email, "demo@public.com"),
                 new Claim("is_demo", "true")

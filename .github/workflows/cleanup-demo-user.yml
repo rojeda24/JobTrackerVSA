@@ -1,0 +1,17 @@
+name: Cleanup Demo User
+
+on:
+  schedule:
+    # Run at 10:00 UTC (3:00 AM MST)
+    - cron: '0 10 * * *'
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  reset_demo_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Reset Endpoint
+        run: |
+          curl -X POST "${{ secrets.APP_URL }}/api/maintenance/reset-demo" \
+          -H "X-Maintenance-Key: ${{ secrets.MAINTENANCE_KEY }}" \
+          -v

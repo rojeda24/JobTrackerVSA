@@ -46,3 +46,6 @@ The application is organized by **Features** rather than technical layers.
   - The user reviews all changes in the "Unstaged" state and manually stages/commits them.
   - Role ends after `write`/`edit` operations are confirmed successful via compilation/verification.
 
+## 6. Code Generation Standards
+- **Language:** All generated code and internal comments MUST be in **English**.
+- **Modern Practices:** Before suggesting any implementation, explicitly check for and prioritize modern .NET features (.NET 8/9/10) and C# language features (C# 12/13/14) to ensure cleaner, more performant, and idiomatic code (e.g., primary constructors, collection expressions, minimal APIs).
