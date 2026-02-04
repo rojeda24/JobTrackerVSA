@@ -128,7 +128,7 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2025-07
     }
     retentionInDays: 30
     workspaceCapping: {
-      dailyQuotaGb: 0.16 // ~160 MB per day (approx 5 GB/month free tier)
+      dailyQuotaGb: 1 // Set to 1 GB/day (minimum allowed int). Note: Free tier is 5GB/month (~0.16GB/day), so monitor usage.
     }
   }
 }
