@@ -1,5 +1,8 @@
 using JobTrackerVSA.Web.Data;
+using JobTrackerVSA.Web.Domain;
 using Microsoft.EntityFrameworkCore;
+using static JobTrackerVSA.Web.Domain.JobApplication;
+using static JobTrackerVSA.Web.Domain.Interview;
 
 namespace JobTrackerVSA.Web.Features.Maintenance;
 
@@ -31,13 +34,99 @@ public static class MaintenanceEndpoints
             return Results.Problem("Demo User ID not configured.");
         }
 
-        // Use IgnoreQueryFilters to bypass the global filter (UserId == currentUserService.UserId)
-        // because in this context (external API call), there is no authenticated user.
+        // 1. Cleanup: Delete existing data
         var deletedCount = await db.JobApplications
-            .IgnoreQueryFilters()
+            .IgnoreQueryFilters() // To bypass the global filter (UserId == currentUserService.UserId)
             .Where(j => j.UserId == demoUserId)
             .ExecuteDeleteAsync();
 
-        return Results.Ok(new { message = $"Cleanup completed. {deletedCount} applications deleted." });
+        // 2. Seed: Repopulate with fresh data
+        var seedData = GetSeedData(demoUserId);
+        db.JobApplications.AddRange(seedData);
+        await db.SaveChangesAsync();
+
+        return Results.Ok(new { message = $"Reset completed. {deletedCount} items deleted, {seedData.Count} items seeded." });
+    }
+
+    internal static List<JobApplication> GetSeedData(string userId)
+    {
+        var today = DateTime.UtcNow;
+
+        return
+        [
+            new()
+            {
+                UserId = userId,
+                CompanyName = "TechGiant Corp",
+                Position = "Senior .NET Developer",
+                Status = ApplicationStatus.Interviewing,
+                AppliedAt = today.AddDays(-14),
+                JobDescriptionUrl = "https://careers.techgiant.example/jobs/123",
+                Notes = "Referral from Sarah. Great benefits package.",
+                Interviews =
+                [
+                    new() { ScheduledAt = today.AddDays(-5), Type = InterviewType.HR, Notes = "Cultural fit interview" },
+                    new() { ScheduledAt = today.AddDays(2), Type = InterviewType.Technical, Notes = "System Design round" }
+                ]
+            },
+            new()
+            {
+                UserId = userId,
+                CompanyName = "StartupX",
+                Position = "Full Stack Engineer",
+                Status = ApplicationStatus.TechnicalTest,
+                AppliedAt = today.AddDays(-7),
+                Notes = "Remote first culture. Using React and Node.js.",
+                Interviews =
+                [
+                    new() { ScheduledAt = today.AddDays(-2), Type = InterviewType.General, Notes = "Intro with CTO" }
+                ]
+            },
+            new()
+            {
+                UserId = userId,
+                CompanyName = "Legacy Bank",
+                Position = "Backend Architect",
+                Status = ApplicationStatus.Rejected,
+                AppliedAt = today.AddDays(-30),
+                Notes = "They required 5 days in office.",
+                Interviews = []
+            },
+            new()
+            {
+                UserId = userId,
+                CompanyName = "CloudSystems Inc",
+                Position = "DevOps Engineer",
+                Status = ApplicationStatus.Applied,
+                AppliedAt = today.AddDays(-2),
+                Notes = "Applied via LinkedIn Easy Apply.",
+                Interviews = []
+            },
+            new()
+            {
+                UserId = userId,
+                CompanyName = "AutoParts Mexico",
+                Position = "Ingeniero de Calidad Jr",
+                Status = ApplicationStatus.Applied,
+                AppliedAt = today.AddDays(-5),
+                Notes = "Ubicación: Planta Saltillo. Requieren inglés conversacional.",
+                Interviews = []
+            },
+            new()
+            {
+                UserId = userId,
+                CompanyName = "FutureMotors EV",
+                Position = "Desarrollador de Software Embebido",
+                Status = ApplicationStatus.Interviewing,
+                AppliedAt = today.AddDays(-10),
+                JobDescriptionUrl = "https://futuremotors.mx/carreras/embedded-dev",
+                Notes = "Proyecto de vehículos autónomos.",
+                Interviews =
+                [
+                    new() { ScheduledAt = today.AddDays(-2), Type = InterviewType.HR, Notes = "Entrevista inicial con RH" },
+                    new() { ScheduledAt = today.AddDays(3), Type = InterviewType.Technical, Notes = "Prueba técnica de C++ y RTOS" }
+                ]
+            }
+        ];
     }
 }

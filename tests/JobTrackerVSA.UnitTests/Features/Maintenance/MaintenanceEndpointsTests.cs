@@ -62,14 +62,13 @@ public class MaintenanceEndpointsTests
         try 
         {
             var result = await MaintenanceEndpoints.HandleResetDemo(_db, _config, _httpContext);
-            
-            // Assert
+
             result.Should().BeOfType<Ok<object>>();
-            
+
             var demoAppsCount = await _db.JobApplications.IgnoreQueryFilters().CountAsync(j => j.UserId == demoUserId);
             var otherAppsCount = await _db.JobApplications.IgnoreQueryFilters().CountAsync(j => j.UserId == otherUserId);
 
-            demoAppsCount.Should().Be(0);
+            demoAppsCount.Should().Be(6);
             otherAppsCount.Should().Be(1);
         }
         catch (InvalidOperationException ex) when (ex.Message.Contains("ExecuteDelete"))
