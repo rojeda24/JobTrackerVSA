@@ -127,6 +127,9 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2025-07
       name: 'PerGB2018' // Standard Pricing
     }
     retentionInDays: 30
+    workspaceCapping: {
+      dailyQuotaGb: 0.16 // ~160 MB per day (approx 5 GB/month free tier)
+    }
   }
 }
 
