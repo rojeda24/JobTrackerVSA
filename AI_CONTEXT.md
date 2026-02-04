@@ -10,6 +10,7 @@ This file documents the architectural decisions, technical stack, and current st
 - **Database:** MS SQL Server LocalDB (`(localdb)\mssqllocaldb`)
 - **ORM:** Entity Framework Core (SQL Server)
 - **Authentication:** Auth0 (OpenID Connect)
+- **Observability:** Application Insights (Telemetry & Logging)
 - **Architecture:** Vertical Slice Architecture (Features folder), CQRS pattern with MediatR.
 
 ## 2. Architecture & Design Patterns
@@ -26,6 +27,7 @@ The application is organized by **Features** rather than technical layers.
 
 ### Logging & Error Handling
 - **Centralized Logging:** Handled via `Infrastructure/MediatR/UnhandledExceptionBehavior.cs`.
+- **Telemetry:** Application Insights is configured for automatic exception tracking and request monitoring.
 - **Convention:** DO NOT use manual `try-catch` blocks in Handlers for logging purposes. The MediatR pipeline captures request details and logs them automatically on failure.
 
 ## 3. Key File Locations
@@ -33,6 +35,7 @@ The application is organized by **Features** rather than technical layers.
 - **Auth Service:** `Infrastructure/Auth/CurrentUserService.cs`
 - **Unit Tests:** `tests/JobTrackerVSA.UnitTests/`
 - **JS Utilities:** `wwwroot/js/site.js`
+- **IaC:** `infrastructure/main.bicep`
 
 ## 4. Unit Testing
 - **Frameworks:** xUnit, FluentAssertions, NSubstitute.

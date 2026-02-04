@@ -41,6 +41,7 @@ jobs:
             auth0Domain=${{ secrets.AUTH0_DOMAIN }}
             auth0ClientId=${{ secrets.AUTH0_CLIENT_ID }}
             auth0ClientSecret=${{ secrets.AUTH0_CLIENT_SECRET }}
+            maintenanceApiKey=${{ secrets.MAINTENANCE_KEY }}
 
   build-and-deploy:
     needs: infrastructure

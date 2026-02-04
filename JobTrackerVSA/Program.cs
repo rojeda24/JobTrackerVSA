@@ -10,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Load local configuration not committed to git
 builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
 
+// Add Application Insights Telemetry
+builder.Services.AddApplicationInsightsTelemetry();
+
 // Global Authorization Policy (Secure by Default)
 builder.Services.AddAuthorization(options =>
 {

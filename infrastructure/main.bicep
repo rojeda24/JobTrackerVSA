@@ -18,6 +18,10 @@ param auth0ClientId string
 @secure()
 param auth0ClientSecret string
 
+@description('Maintenance API Key')
+@secure()
+param maintenanceApiKey string
+
 var appName = 'jobtracker-raul'
 var sqlServerName = 'sql-${appName}'
 var databaseName = 'JobTrackerVSA'
@@ -69,6 +73,14 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
           name: 'ASPNETCORE_ENVIRONMENT'
           value: 'Production'
         }
+        {
+          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+          value: appInsights.properties.ConnectionString
+        }
+        {
+          name: 'Maintenance__ApiKey'
+          value: maintenanceApiKey
+        }
       ]
     }
   }
@@ -106,6 +118,30 @@ resource allowAzureIps 'Microsoft.Sql/servers/firewallRules@2023-08-01' = {
   }
 }
 
+// 6. Log Analytics Workspace (Required for App Insights)
+resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2025-07-01' = {
+  name: 'log-${appName}'
+  location: location
+  properties: {
+    sku: {
+      name: 'PerGB2018' // Standard Pricing
+    }
+    retentionInDays: 30
+  }
+}
+
+// 7. Application Insights
+resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
+  name: 'ai-${appName}'
+  location: location
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    WorkspaceResourceId: logAnalyticsWorkspace.id
+  }
+}
+
 output webAppName string = webApp.name
 output webAppUrl string = webApp.properties.defaultHostName
 output sqlServerName string = sqlServer.name
+output appInsightsName string = appInsights.name
