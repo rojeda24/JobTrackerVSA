@@ -14,7 +14,7 @@
     <table class="table align-middle">
         <thead class="table-light">
             <tr>
-                <th>Date</th>
+                <th>Next Interview</th>
                 <th>Company</th>
                 <th>Position</th>
                 <th>Status</th>
@@ -23,10 +23,31 @@
             </tr>
         </thead>
         <tbody>
+            @if (!Model.Applications.Any())
+            {
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-4">
+                        <i class="bi bi-inbox fs-1"></i>
+                        <p class="mt-3 mb-0">No job applications found. Click "Add New" to get started!</p>
+                    </td>
+                </tr>
+            }
             @foreach (var app in Model.Applications)
             {
                 <tr>
-                    <td>@app.AppliedAt.ToShortDateString()</td>
+                    <td>
+                        @if (app.NextInterviewAt.HasValue)
+                        {
+                            <span class="local-date fw-bold" 
+                                  data-utc="@app.NextInterviewAt.Value.ToString("yyyy-MM-ddTHH:mm:ssZ")" 
+                                  data-format="default">
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">---</span>
+                        }
+                    </td>
                     <td class="fw-bold">@app.CompanyName</td>
                     <td>
                         @if (!string.IsNullOrWhiteSpace(app.JobDescriptionUrl))
@@ -66,3 +87,12 @@
         </tbody>
     </table>
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Convert UTC labels to local time
+            convertUtcLabelsToLocal();
+        });
+    </script>
+}

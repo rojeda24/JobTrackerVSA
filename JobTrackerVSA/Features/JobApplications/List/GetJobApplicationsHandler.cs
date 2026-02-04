@@ -1,4 +1,4 @@
-﻿using JobTrackerVSA.Web.Data;
+using JobTrackerVSA.Web.Data;
 using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +18,11 @@ namespace JobTrackerVSA.Web.Features.JobApplications.List
                     CompanyName = x.CompanyName,
                     Position = x.Position,
                     JobDescriptionUrl = x.JobDescriptionUrl,
-                    AppliedAt = x.AppliedAt,
+                    NextInterviewAt = x.Interviews
+                        .Where(i => i.ScheduledAt > DateTime.UtcNow)
+                        .OrderBy(i => i.ScheduledAt)
+                        .Select(i => (DateTime?)i.ScheduledAt)
+                        .FirstOrDefault(),
                     Status = x.Status,
                     Notes = x.Notes
                 })

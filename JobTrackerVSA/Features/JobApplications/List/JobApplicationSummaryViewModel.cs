@@ -1,4 +1,4 @@
-﻿using static JobTrackerVSA.Web.Domain.JobApplication;
+using static JobTrackerVSA.Web.Domain.JobApplication;
 
 namespace JobTrackerVSA.Web.Features.JobApplications.List
 {
@@ -13,7 +13,7 @@ namespace JobTrackerVSA.Web.Features.JobApplications.List
             : JobDescriptionUrl.StartsWith("http")
                 ? JobDescriptionUrl
                 : $"https://{JobDescriptionUrl}";
-        public DateTime AppliedAt { get; init; }
+        public DateTime? NextInterviewAt { get; init; }
         public ApplicationStatus Status { get; init; }
 
         public string StatusDisplay => Status switch
