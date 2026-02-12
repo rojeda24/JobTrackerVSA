@@ -5,11 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobTrackerVSA.Web.Features.JobApplications.List
 {
-    public class GetJobApplicationsHandler(AppDbContext context): IRequestHandler<GetJobApplicationsQuery, Result<List<JobApplicationSummaryViewModel>>>
+    public class GetJobApplicationsHandler(AppDbContext context): IRequestHandler<GetJobApplicationsQuery, Result<PagedList<JobApplicationSummaryViewModel>>>
     {
-        public async Task<Result<List<JobApplicationSummaryViewModel>>> Handle(GetJobApplicationsQuery request, CancellationToken cancellationToken)
+        private const int PAGE_SIZE = 10;
+
+        public async Task<Result<PagedList<JobApplicationSummaryViewModel>>> Handle(GetJobApplicationsQuery request, CancellationToken cancellationToken)
         {
-            var apps = await context.JobApplications
+            var query = context.JobApplications
                 .AsNoTracking()
                 .OrderByDescending(x => x.AppliedAt)
                 .Select(x => new JobApplicationSummaryViewModel
@@ -25,9 +27,11 @@ namespace JobTrackerVSA.Web.Features.JobApplications.List
                         .FirstOrDefault(),
                     Status = x.Status,
                     Notes = x.Notes
-                })
-                .ToListAsync(cancellationToken);
-            return Result<List<JobApplicationSummaryViewModel>>.Success(apps);
+                });
+
+            var pagedApps = await query.ToPagedListAsync(request.Page, PAGE_SIZE, cancellationToken);
+            return Result<PagedList<JobApplicationSummaryViewModel>>.Success(pagedApps);
         }
     }
+
 }

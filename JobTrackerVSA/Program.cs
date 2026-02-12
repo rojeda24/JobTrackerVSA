@@ -4,6 +4,7 @@ using Auth0.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using JobTrackerVSA.Web.Infrastructure.MediatR;
 using JobTrackerVSA.Web.Features.Maintenance;
+using JobTrackerVSA.Web.Features.JobApplications.List;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,5 +71,6 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.MapMaintenanceEndpoints();
+app.MapJobApplicationsEndpoints();
 
 app.Run();

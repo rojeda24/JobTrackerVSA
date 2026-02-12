@@ -23,7 +23,7 @@
             </tr>
         </thead>
         <tbody>
-            @if (!Model.Applications.Any())
+            @if (!Model.PagedApplications.Items.Any())
             {
                 <tr>
                     <td colspan="6" class="text-center text-muted py-4">
@@ -32,9 +32,10 @@
                     </td>
                 </tr>
             }
-            @foreach (var app in Model.Applications)
+            @foreach (var app in Model.PagedApplications.Items)
             {
                 <tr>
+
                     <td>
                         @if (app.NextInterviewAt.HasValue)
                         {
@@ -88,7 +89,36 @@
     </table>
 </div>
 
+@if (Model.PagedApplications.TotalPages > 1)
+{
+    <nav aria-label="Job applications pagination" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(!Model.PagedApplications.HasPreviousPage ? "disabled" : "")">
+                <a class="page-link" asp-route-PageNumber="@(Model.PagedApplications.Page - 1)">
+                    Previous
+                </a>
+            </li>
+
+            @for (int i = 1; i <= Model.PagedApplications.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PagedApplications.Page ? "active" : "")">
+                    <a class="page-link" asp-route-PageNumber="@i">
+                        @i
+                    </a>
+                </li>
+            }
+
+            <li class="page-item @(!Model.PagedApplications.HasNextPage ? "disabled" : "")">
+                <a class="page-link" asp-route-PageNumber="@(Model.PagedApplications.Page + 1)">
+                    Next
+                </a>
+            </li>
+        </ul>
+    </nav>
+}
+
 @section Scripts {
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Convert UTC labels to local time

@@ -52,8 +52,9 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.List
 
             // Assert
             result.IsSuccess.Should().BeTrue();
-            result.Value.Should().HaveCount(2); // Should only see the 2 apps for user-A
-            result.Value.Should().OnlyContain(x => x.CompanyName.StartsWith("My Company"));
+            result.Value.Items.Should().HaveCount(2); // Should only see the 2 apps for user-A
+            result.Value.Items.Should().OnlyContain(x => x.CompanyName.StartsWith("My Company"));
+            result.Value.TotalCount.Should().Be(2);
         }
 
         [Fact]
@@ -71,7 +72,58 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.List
 
             // Assert
             result.IsSuccess.Should().BeTrue();
-            result.Value.Should().BeEmpty();
+            result.Value.Items.Should().BeEmpty();
+            result.Value.TotalCount.Should().Be(0);
         }
+
+        [Fact]
+        public async Task Handle_Should_ReturnCorrectPage_When_PaginationIsApplied()
+        {
+            // Arrange
+            var currentUser = "user-P";
+            using var context = TestDbContextFactory.Create(currentUser);
+
+            // Seed 25 applications to test pagination (Default PageSize is 10)
+            for (int i = 1; i <= 25; i++)
+            {
+                context.JobApplications.Add(new JobApplication
+                {
+                    CompanyName = $"Company {i:D2}",
+                    Position = "Dev",
+                    UserId = currentUser,
+                    AppliedAt = DateTime.UtcNow.AddMinutes(i)
+                });
+            }
+            await context.SaveChangesAsync();
+
+            var handler = new GetJobApplicationsHandler(context);
+            
+            // Request Page 2. Since PageSize is 10, this should return items 11-20 (sorted descending by date)
+            // Total 25 items. 
+            // Page 1: 25..16
+            // Page 2: 15..06
+            // Page 3: 05..01
+            var query = new GetJobApplicationsQuery(Page: 2);
+
+            // Act
+            var result = await handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            result.IsSuccess.Should().BeTrue();
+            result.Value.Items.Should().HaveCount(10); // Default PageSize
+            result.Value.Page.Should().Be(2);
+            result.Value.PageSize.Should().Be(10); // Verified Default
+            result.Value.TotalCount.Should().Be(25);
+            result.Value.TotalPages.Should().Be(3);
+            result.Value.HasNextPage.Should().BeTrue();
+            result.Value.HasPreviousPage.Should().BeTrue();
+            
+            // Check ordering (OrderByDescending AppliedAt)
+            // Company 25 is most recent.
+            // Page 2 should contain Company 15 down to Company 06.
+            result.Value.Items.First().CompanyName.Should().Be("Company 15");
+            result.Value.Items.Last().CompanyName.Should().Be("Company 06");
+        }
+
     }
 }
