@@ -4,7 +4,7 @@ namespace JobTrackerVSA.Web.Infrastructure.Shared;
 
 public class PagedList<T>
 {
-    private PagedList(List<T> items, int page, int pageSize, int totalCount)
+    internal PagedList(List<T> items, int page, int pageSize, int totalCount)
     {
         Items = items;
         Page = page;

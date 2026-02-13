@@ -7,21 +7,23 @@ public static class JobApplicationsEndpoints
 {
     public static void MapJobApplicationsEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/job-applications", async (int? page, IMediator mediator) =>
-        {
-            var query = page.HasValue ? new GetJobApplicationsQuery(page.Value) : new GetJobApplicationsQuery();
-            var result = await mediator.Send(query);
-
-            if (result.IsFailure) return Results.BadRequest(result.Error);
-
-            return Results.Ok(result.Value);
-        })
+        app.MapGet("/api/job-applications", HandleGetJobApplications)
         .WithTags("JobApplications")
         .WithSummary("Gets a paginated list of job applications for the current user")
         .Produces<PagedList<JobApplicationSummaryViewModel>>(200)
         .Produces(400)
         .Produces(401)
         .RequireAuthorization();
+    }
+
+    internal static async Task<IResult> HandleGetJobApplications(int? page, IMediator mediator)
+    {
+        var query = page.HasValue ? new GetJobApplicationsQuery(page.Value) : new GetJobApplicationsQuery();
+        var result = await mediator.Send(query);
+
+        if (result.IsFailure) return Results.BadRequest(result.Error);
+
+        return Results.Ok(result.Value);
     }
 }
 
