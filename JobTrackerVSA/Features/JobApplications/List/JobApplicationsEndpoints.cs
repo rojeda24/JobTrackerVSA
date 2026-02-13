@@ -16,8 +16,12 @@ public static class JobApplicationsEndpoints
 
             return Results.Ok(result.Value);
         })
-
         .WithTags("JobApplications")
+        .WithSummary("Gets a paginated list of job applications for the current user")
+        .Produces<PagedList<JobApplicationSummaryViewModel>>(200)
+        .Produces(400)
+        .Produces(401)
         .RequireAuthorization();
     }
 }
+

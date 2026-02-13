@@ -14,18 +14,10 @@ A modern Vertical Slice Architecture Web App for tracking job applications and i
 - **Observability:** Centralized exception logging via MediatR Pipeline Behavior.
 - **Security:** "Secure by Default" policy. All endpoints require authentication unless marked `[AllowAnonymous]`.
 
-## 🤖 Automation & Maintenance API
-The application includes a specialized **Maintenance API** designed to keep the live demo fresh.
+## API Documentation
+For detailed API information, interactive testing, and schema definitions, visit our **OpenAPI Documentation** powered by [Scalar](https://github.com/scalar/scalar) (a modern alternative to Swagger UI).
 
-### Automated Demo Reset
-To ensure the public demo always has clean data for new visitors, a **Cron Job** (running via GitHub Actions) hits a custom API endpoint every day at **3:00 AM (MT)**.
-
-- **Endpoint:** `POST /api/maintenance/reset-demo` (Minimal API).
-- **Function:** 
-  1.  **Deletes** all data associated with the public "Demo User".
-  2.  **Seeds** fresh, realistic sample data (including English/Spanish examples relevant to the Tech/Automotive industry).
-  **API Key Protection:** The endpoint is guarded by a secret API Key (`X-Maintenance-Key` header).
-- **Infrastructure:** Leverages **GitHub Actions** as an external scheduler to wake up the Azure Free Tier app and perform maintenance without needing a dedicated background worker service.
+👉 **[View API Docs](https://jobtracker-raul.azurewebsites.net/scalar)**
 
 ## 🚀 Deployment & DevOps
 This project implements a professional, fully automated **CI/CD pipeline** targeting **Microsoft Azure**.

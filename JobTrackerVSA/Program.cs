@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using JobTrackerVSA.Web.Infrastructure.MediatR;
 using JobTrackerVSA.Web.Features.Maintenance;
 using JobTrackerVSA.Web.Features.JobApplications.List;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,9 @@ builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, relo
 
 // Add Application Insights Telemetry
 builder.Services.AddApplicationInsightsTelemetry();
+
+// Add services to the container.
+builder.Services.AddOpenApi();
 
 // Global Authorization Policy (Secure by Default)
 builder.Services.AddAuthorization(options =>
@@ -58,6 +62,9 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.MapOpenApi().AllowAnonymous();
+app.MapScalarApiReference().AllowAnonymous();
 
 app.UseHttpsRedirection();
 

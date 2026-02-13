@@ -12,7 +12,23 @@ public static class MaintenanceEndpoints
     {
         app.MapPost("/api/maintenance/reset-demo", HandleResetDemo)
            .WithTags("Maintenance")
+           .WithSummary("Resets the demo environment data")
+           .WithDescription("""
+                **Automated Demo Reset**
+                
+                To ensure the public demo always has clean data for new visitors, this endpoint is designed to be called by a Cron Job (e.g., GitHub Actions).
+                
+                **Function:**
+                1.  **Deletes** all data associated with the public 'Demo User'.
+                2.  **Seeds** fresh, realistic sample data (including English/Spanish examples).
+                
+                **Security:**
+                This endpoint is guarded by a secret API Key (`X-Maintenance-Key` header).
+                """)
+           .Produces(200)
+           .Produces(401)
            .AllowAnonymous();
+
     }
 
     internal static async Task<IResult> HandleResetDemo(
