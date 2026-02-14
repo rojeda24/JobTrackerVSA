@@ -3,22 +3,21 @@ using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace JobTrackerVSA.Web.Features.Interviews.Edit
+namespace JobTrackerVSA.Web.Features.Interviews.Edit;
+
+public class EditInterviewHandler(AppDbContext context)
+    : IRequestHandler<EditInterviewCommand, Result>
 {
-    public class EditInterviewHandler(AppDbContext context)
-        : IRequestHandler<EditInterviewCommand, Result>
+    public async Task<Result> Handle(EditInterviewCommand command, CancellationToken cancellationToken)
     {
-        public async Task<Result> Handle(EditInterviewCommand command, CancellationToken cancellationToken)
-        {
-            var interview = await context.Interviews.FindAsync([command.Id], cancellationToken);
-            if (interview == null) return Result<Unit>.Failure($"Interview not found with ID {command.Id}");
+        var interview = await context.Interviews.FindAsync([command.Id], cancellationToken);
+        if (interview == null) return Result<Unit>.Failure($"Interview not found with ID {command.Id}");
 
-            interview.ScheduledAt = command.ScheduledAt;
-            interview.Type = command.Type;
-            interview.Notes = command.Notes;
+        interview.ScheduledAt = command.ScheduledAt;
+        interview.Type = command.Type;
+        interview.Notes = command.Notes;
 
-            await context.SaveChangesAsync(cancellationToken);
-            return Result.Success();
-        }
+        await context.SaveChangesAsync(cancellationToken);
+        return Result.Success();
     }
 }
