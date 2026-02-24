@@ -3,24 +3,23 @@ using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace JobTrackerVSA.Web.Features.Interviews.Delete
+namespace JobTrackerVSA.Web.Features.Interviews.Delete;
+
+public class DeleteInterviewHandler(AppDbContext context) : IRequestHandler<DeleteInterviewCommand, Result>
 {
-    public class DeleteInterviewHandler(AppDbContext context) : IRequestHandler<DeleteInterviewCommand, Result>
+    public async Task<Result> Handle(DeleteInterviewCommand request, CancellationToken cancellationToken)
     {
-        public async Task<Result> Handle(DeleteInterviewCommand request, CancellationToken cancellationToken)
+        var interview = await context.Interviews
+            .FirstOrDefaultAsync(i => i.Id == request.Id, cancellationToken);
+
+        if (interview == null)
         {
-            var interview = await context.Interviews
-                .FirstOrDefaultAsync(i => i.Id == request.Id, cancellationToken);
-
-            if (interview == null)
-            {
-                return Result.Failure($"Interview with ID {request.Id} not found. No interview was removed.");
-            }
-
-            context.Interviews.Remove(interview);
-
-            await context.SaveChangesAsync(cancellationToken);
-            return Result.Success();
+            return Result.Failure($"Interview with ID {request.Id} not found. No interview was removed.");
         }
+
+        context.Interviews.Remove(interview);
+
+        await context.SaveChangesAsync(cancellationToken);
+        return Result.Success();
     }
 }
