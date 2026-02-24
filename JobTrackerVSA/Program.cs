@@ -53,6 +53,8 @@ builder.Services.AddScoped<JobTrackerVSA.Web.Infrastructure.Auth.ICurrentUserSer
 builder.Services.AddRazorPages()
     .WithRazorPagesRoot("/Features");
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -76,6 +78,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.MapHealthChecks("/health").AllowAnonymous();
 
 app.MapMaintenanceEndpoints();
 app.MapJobApplicationsEndpoints();

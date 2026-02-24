@@ -1,7 +1,6 @@
 using JobTrackerVSA.Web.Data;
 using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace JobTrackerVSA.Web.Features.JobApplications.Edit
 {

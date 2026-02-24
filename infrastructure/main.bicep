@@ -144,6 +144,42 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   }
 }
 
+// 8. Application Insights Availability Web Test (Ping to /health)
+resource availabilityTest 'Microsoft.Insights/webtests@2022-06-15' = {
+  name: 'ping-${appName}'
+  location: location
+  tags: {
+    'hidden-link:${appInsights.id}': 'Resource'
+  }
+  properties: {
+    SyntheticMonitorId: 'ping-${appName}'
+    Name: 'HealthCheck'
+    Description: 'Ping /health every 15 minutes to keep App Service awake and check health'
+    Enabled: true
+    Frequency: 900 // 15 minutes in seconds
+    Timeout: 120
+    Kind: 'standard'
+    RetryEnabled: true
+    Locations: [
+      {
+        Id: 'us-tx-sn1-azr' // South Central US
+      }
+      {
+        Id: 'us-il-ch1-azr' // North Central US
+      }
+    ]
+    Request: {
+      RequestUrl: 'https://${webAppUrl}/health'
+      HttpVerb: 'GET'
+      ParseDependentRequests: false
+    }
+    ValidationRules: {
+      ExpectedHttpStatusCode: 200
+      SSLCheck: true
+    }
+  }
+}
+
 output webAppName string = webApp.name
 output webAppUrl string = webApp.properties.defaultHostName
 output sqlServerName string = sqlServer.name

@@ -3,6 +3,9 @@ using JobTrackerVSA.Web.Infrastructure.Shared;
 
 namespace JobTrackerVSA.Web.Features.JobApplications.List;
 
+/// <summary>
+/// Showcase of API Endpoint not currently being used. Could be used if SPA like React is implemented later.
+/// </summary>
 public static class JobApplicationsEndpoints
 {
     public static void MapJobApplicationsEndpoints(this IEndpointRouteBuilder app)
