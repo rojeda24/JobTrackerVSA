@@ -169,7 +169,7 @@ resource availabilityTest 'Microsoft.Insights/webtests@2022-06-15' = {
       }
     ]
     Request: {
-      RequestUrl: 'https://${webAppUrl}/health'
+      RequestUrl: 'https://${webApp.properties.defaultHostName}/health'
       HttpVerb: 'GET'
       ParseDependentRequests: false
     }
