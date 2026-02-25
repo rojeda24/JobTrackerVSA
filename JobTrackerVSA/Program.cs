@@ -2,12 +2,12 @@ using JobTrackerVSA.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Auth0.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using JobTrackerVSA.Web.Infrastructure.MediatR;
 using JobTrackerVSA.Web.Features.Maintenance;
 using JobTrackerVSA.Web.Features.JobApplications.List;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Load local configuration not committed to git
 builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
@@ -42,7 +42,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
-    cfg.AddOpenBehavior(typeof(UnhandledExceptionBehavior<,>));
 });
 
 // Auth Services
