@@ -48,7 +48,8 @@ The application is organized by **Features** rather than technical layers.
   - **DO NOT** commit changes (`git commit`).
   - The user reviews all changes in the "Unstaged" state and manually stages/commits them.
   - Role ends after `write`/`edit` operations are confirmed successful via compilation/verification.
-  - Commit Messages: All commit messages MUST be in **English** and follow the conventional commits style (e.g., `feat: ...`, `fix: ...`). Check `git log` to match the existing project style.
+  - Commit Messages: **MANDATORY:** When requested to draft a commit message, **FIRST run `git status` and `git diff --staged`** (or `git diff` if nothing is staged) to analyze the actual pending changes. Do not hallucinate or assume changes. Messages MUST be in **English** and follow the conventional commits style (e.g., `feat: ...`, `fix: ...`). Check `git log` to match the existing project style.
+
 
 ## 6. Code Generation Standards
 - **Language:** All generated code and internal comments MUST be in **English**.

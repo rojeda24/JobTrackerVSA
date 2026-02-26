@@ -10,119 +10,77 @@
     </a>
 </div>
 
-<div class="table-responsive">
-    <table class="table align-middle">
-        <thead class="table-light">
-            <tr>
-                <th>Next Interview</th>
-                <th>Company</th>
-                <th>Position</th>
-                <th>Status</th>
-                <th>Notes</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (!Model.PagedApplications.Items.Any())
-            {
-                <tr>
-                    <td colspan="6" class="text-center text-muted py-4">
-                        <i class="bi bi-inbox fs-1"></i>
-                        <p class="mt-3 mb-0">No job applications found. Click "Add New" to get started!</p>
-                    </td>
-                </tr>
-            }
-            @foreach (var app in Model.PagedApplications.Items)
-            {
-                <tr>
+<div class="row mb-3">
+    <div class="col-md-6">
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input type="text" id="searchInput" class="form-control" placeholder="Search by company or position..." 
+                   value="" autocomplete="off">
 
-                    <td>
-                        @if (app.NextInterviewAt.HasValue)
-                        {
-                            <span class="local-date fw-bold" 
-                                  data-utc="@app.NextInterviewAt.Value.ToString("yyyy-MM-ddTHH:mm:ssZ")" 
-                                  data-format="default">
-                            </span>
-                        }
-                        else
-                        {
-                            <span class="text-muted">---</span>
-                        }
-                    </td>
-                    <td class="fw-bold">@app.CompanyName</td>
-                    <td>
-                        @if (!string.IsNullOrWhiteSpace(app.JobDescriptionUrl))
-                        {
-                            <a href="@app.FinalJobUrl" target="_blank" class="fw-bold">
-                                @app.Position
-                            </a>
-                        }
-                        else
-                        {
-                            @app.Position
-                        }
-                    </td>
-                    <td>
-                        <span class="badge @(app.Status == JobTrackerVSA.Web.Domain.JobApplication.ApplicationStatus.Rejected ? "bg-danger" : "bg-success")">
-                            @app.StatusDisplay
-                        </span>
-                    </td>
-                    <td title="@app.Notes">
-                        <small class="text-muted">@app.NotesPreview</small>
-                    </td>
-                    <td>
-                        <div class="d-flex gap-2">
-                            <a href="/edit/@app.Id" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            <form method="post" asp-page-handler="Delete" asp-route-id="@app.Id"
-                                  onsubmit="return confirm('Are you sure you want to delete this application and all its interviews?');">
-                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        </div>
+    </div>
 </div>
 
-@if (Model.PagedApplications.TotalPages > 1)
-{
-    <nav aria-label="Job applications pagination" class="mt-4">
-        <ul class="pagination justify-content-center">
-            <li class="page-item @(!Model.PagedApplications.HasPreviousPage ? "disabled" : "")">
-                <a class="page-link" asp-route-PageNumber="@(Model.PagedApplications.Page - 1)">
-                    Previous
-                </a>
-            </li>
-
-            @for (int i = 1; i <= Model.PagedApplications.TotalPages; i++)
-            {
-                <li class="page-item @(i == Model.PagedApplications.Page ? "active" : "")">
-                    <a class="page-link" asp-route-PageNumber="@i">
-                        @i
-                    </a>
-                </li>
-            }
-
-            <li class="page-item @(!Model.PagedApplications.HasNextPage ? "disabled" : "")">
-                <a class="page-link" asp-route-PageNumber="@(Model.PagedApplications.Page + 1)">
-                    Next
-                </a>
-            </li>
-        </ul>
-    </nav>
-}
+<div id="jobListContainer">
+    <partial name="_JobApplicationListPartial" model="Model.PagedApplications" />
+</div>
 
 @section Scripts {
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Convert UTC labels to local time
             convertUtcLabelsToLocal();
+            setupSearch();
+            setupPagination();
         });
+
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            let timeoutId;
+
+            searchInput.addEventListener('input', function() {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => {
+                    fetchApplications(this.value, 1); // Reset to page 1 on search
+                }, 300);
+            });
+        }
+
+        function setupPagination() {
+            const container = document.getElementById('jobListContainer');
+            
+            container.addEventListener('click', function(e) {
+                const link = e.target.closest('.page-link');
+                if (!link) return;
+
+                e.preventDefault();
+                // Get page number from data attribute or fallback to URL param
+                let page = 1;
+                if (link.dataset.page) {
+                    page = link.dataset.page;
+                }
+                    
+                const searchTerm = document.getElementById('searchInput').value;
+                fetchApplications(searchTerm, page);
+            });
+        }
+
+        async function fetchApplications(term, page) {
+            const container = document.getElementById('jobListContainer');
+            // Loading state
+            container.style.opacity = '0.5';
+
+            try {
+                const response = await fetch(`?handler=ListPartial&searchTerm=${encodeURIComponent(term)}&pageNumber=${page}`);
+                if (response.ok) {
+                    const html = await response.text();
+                    container.innerHTML = html;
+                    convertUtcLabelsToLocal();
+                }
+            } catch (error) {
+                console.error('Error fetching applications:', error);
+            } finally {
+                container.style.opacity = '1';
+            }
+        }
     </script>
 }

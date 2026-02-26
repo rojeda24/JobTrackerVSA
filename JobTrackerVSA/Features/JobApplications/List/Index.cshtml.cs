@@ -11,12 +11,9 @@ public class IndexModel(IMediator mediator) : PageModel
 {
     public PagedList<JobApplicationSummaryViewModel> PagedApplications { get; private set; } = default!;
 
-    [BindProperty(SupportsGet = true)]
-    public int PageNumber { get; set; } = 1;
-
     public async Task<IActionResult> OnGetAsync(CancellationToken cancellationToken)
     {
-        var query = new GetJobApplicationsQuery(PageNumber);
+        var query = new GetJobApplicationsQuery(1, null);
         var appsResult = await mediator.Send(query, cancellationToken);
 
         if (appsResult.IsSuccess)
@@ -26,6 +23,17 @@ public class IndexModel(IMediator mediator) : PageModel
 
         return Page();
     }
+
+    public async Task<IActionResult> OnGetListPartialAsync(string? searchTerm, int pageNumber, CancellationToken cancellationToken)
+    {
+        var query = new GetJobApplicationsQuery(pageNumber, searchTerm);
+        var result = await mediator.Send(query, cancellationToken);
+
+        if (result.IsFailure) return BadRequest(result.Error);
+
+        return Partial("_JobApplicationListPartial", result.Value);
+    }
+
 
     public async Task<IActionResult> OnPostDeleteAsync(Guid id, CancellationToken cancellationToken)
     {
