@@ -125,5 +125,36 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.List
             result.Value.Items.Last().CompanyName.Should().Be("Company 06");
         }
 
+        [Fact]
+        public async Task Handle_Should_FilterBySearchTerm()
+        {
+            // Arrange
+            var currentUser = "user-search";
+            using var context = TestDbContextFactory.Create(currentUser);
+
+            context.JobApplications.AddRange(
+                new JobApplication { CompanyName = "Google", Position = "Dev", UserId = currentUser, AppliedAt = DateTime.UtcNow },
+                new JobApplication { CompanyName = "Microsoft", Position = "Lead", UserId = currentUser, AppliedAt = DateTime.UtcNow },
+                new JobApplication { CompanyName = "Amazon", Position = "Architect", UserId = currentUser, AppliedAt = DateTime.UtcNow }
+            );
+            await context.SaveChangesAsync();
+
+            var handler = new GetJobApplicationsHandler(context);
+            var companyQuery = new GetJobApplicationsQuery(SearchTerm: "soft");
+            var positionQuery = new GetJobApplicationsQuery(SearchTerm: "rchitec");
+
+            // Act
+            var companyResult = await handler.Handle(companyQuery, CancellationToken.None);
+            var positionResult = await handler.Handle(positionQuery, CancellationToken.None);
+
+            // Assert
+            companyResult.IsSuccess.Should().BeTrue();
+            companyResult.Value.Items.Should().HaveCount(1);
+            companyResult.Value.Items.First().CompanyName.Should().Be("Microsoft");
+
+            positionResult.IsSuccess.Should().BeTrue();
+            positionResult.Value.Items.Should().HaveCount(1);
+            positionResult.Value.Items.First().CompanyName.Should().Be("Amazon");
+        }
     }
 }

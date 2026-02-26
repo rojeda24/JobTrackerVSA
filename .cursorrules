@@ -28,7 +28,7 @@ The application is organized by **Features** rather than technical layers.
 ### Logging & Error Handling
 - **Centralized Logging:** Handled via `Infrastructure/MediatR/UnhandledExceptionBehavior.cs`.
 - **Telemetry:** Application Insights is configured for automatic exception tracking and request monitoring.
-- **Convention:** DO NOT use manual `try-catch` blocks in Handlers for logging purposes. The MediatR pipeline captures request details and logs them automatically on failure.
+
 
 ## 3. Key File Locations
 - **DbContext:** `Data/AppDbContext.cs` (Includes Global Query Filters for Security).

@@ -30,7 +30,7 @@ public class JobApplicationsEndpointsTests
         _mediator.Send(Arg.Any<GetJobApplicationsQuery>()).Returns(successResult);
 
         // Act
-        var result = await JobApplicationsEndpoints.HandleGetJobApplications(1, _mediator);
+        var result = await JobApplicationsEndpoints.HandleGetJobApplications(_mediator, 1, null);
 
         // Assert
         var okResult = result.Should().BeOfType<Ok<PagedList<JobApplicationSummaryViewModel>>>().Subject;
@@ -45,7 +45,7 @@ public class JobApplicationsEndpointsTests
         _mediator.Send(Arg.Any<GetJobApplicationsQuery>()).Returns(failureResult);
 
         // Act
-        var result = await JobApplicationsEndpoints.HandleGetJobApplications(1, _mediator);
+        var result = await JobApplicationsEndpoints.HandleGetJobApplications(_mediator, 1, null);
 
         // Assert
         var badRequestResult = result.Should().BeOfType<BadRequest<string>>().Subject;
@@ -62,10 +62,37 @@ public class JobApplicationsEndpointsTests
         _mediator.Send(Arg.Any<GetJobApplicationsQuery>()).Returns(Result<PagedList<JobApplicationSummaryViewModel>>.Success(pagedList));
 
         // Act
-        await JobApplicationsEndpoints.HandleGetJobApplications(null, _mediator);
+        await JobApplicationsEndpoints.HandleGetJobApplications(_mediator, null, null);
 
         // Assert
         // Verify that the query was sent with Page = 1 (default from record constructor)
         await _mediator.Received().Send(Arg.Is<GetJobApplicationsQuery>(q => q.Page == 1));
     }
+
+    [Fact]
+    public async Task GetJobApplications_ShouldPassSearchTerm_WhenProvided()
+    {
+        // Arrange
+        var searchTerm = "test company";
+        var pagedList = new PagedList<JobApplicationSummaryViewModel>(
+            new List<JobApplicationSummaryViewModel>(), 1, 10, 0
+        );
+        _mediator
+            .Send(Arg.Any<GetJobApplicationsQuery>())
+            .Returns(
+                Result<PagedList<JobApplicationSummaryViewModel>>
+                .Success(pagedList)
+            );
+
+        // Act
+        await JobApplicationsEndpoints.HandleGetJobApplications(_mediator, 1, searchTerm);
+
+        // Assert
+        await _mediator
+            .Received()
+            .Send(
+                Arg.Is<GetJobApplicationsQuery>(q => q.SearchTerm == searchTerm)
+            );
+    }
 }
+

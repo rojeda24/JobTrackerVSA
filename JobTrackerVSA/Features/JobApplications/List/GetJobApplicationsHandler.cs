@@ -11,8 +11,15 @@ public class GetJobApplicationsHandler(AppDbContext context): IRequestHandler<Ge
 
     public async Task<Result<PagedList<JobApplicationSummaryViewModel>>> Handle(GetJobApplicationsQuery request, CancellationToken cancellationToken)
     {
-        var query = context.JobApplications
-            .AsNoTracking()
+        var query = context.JobApplications.AsNoTracking();
+
+        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
+        {
+            query = query.Where(x => x.CompanyName.Contains(request.SearchTerm) || x.Position.Contains(request.SearchTerm));
+        }
+
+        var projectedQuery = query
+
             .OrderByDescending(x => x.AppliedAt)
             .Select(x => new JobApplicationSummaryViewModel
             {
@@ -29,7 +36,8 @@ public class GetJobApplicationsHandler(AppDbContext context): IRequestHandler<Ge
                 Notes = x.Notes
             });
 
-        var pagedApps = await query.ToPagedListAsync(request.Page, PageSize, cancellationToken);
+        var pagedApps = await projectedQuery.ToPagedListAsync(request.Page, PageSize, cancellationToken);
         return Result<PagedList<JobApplicationSummaryViewModel>>.Success(pagedApps);
     }
+
 }
