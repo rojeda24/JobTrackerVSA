@@ -37,6 +37,14 @@ The application is organized by **Features** rather than technical layers.
 - **JS Utilities:** `wwwroot/js/site.js`
 - **Infrastructure as Code (IaC):** `infrastructure/main.bicep`
 
+## Interceptor: InterviewStatusInterceptor (runtime context)
+- **Path:** `JobTrackerVSA/Data/Interceptors/InterviewStatusInterceptor.cs`
+- **Purpose:** Automatically updates a `JobApplication`'s `Status` when an `Interview` is added or modified. The interceptor runs inside the `SaveChanges` pipeline so the status change is part of the same transaction.
+- **Mapping:** `InterviewType.Technical` → `ApplicationStatus.TechnicalTest`; `InterviewType.Proposal` → `ApplicationStatus.Offered`; otherwise → `ApplicationStatus.Interviewing`.
+- **Registration:** Registered as a singleton and attached to the `DbContext` via `AddInterceptors(...)` in `Program.cs` so it executes on every `SaveChanges`.
+- **Tests & Test infra:** Covered by `tests/JobTrackerVSA.UnitTests/Features/Interviews/InterviewStatusInterceptorTests.cs`. `TestDbContextFactory` wires the interceptor into in-memory contexts so tests observe the same runtime behavior.
+- **Notes for future work:** Prefer loading tracked entities from `ChangeTracker.Local` to avoid unnecessary roundtrips; if an entity isn't tracked the interceptor falls back to a `Find` by PK. Keep behavior minimal and well-tested to avoid surprising side effects during saves.
+
 ## 4. Unit Testing
 - **Frameworks:** xUnit, FluentAssertions, NSubstitute.
 - **Strategy:** Uses EF Core In-Memory and `TestDbContextFactory` to mock `ICurrentUserService` and provide clean databases per test.
@@ -57,6 +65,8 @@ The application is organized by **Features** rather than technical layers.
 	`git status`/`git diff` command as described above to analyse the pending changes.
 -- Commit messages must be in **English** and follow the conventional commits style
 	(e.g., `feat: ...`, `fix: ...`). Check `git log` to match the existing project style.
+-- When providing a multi-line commit description or detailed change list, use bullet points
+   so each change is clearly itemized and easy to review.
 
 ## 6. Code Generation Standards
 - **Language:** All generated code and internal comments MUST be in **English**.
