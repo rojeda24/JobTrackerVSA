@@ -46,6 +46,11 @@ namespace JobTrackerVSA.UnitTests.Features.Interviews.Add
             interviewInDb.Type.Should().Be(Interview.InterviewType.Technical);
             interviewInDb.Notes.Should().Be("Study validation");
             interviewInDb.ScheduledAt.Should().Be(command.ScheduledAt);
+
+            // the interceptor should have updated the job application's status in the same save
+            var jobAppAfter = await context.JobApplications.FindAsync(jobApp.Id);
+            jobAppAfter.Should().NotBeNull();
+            jobAppAfter!.Status.Should().Be(JobApplication.ApplicationStatus.TechnicalTest);
         }
 
         [Fact]

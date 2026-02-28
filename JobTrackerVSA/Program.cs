@@ -1,4 +1,5 @@
 using JobTrackerVSA.Web.Data;
+using JobTrackerVSA.Web.Data.Interceptors;
 using Microsoft.EntityFrameworkCore;
 using Auth0.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -36,8 +37,13 @@ builder.Services.AddAuth0WebAppAuthentication(options => {
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString));
+// Register interceptor as a singleton so tests and DI can replace/spy it if needed.
+builder.Services.AddSingleton<InterviewStatusInterceptor>();
+
+builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+    options
+        .UseSqlServer(connectionString)
+        .AddInterceptors(serviceProvider.GetRequiredService<InterviewStatusInterceptor>()));
 
 
 builder.Services.AddMediatR(cfg => {

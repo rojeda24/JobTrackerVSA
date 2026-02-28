@@ -13,9 +13,20 @@ namespace JobTrackerVSA.UnitTests.Features.Interviews.Edit
             // Arrange
             using var context = TestDbContextFactory.Create();
 
+            var jobApp = new JobApplication
+            {
+                CompanyName = "Example",
+                Position = "Dev",
+                Status = JobApplication.ApplicationStatus.Applied,
+                AppliedAt = DateTime.UtcNow,
+                UserId = "user-123"
+            };
+            context.JobApplications.Add(jobApp);
+            await context.SaveChangesAsync();
+
             var interview = new Interview
             {
-                JobApplicationId = Guid.NewGuid(),
+                JobApplicationId = jobApp.Id,
                 ScheduledAt = DateTime.UtcNow,
                 Type = Interview.InterviewType.General,
                 Notes = "Old notes"
@@ -43,6 +54,11 @@ namespace JobTrackerVSA.UnitTests.Features.Interviews.Edit
             updatedInterview!.Type.Should().Be(Interview.InterviewType.HR);
             updatedInterview.Notes.Should().Be("New notes");
             updatedInterview.ScheduledAt.Should().Be(newDate);
+
+            // status should have been updated by the interceptor
+            var jobAppAfter = await context.JobApplications.FindAsync(interview.JobApplicationId);
+            jobAppAfter.Should().NotBeNull();
+            jobAppAfter!.Status.Should().Be(JobApplication.ApplicationStatus.Interviewing);
         }
 
         [Fact]

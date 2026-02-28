@@ -1,5 +1,6 @@
 using JobTrackerVSA.Web.Data;
 using JobTrackerVSA.Web.Infrastructure.Auth;
+using JobTrackerVSA.Web.Data.Interceptors;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using System;
@@ -10,9 +11,13 @@ namespace JobTrackerVSA.UnitTests.Data
     {
         public static AppDbContext Create(string currentUserId = "user-123")
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()) // Unique DB per test
-                .Options;
+            var builder = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()); // Unique DB per test
+
+            // Always include the interceptor; tests can remove it later if really necessary.
+            builder.AddInterceptors(new InterviewStatusInterceptor());
+
+            var options = builder.Options;
 
             var mockUserService = Substitute.For<ICurrentUserService>();
             mockUserService.UserId.Returns(currentUserId);
