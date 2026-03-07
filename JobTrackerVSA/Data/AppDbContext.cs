@@ -8,6 +8,7 @@ namespace JobTrackerVSA.Web.Data
     {
         public DbSet<JobApplication> JobApplications => Set<JobApplication>();
         public DbSet<Interview> Interviews => Set<Interview>();
+        public DbSet<JobApplicationAnalytics> JobApplicationAnalytics => Set<JobApplicationAnalytics>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +27,13 @@ namespace JobTrackerVSA.Web.Data
                 .WithMany(j => j.Interviews)
                 .HasForeignKey(i => i.JobApplicationId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Analytical view used by Power BI / reporting clients.
+            // [Keyless] on the type is sufficient, so we avoid redundant configuration here.
+            modelBuilder.Entity<JobApplicationAnalytics>(eb =>
+            {
+                eb.ToView("vw_JobApplicationAnalytics");
+            });
 
             base.OnModelCreating(modelBuilder);
         }

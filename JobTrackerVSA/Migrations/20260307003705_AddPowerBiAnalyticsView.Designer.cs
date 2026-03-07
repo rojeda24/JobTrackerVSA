@@ -4,6 +4,7 @@ using JobTrackerVSA.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobTrackerVSA.Web.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260307003705_AddPowerBiAnalyticsView")]
+    partial class AddPowerBiAnalyticsView
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,67 +100,6 @@ namespace JobTrackerVSA.Web.Migrations
             modelBuilder.Entity("JobTrackerVSA.Web.Domain.JobApplication", b =>
                 {
                     b.Navigation("Interviews");
-                });
-
-            modelBuilder.Entity("JobTrackerVSA.Web.Domain.JobApplicationAnalytics", b =>
-                {
-                    b.HasNoKey();
-
-                    b.Property<Guid>("JobApplicationId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompanyName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Position")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("AppliedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("AppliedDate")
-                        .HasColumnType("date");
-
-                    b.Property<int>("AppliedDayOfWeek")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AppliedDayOfWeekName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ApplicationStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ApplicationNotes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("InterviewCount")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("HasInterview")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("FirstInterviewAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FirstInterviewDate")
-                        .HasColumnType("date");
-
-                    b.Property<int?>("FirstInterviewDayOfWeek")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FirstInterviewDayOfWeekName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastInterviewAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastInterviewDate")
-                        .HasColumnType("date");
-
-                    b.ToView("vw_JobApplicationAnalytics");
                 });
 #pragma warning restore 612, 618
         }
