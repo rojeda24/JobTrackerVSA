@@ -38,10 +38,7 @@ namespace JobTrackerVSA.Web.Migrations
 
             // Analytical view for Power BI / reporting
             migrationBuilder.Sql(@"
-                IF OBJECT_ID(N'[dbo].[vw_JobApplicationAnalytics]', N'V') IS NOT NULL
-                    DROP VIEW [dbo].[vw_JobApplicationAnalytics];
-
-                CREATE VIEW [dbo].[vw_JobApplicationAnalytics] AS
+                CREATE OR ALTER VIEW [dbo].[vw_JobApplicationAnalytics] AS
                 SELECT
                     ja.Id AS JobApplicationId,
                     ja.UserId,
