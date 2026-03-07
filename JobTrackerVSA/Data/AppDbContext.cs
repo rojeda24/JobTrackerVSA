@@ -8,11 +8,16 @@ namespace JobTrackerVSA.Web.Data
     {
         public DbSet<JobApplication> JobApplications => Set<JobApplication>();
         public DbSet<Interview> Interviews => Set<Interview>();
+        public DbSet<JobApplicationAnalytics> JobApplicationAnalytics => Set<JobApplicationAnalytics>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<JobApplication>()
                 .Property(j => j.CompanyName).HasMaxLength(200);
+
+            // FIX: Limit UserId length to allow indexing (max key size in SQL Server is 900 bytes)
+            modelBuilder.Entity<JobApplication>()
+                .Property(j => j.UserId).HasMaxLength(450);
 
             // Global Query Filter: Only show data for current user
             modelBuilder.Entity<JobApplication>()
@@ -26,6 +31,13 @@ namespace JobTrackerVSA.Web.Data
                 .WithMany(j => j.Interviews)
                 .HasForeignKey(i => i.JobApplicationId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Analytical view used by Power BI / reporting clients.
+            // [Keyless] on the type is sufficient, so we avoid redundant configuration here.
+            modelBuilder.Entity<JobApplicationAnalytics>(eb =>
+            {
+                eb.ToView("vw_JobApplicationAnalytics");
+            });
 
             base.OnModelCreating(modelBuilder);
         }
