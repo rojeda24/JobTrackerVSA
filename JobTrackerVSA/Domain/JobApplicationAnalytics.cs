@@ -17,6 +17,7 @@ namespace JobTrackerVSA.Web.Domain
         int AppliedDayOfWeek,
         string AppliedDayOfWeekName,
         int ApplicationStatus,
+        string ApplicationStatusName,
         int InterviewCount,
         bool HasInterview
     );
