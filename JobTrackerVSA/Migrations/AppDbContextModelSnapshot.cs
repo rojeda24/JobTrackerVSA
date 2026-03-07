@@ -113,9 +113,6 @@ namespace JobTrackerVSA.Web.Migrations
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Position")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("AppliedAt")
                         .HasColumnType("datetime2");
 
@@ -131,32 +128,11 @@ namespace JobTrackerVSA.Web.Migrations
                     b.Property<int>("ApplicationStatus")
                         .HasColumnType("int");
 
-                    b.Property<string>("ApplicationNotes")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("InterviewCount")
                         .HasColumnType("int");
 
                     b.Property<bool>("HasInterview")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime?>("FirstInterviewAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FirstInterviewDate")
-                        .HasColumnType("date");
-
-                    b.Property<int?>("FirstInterviewDayOfWeek")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FirstInterviewDayOfWeekName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("LastInterviewAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LastInterviewDate")
-                        .HasColumnType("date");
 
                     b.ToView("vw_JobApplicationAnalytics");
                 });

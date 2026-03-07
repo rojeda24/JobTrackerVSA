@@ -12,20 +12,12 @@ namespace JobTrackerVSA.Web.Domain
         Guid JobApplicationId,
         string UserId,
         string CompanyName,
-        string Position,
         DateTime AppliedAt,
         DateTime AppliedDate,
         int AppliedDayOfWeek,
         string AppliedDayOfWeekName,
         int ApplicationStatus,
-        string? ApplicationNotes,
         int InterviewCount,
-        bool HasInterview,
-        DateTime? FirstInterviewAt,
-        DateTime? FirstInterviewDate,
-        int? FirstInterviewDayOfWeek,
-        string? FirstInterviewDayOfWeekName,
-        DateTime? LastInterviewAt,
-        DateTime? LastInterviewDate
+        bool HasInterview
     );
 }

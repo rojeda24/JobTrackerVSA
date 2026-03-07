@@ -43,21 +43,15 @@ namespace JobTrackerVSA.Web.Migrations
                     ja.Id AS JobApplicationId,
                     ja.UserId,
                     ja.CompanyName,
-                    ja.Position,
                     ja.AppliedAt,
                     CAST(ja.AppliedAt AS date) AS AppliedDate,
                     DATEPART(weekday, ja.AppliedAt) AS AppliedDayOfWeek,
                     DATENAME(weekday, ja.AppliedAt) AS AppliedDayOfWeekName,
                     ja.Status AS ApplicationStatus,
-                    ja.Notes AS ApplicationNotes,
+                    
                     COUNT(i.Id) AS InterviewCount,
-                    CASE WHEN COUNT(i.Id) > 0 THEN 1 ELSE 0 END AS HasInterview,
-                    MIN(i.ScheduledAt) AS FirstInterviewAt,
-                    CAST(MIN(i.ScheduledAt) AS date) AS FirstInterviewDate,
-                    DATEPART(weekday, MIN(i.ScheduledAt)) AS FirstInterviewDayOfWeek,
-                    DATENAME(weekday, MIN(i.ScheduledAt)) AS FirstInterviewDayOfWeekName,
-                    MAX(i.ScheduledAt) AS LastInterviewAt,
-                    CAST(MAX(i.ScheduledAt) AS date) AS LastInterviewDate
+                    CASE WHEN COUNT(i.Id) > 0 THEN 1 ELSE 0 END AS HasInterview
+
                 FROM dbo.JobApplications AS ja
                 LEFT JOIN dbo.Interviews AS i
                     ON i.JobApplicationId = ja.Id
@@ -65,10 +59,8 @@ namespace JobTrackerVSA.Web.Migrations
                     ja.Id,
                     ja.UserId,
                     ja.CompanyName,
-                    ja.Position,
                     ja.AppliedAt,
-                    ja.Status,
-                    ja.Notes;
+                    ja.Status;
             ");
         }
 
