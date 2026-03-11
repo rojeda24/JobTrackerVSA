@@ -17,7 +17,7 @@
 
                     <div class="row">
                         <div class="col-xl-6 mb-3">
-                            <label asp-for="Form.CompanyName" class="form-label">Company Name</label>
+                            <label asp-for="Form.CompanyName" class="form-label">Company Name <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-building"></i></span>
                                 <input asp-for="Form.CompanyName" class="form-control" />
@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="col-xl-6 mb-3">
-                            <label asp-for="Form.Position" class="form-label">Position</label>
+                            <label asp-for="Form.Position" class="form-label">Position <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
                                 <input asp-for="Form.Position" class="form-control" />

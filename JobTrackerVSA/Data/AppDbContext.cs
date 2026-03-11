@@ -13,7 +13,10 @@ namespace JobTrackerVSA.Web.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<JobApplication>()
-                .Property(j => j.CompanyName).HasMaxLength(200);
+                .Property(j => j.CompanyName).HasMaxLength(150);
+            
+            modelBuilder.Entity<JobApplication>()
+                .Property(j => j.Position).HasMaxLength(150);
 
             // FIX: Limit UserId length to allow indexing (max key size in SQL Server is 900 bytes)
             modelBuilder.Entity<JobApplication>()

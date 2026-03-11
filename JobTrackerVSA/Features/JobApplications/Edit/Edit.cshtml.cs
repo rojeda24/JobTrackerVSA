@@ -4,6 +4,7 @@ using JobTrackerVSA.Web.Infrastructure.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 
 namespace JobTrackerVSA.Web.Features.JobApplications.Edit;
 
@@ -107,7 +108,13 @@ public class EditModel(IMediator mediator) : PageModel
     public class InputModel
     {
         public Guid Id { get; set; }
+
+        [Required(ErrorMessage = "Company Name is required.")]
+        [StringLength(150, ErrorMessage = "Company Name cannot exceed 150 characters.")]
         public string CompanyName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Position is required.")]
+        [StringLength(150, ErrorMessage = "Position cannot exceed 150 characters.")]
         public string Position { get; set; } = string.Empty;
         public string? JobDescriptionUrl { get; set; }
         public DateTime AppliedAt { get; set; }
