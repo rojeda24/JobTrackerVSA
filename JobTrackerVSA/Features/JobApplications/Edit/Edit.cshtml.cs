@@ -116,9 +116,15 @@ public class EditModel(IMediator mediator) : PageModel
         [Required(ErrorMessage = "Position is required.")]
         [StringLength(150, ErrorMessage = "Position cannot exceed 150 characters.")]
         public string Position { get; set; } = string.Empty;
+
+        [Url(ErrorMessage = "Please enter a valid URL.")]
+        [StringLength(2048, ErrorMessage = "Job Description URL cannot exceed 2048 characters.")]
         public string? JobDescriptionUrl { get; set; }
+        
         public DateTime AppliedAt { get; set; }
         public JobApplication.ApplicationStatus Status { get; set; }
+
+        [StringLength(5120, ErrorMessage = "Notes cannot exceed 5120 characters.")]
         public string? Notes { get; set; }
 
         public List<InterviewSummaryViewModel> Interviews { get; set; } = [];

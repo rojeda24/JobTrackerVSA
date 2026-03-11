@@ -14,8 +14,13 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Add
         [StringLength(150, ErrorMessage = "Position cannot exceed 150 characters.")]
         public required string Position { get; init; }
 
+        [Url(ErrorMessage = "Please enter a valid URL.")]
+        [StringLength(2048, ErrorMessage = "Job Description URL cannot exceed 2048 characters.")]
         public string? JobDescriptionUrl { get; init; }
+        
         public DateTime? AppliedAt { get; init; }
+
+        [StringLength(5120, ErrorMessage = "Notes cannot exceed 5120 characters.")]
         public string? Notes { get; init; }
     }
 }

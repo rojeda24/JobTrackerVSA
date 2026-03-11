@@ -17,10 +17,16 @@ namespace JobTrackerVSA.Web.Data
             
             modelBuilder.Entity<JobApplication>()
                 .Property(j => j.Position).HasMaxLength(150);
-
-            // FIX: Limit UserId length to allow indexing (max key size in SQL Server is 900 bytes)
+            // Standard max length for URLs
             modelBuilder.Entity<JobApplication>()
-                .Property(j => j.UserId).HasMaxLength(450);
+                .Property(j => j.JobDescriptionUrl).HasMaxLength(2048);
+                
+            modelBuilder.Entity<JobApplication>()
+                .Property(j => j.Notes).HasMaxLength(5120);
+
+            // Limit UserId length based on OpenID Connect spec for 'sub' claim
+            modelBuilder.Entity<JobApplication>()
+                .Property(j => j.UserId).HasMaxLength(255);
 
             // Global Query Filter: Only show data for current user
             modelBuilder.Entity<JobApplication>()
@@ -34,6 +40,9 @@ namespace JobTrackerVSA.Web.Data
                 .WithMany(j => j.Interviews)
                 .HasForeignKey(i => i.JobApplicationId)
                 .OnDelete(DeleteBehavior.Cascade);
+                
+            modelBuilder.Entity<Interview>()
+                .Property(i => i.Notes).HasMaxLength(5120);
 
             // Analytical view used by Power BI / reporting clients.
             // [Keyless] on the type is sufficient, so we avoid redundant configuration here.
