@@ -10,6 +10,10 @@ namespace JobTrackerVSA.Web.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropIndex(
+                name: "IX_JobApplications_CompanyName",
+                table: "JobApplications");
+
             migrationBuilder.AlterColumn<string>(
                 name: "Position",
                 table: "JobApplications",
@@ -28,11 +32,20 @@ namespace JobTrackerVSA.Web.Migrations
                 oldClrType: typeof(string),
                 oldType: "nvarchar(200)",
                 oldMaxLength: 200);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobApplications_CompanyName",
+                table: "JobApplications",
+                column: "CompanyName");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropIndex(
+                name: "IX_JobApplications_CompanyName",
+                table: "JobApplications");
+
             migrationBuilder.AlterColumn<string>(
                 name: "Position",
                 table: "JobApplications",
@@ -51,6 +64,11 @@ namespace JobTrackerVSA.Web.Migrations
                 oldClrType: typeof(string),
                 oldType: "nvarchar(150)",
                 oldMaxLength: 150);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobApplications_CompanyName",
+                table: "JobApplications",
+                column: "CompanyName");
         }
     }
 }
