@@ -59,7 +59,12 @@ public class AppDbContextTests
         // Check Notes length for JobApplication
         var jobAppNotesProperty = jobAppEntity.FindProperty(nameof(JobApplication.Notes));
         jobAppNotesProperty.Should().NotBeNull();
-        jobAppNotesProperty!.GetMaxLength().Should().Be(5120);
+        jobAppNotesProperty!.GetMaxLength().Should().Be(4000);
+
+        // Check CoverLetter length for JobApplication
+        var jobAppCoverLetterProperty = jobAppEntity.FindProperty(nameof(JobApplication.CoverLetter));
+        jobAppCoverLetterProperty.Should().NotBeNull();
+        jobAppCoverLetterProperty!.GetMaxLength().Should().Be(4000);
     }
 
     [Fact]
