@@ -105,4 +105,25 @@ public class AddJobApplicationCommandValidationTests
         isValid.Should().BeFalse();
         results.Should().Contain(r => r.MemberNames.Contains("Position") && r.ErrorMessage == "Position cannot exceed 150 characters.");
     }
+
+    [Fact]
+    public void Command_WithCoverLetterLongerThan4000Characters_ShouldBeInvalid()
+    {
+        // Arrange
+        var command = new AddJobApplicationCommand
+        {
+            CompanyName = "Valid Company",
+            Position = "Valid Position",
+            CoverLetter = new string('A', 4001)
+        };
+        var context = new ValidationContext(command);
+        var results = new List<ValidationResult>();
+
+        // Act
+        var isValid = Validator.TryValidateObject(command, context, results, true);
+
+        // Assert
+        isValid.Should().BeFalse();
+        results.Should().Contain(r => r.MemberNames.Contains("CoverLetter") && r.ErrorMessage == "Cover letter cannot exceed 4000 characters.");
+    }
 }

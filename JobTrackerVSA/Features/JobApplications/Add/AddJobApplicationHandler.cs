@@ -18,6 +18,7 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Add
                 Position = command.Position,
                 JobDescriptionUrl = command.JobDescriptionUrl,
                 Notes = command.Notes,
+                CoverLetter = command.CoverLetter,
                 Status = JobApplication.ApplicationStatus.Applied,
                 AppliedAt = command.AppliedAt.HasValue 
                     ? DateTime.SpecifyKind(command.AppliedAt.Value, DateTimeKind.Utc) 

@@ -65,8 +65,17 @@
                         <div class="mb-3">
                             <label asp-for="Form.Notes" class="form-label">Notes</label>
                             <textarea asp-for="Form.Notes" class="form-control" rows="3"></textarea>
-    </div>
-</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Form.CoverLetter" class="form-label fw-bold">
+                                <i class="bi bi-file-earmark-text me-1"></i> Cover Letter
+                            </label>
+                            <textarea asp-for="Form.CoverLetter" class="form-control" rows="5" maxlength="4000"
+                                      placeholder="Enter the cover letter sent..."></textarea>
+                            <span asp-validation-for="Form.CoverLetter" class="text-danger small"></span>
+                        </div>
+                    </div>
 
                     <div class="mt-4 d-flex justify-content-between">
                         <a asp-page="/JobApplications/List/Index"

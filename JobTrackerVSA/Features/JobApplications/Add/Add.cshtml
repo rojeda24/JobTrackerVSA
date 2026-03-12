@@ -61,6 +61,15 @@
                                       placeholder="Salary range, tech stack, referral name..."></textarea>
                             <span asp-validation-for="Command.Notes" class="text-danger small"></span>
                         </div>
+
+                        <div class="col-12">
+                            <label asp-for="Command.CoverLetter" class="form-label fw-bold">
+                                <i class="bi bi-file-earmark-text me-1"></i> Cover Letter
+                            </label>
+                            <textarea asp-for="Command.CoverLetter" class="form-control" rows="5" maxlength="4000"
+                                      placeholder="Enter the cover letter sent..."></textarea>
+                            <span asp-validation-for="Command.CoverLetter" class="text-danger small"></span>
+                        </div>
                     </div>
 
                     <div class="mt-4 d-flex justify-content-between">

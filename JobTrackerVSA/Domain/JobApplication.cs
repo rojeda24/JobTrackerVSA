@@ -10,6 +10,7 @@ namespace JobTrackerVSA.Web.Domain
         public DateTime AppliedAt { get; set; } = DateTime.UtcNow;
         public ApplicationStatus Status { get; set; }
         public string? Notes { get; set; }
+        public string? CoverLetter { get; set; }
 
         public List<Interview> Interviews { get; set; } = [];
 

@@ -27,7 +27,8 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Add
                 Position = "Senior Engineer",
                 JobDescriptionUrl = "https://google.com/jobs/123",
                 AppliedAt = DateTime.UtcNow,
-                Notes = "Referral from John"
+                Notes = "Referral from John",
+                CoverLetter = "Dear Hiring Manager, ..."
             };
 
             // Act
@@ -40,7 +41,8 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Add
             var appInDb = await context.JobApplications.FindAsync(result.Value);
             appInDb.Should().NotBeNull();
             appInDb!.CompanyName.Should().Be("Google");
-            appInDb!.UserId.Should().Be(userId);
+            appInDb.UserId.Should().Be(userId);
+            appInDb.CoverLetter.Should().Be("Dear Hiring Manager, ...");
         }
 
         [Fact]

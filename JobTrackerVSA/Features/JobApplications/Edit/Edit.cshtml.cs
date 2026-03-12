@@ -45,7 +45,8 @@ public class EditModel(IMediator mediator) : PageModel
             Form.JobDescriptionUrl,
             Form.AppliedAt,
             Form.Status,
-            Form.Notes);
+            Form.Notes,
+            Form.CoverLetter);
 
         var result = await mediator.Send(command, cancellationToken);
 
@@ -100,6 +101,7 @@ public class EditModel(IMediator mediator) : PageModel
             Form.AppliedAt = data.AppliedAt;
             Form.Status = data.Status;
             Form.Notes = data.Notes;
+            Form.CoverLetter = data.CoverLetter;
         }
 
         return Result<Unit>.Success(Unit.Value);
@@ -124,8 +126,11 @@ public class EditModel(IMediator mediator) : PageModel
         public DateTime AppliedAt { get; set; }
         public JobApplication.ApplicationStatus Status { get; set; }
 
-        [StringLength(5120, ErrorMessage = "Notes cannot exceed 5120 characters.")]
+        [StringLength(4000, ErrorMessage = "Notes cannot exceed 4000 characters.")]
         public string? Notes { get; set; }
+
+        [StringLength(4000, ErrorMessage = "Cover letter cannot exceed 4000 characters.")]
+        public string? CoverLetter { get; set; }
 
         public List<InterviewSummaryViewModel> Interviews { get; set; } = [];
     }

@@ -12,5 +12,6 @@ public record EditJobApplicationCommand
     string? JobDescriptionUrl,
     DateTime AppliedAt,
     ApplicationStatus Status,
-    string? Notes
+    string? Notes,
+    string? CoverLetter
 ) : IRequest<Result>;

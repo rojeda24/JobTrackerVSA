@@ -22,7 +22,10 @@ namespace JobTrackerVSA.Web.Data
                 .Property(j => j.JobDescriptionUrl).HasMaxLength(2048);
                 
             modelBuilder.Entity<JobApplication>()
-                .Property(j => j.Notes).HasMaxLength(5120);
+                .Property(j => j.Notes).HasMaxLength(4000);
+
+            modelBuilder.Entity<JobApplication>()
+                .Property(j => j.CoverLetter).HasMaxLength(4000);
 
             // Limit UserId length based on OpenID Connect spec for 'sub' claim
             modelBuilder.Entity<JobApplication>()

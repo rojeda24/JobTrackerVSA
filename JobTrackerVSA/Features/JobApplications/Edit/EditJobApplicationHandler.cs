@@ -20,6 +20,7 @@ public class EditJobApplicationHandler (AppDbContext context): IRequestHandler<E
         app.AppliedAt = DateTime.SpecifyKind(command.AppliedAt, DateTimeKind.Utc);
         app.Status = command.Status;
         app.Notes = command.Notes;
+        app.CoverLetter = command.CoverLetter;
 
         await context.SaveChangesAsync(cancellationToken);
         return Result.Success();

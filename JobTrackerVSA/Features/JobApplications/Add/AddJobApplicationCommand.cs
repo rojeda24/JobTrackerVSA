@@ -20,7 +20,10 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Add
         
         public DateTime? AppliedAt { get; init; }
 
-        [StringLength(5120, ErrorMessage = "Notes cannot exceed 5120 characters.")]
+        [StringLength(4000, ErrorMessage = "Notes cannot exceed 4000 characters.")]
         public string? Notes { get; init; }
+
+        [StringLength(4000, ErrorMessage = "Cover letter cannot exceed 4000 characters.")]
+        public string? CoverLetter { get; init; }
     }
 }

@@ -36,7 +36,8 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Edit
                 "http://newUrl",
                 now,
                 JobApplication.ApplicationStatus.Interviewing,
-                "Updated notes"
+                "Updated notes",
+                "New cover letter"
             );
 
             // Act
@@ -53,6 +54,7 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Edit
             updatedApp.AppliedAt.Should().Be(now);
             updatedApp.Status.Should().Be(JobApplication.ApplicationStatus.Interviewing);
             updatedApp.Notes.Should().Be("Updated notes");
+            updatedApp.CoverLetter.Should().Be("New cover letter");
         }
 
         [Fact]
@@ -69,6 +71,7 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Edit
                 null, 
                 DateTime.UtcNow, 
                 JobApplication.ApplicationStatus.Applied, 
+                null,
                 null
             );
 
