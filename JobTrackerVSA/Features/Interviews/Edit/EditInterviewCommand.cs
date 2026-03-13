@@ -12,6 +12,6 @@ public record EditInterviewCommand
     Guid JobApplicationId,
     DateTime ScheduledAt,
     InterviewType Type,
-    [StringLength(5120, ErrorMessage = "Notes cannot exceed 5120 characters.")]
+    [StringLength(4000, ErrorMessage = "Notes cannot exceed 4000 characters.")]
     string? Notes
 ) : IRequest<Result>, IInterviewForm;

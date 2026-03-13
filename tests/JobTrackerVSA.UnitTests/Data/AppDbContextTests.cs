@@ -96,7 +96,7 @@ public class AppDbContextTests
         // Check Notes length for Interview
         var interviewNotesProperty = interviewEntity.FindProperty(nameof(Interview.Notes));
         interviewNotesProperty.Should().NotBeNull();
-        interviewNotesProperty!.GetMaxLength().Should().Be(5120);
+        interviewNotesProperty!.GetMaxLength().Should().Be(4000);
     }
 
     [Fact]

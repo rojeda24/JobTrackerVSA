@@ -45,7 +45,7 @@ namespace JobTrackerVSA.Web.Data
                 .OnDelete(DeleteBehavior.Cascade);
                 
             modelBuilder.Entity<Interview>()
-                .Property(i => i.Notes).HasMaxLength(5120);
+                .Property(i => i.Notes).HasMaxLength(4000);
 
             // Analytical view used by Power BI / reporting clients.
             // [Keyless] on the type is sufficient, so we avoid redundant configuration here.

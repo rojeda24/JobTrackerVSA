@@ -37,7 +37,7 @@
 
     <div class="col-12">
         <label asp-for="Notes" class="form-label fw-bold">Notes & Preparation</label>
-        <textarea asp-for="Notes" class="form-control" rows="5"
+        <textarea asp-for="Notes" class="form-control" rows="5" maxlength="4000"
                   placeholder="e.g. Prepare system design questions, review resume..."></textarea>
         <span asp-validation-for="Notes" class="text-danger small"></span>
     </div>
