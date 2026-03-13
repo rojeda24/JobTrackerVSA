@@ -10,6 +10,10 @@ namespace JobTrackerVSA.Web.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            // Truncate existing values to 4000 characters to prevent SQL Server truncation errors during ALTER COLUMN
+            migrationBuilder.Sql("UPDATE [JobApplications] SET [Notes] = SUBSTRING([Notes], 1, 4000) WHERE LEN([Notes]) > 4000;");
+            migrationBuilder.Sql("UPDATE [JobApplications] SET [CoverLetter] = SUBSTRING([CoverLetter], 1, 4000) WHERE LEN([CoverLetter]) > 4000;");
+
             migrationBuilder.AlterColumn<string>(
                 name: "Notes",
                 table: "JobApplications",

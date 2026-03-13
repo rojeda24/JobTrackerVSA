@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobTrackerVSA.Web.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260312222946_UpdateNotesAndCoverLetterLength")]
+    [Migration("20260313012417_UpdateNotesAndCoverLetterLength")]
     partial class UpdateNotesAndCoverLetterLength
     {
         /// <inheritdoc />
