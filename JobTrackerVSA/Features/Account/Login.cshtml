@@ -12,9 +12,31 @@
 <body>
     <main role="main">
         <div class="container d-flex flex-column justify-content-center align-items-center min-vh-100 text-center">
-            <div class="mb-5">
+            <div class="mb-5" style="max-width: 500px;">
                 <h1 class="display-4 fw-bold text-dark mb-2">JOB TRACKER</h1>
-                <p class="text-secondary">By Raul Ojeda</p>
+                <p class="text-secondary mb-1">A personal organization tool for job seekers, by Raul Ojeda.</p>
+                <a data-bs-toggle="collapse" href="#moreInfoCollapse" role="button" aria-expanded="false" aria-controls="moreInfoCollapse" class="text-decoration-none small">
+                    More info...
+                </a>
+
+                <div class="collapse mt-3 text-start" id="moreInfoCollapse">
+                    <div class="card card-body shadow-sm border-0 bg-light text-secondary small">
+                        <p class="mb-2 text-dark fw-bold">Users can:</p>
+                        <ul>
+                            <li>Keep a centralized list of all their job applications.</li>
+                            <li>Track upcoming interviews (HR screens, technical tests, final rounds).</li>
+                            <li>Automatically see the status of each application as it progresses.</li>
+                            <li>Securely log in to view their private dashboard.</li>
+                        </ul>
+                        <p class="mb-0">
+                            This application was built from scratch to showcase end-to-end product development, from database design to a live, cloud-hosted user experience.
+                            <br />
+                            <a href="https://github.com/rojeda24/JobTrackerVSA" target="_blank" class="text-decoration-none d-inline-flex align-items-center mt-2">
+                                <i class="bi bi-github me-2"></i> Source code: https://github.com/rojeda24/JobTrackerVSA
+                            </a>
+                        </p>
+                    </div>
+                </div>
             </div>
 
             <div class="d-flex gap-3">
