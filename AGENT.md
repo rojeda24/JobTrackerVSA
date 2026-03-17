@@ -37,6 +37,11 @@ The application is organized by **Features** rather than technical layers.
 - **JS Utilities:** `wwwroot/js/site.js`
 - **Infrastructure as Code (IaC):** `infrastructure/main.bicep`
 
+## Storage: Azure Blob Storage (runtime context)
+- **Path:** `JobTrackerVSA/Infrastructure/Storage/AzureBlobResumeStorageService.cs`
+- **Purpose:** Securely manages the upload and deletion of job application resumes.
+- **Security:** Ensures strict file validation through `ResumeValidationAttribute.cs` (checking size, extension, and Magic Numbers to prevent spoofing). Files are uploaded to an Azure Blob Container that must be configured with `PublicAccessType.None` to prevent unauthorized public access. In development, it relies on Azurite (`UseDevelopmentStorage=true`).
+
 ## Interceptor: InterviewStatusInterceptor (runtime context)
 - **Path:** `JobTrackerVSA/Data/Interceptors/InterviewStatusInterceptor.cs`
 - **Purpose:** Automatically updates a `JobApplication`'s `Status` when an `Interview` is added or modified. The interceptor runs inside the `SaveChanges` pipeline so the status change is part of the same transaction.
@@ -71,3 +76,4 @@ The application is organized by **Features** rather than technical layers.
 ## 6. Code Generation Standards
 - **Language:** All generated code and internal comments MUST be in **English**.
 - **Modern Practices:** Before suggesting any implementation, explicitly check for and prioritize modern .NET features (.NET 8/9/10) and C# language features (C# 12/13/14) to ensure cleaner, more performant, and idiomatic code (e.g., primary constructors, collection expressions, minimal APIs).
+- **Tooling Limitations:** If a `dotnet build`, `dotnet test`, or any other terminal command fails because files are locked or the local debugger is running, do NOT silently ignore the failure. Attempt to stop the debugging session if possible, and if not, explicitly ask the user to stop the debugger and try again.

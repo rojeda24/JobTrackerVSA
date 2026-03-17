@@ -3,6 +3,9 @@ using JobTrackerVSA.UnitTests.Data;
 using JobTrackerVSA.Web.Domain;
 using JobTrackerVSA.Web.Features.JobApplications.Delete;
 using Microsoft.EntityFrameworkCore;
+using JobTrackerVSA.Web.Infrastructure.Storage;
+using NSubstitute;
+using Microsoft.Extensions.Logging;
 
 namespace JobTrackerVSA.UnitTests.Features.JobApplications.Delete
 {
@@ -19,7 +22,9 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Delete
             context.JobApplications.Add(app);
             await context.SaveChangesAsync();
 
-            var handler = new DeleteJobApplicationHandler(context);
+            var mockResumeStorageService = Substitute.For<IResumeStorageService>();
+            var mockLogger = Substitute.For<ILogger<DeleteJobApplicationHandler>>();
+            var handler = new DeleteJobApplicationHandler(context, mockResumeStorageService, mockLogger);
             var command = new DeleteJobApplicationCommand(app.Id);
 
             // Act
@@ -35,7 +40,9 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Delete
         {
             // Arrange
             using var context = TestDbContextFactory.Create();
-            var handler = new DeleteJobApplicationHandler(context);
+            var mockResumeStorageService = Substitute.For<IResumeStorageService>();
+            var mockLogger = Substitute.For<ILogger<DeleteJobApplicationHandler>>();
+            var handler = new DeleteJobApplicationHandler(context, mockResumeStorageService, mockLogger);
             var command = new DeleteJobApplicationCommand(Guid.NewGuid());
 
             // Act

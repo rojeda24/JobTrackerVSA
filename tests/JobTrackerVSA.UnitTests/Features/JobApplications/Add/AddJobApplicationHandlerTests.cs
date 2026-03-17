@@ -2,8 +2,9 @@ using FluentAssertions;
 using JobTrackerVSA.UnitTests.Data;
 using JobTrackerVSA.Web.Features.JobApplications.Add;
 using JobTrackerVSA.Web.Infrastructure.Auth;
-using Microsoft.EntityFrameworkCore;
+using JobTrackerVSA.Web.Infrastructure.Storage;
 using NSubstitute;
+using Microsoft.Extensions.Logging;
 
 namespace JobTrackerVSA.UnitTests.Features.JobApplications.Add
 {
@@ -18,8 +19,10 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Add
             
             var mockUserService = Substitute.For<ICurrentUserService>();
             mockUserService.UserId.Returns(userId);
+            var mockResumeStorageService = Substitute.For<IResumeStorageService>();
 
-            var handler = new AddJobApplicationHandler(context, mockUserService);
+            var mockLogger = Substitute.For<ILogger<AddJobApplicationHandler>>();
+            var handler = new AddJobApplicationHandler(context, mockUserService, mockResumeStorageService, mockLogger);
             
             var command = new AddJobApplicationCommand
             {
@@ -54,7 +57,9 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Add
             var mockUserService = Substitute.For<ICurrentUserService>();
             mockUserService.UserId.Returns((string?)null); // Simulate not logged in
 
-            var handler = new AddJobApplicationHandler(context, mockUserService);
+            var mockResumeStorageService = Substitute.For<IResumeStorageService>();
+            var mockLogger = Substitute.For<ILogger<AddJobApplicationHandler>>();
+            var handler = new AddJobApplicationHandler(context, mockUserService, mockResumeStorageService, mockLogger);
             
             var command = new AddJobApplicationCommand 
             {

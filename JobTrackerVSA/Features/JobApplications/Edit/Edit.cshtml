@@ -12,8 +12,9 @@
     <div class="col-lg-4 mb-4">
         <div class="card">
             <div class="card-body">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     <input type="hidden" asp-for="Form.Id" />
+                    <input type="hidden" asp-for="Form.ResumeUrl" />
 
                     <div class="row">
                         <div class="col-xl-6 mb-3">
@@ -49,6 +50,19 @@
                                 <select asp-for="Form.Status" asp-items="Html.GetEnumSelectList<JobTrackerVSA.Web.Domain.JobApplication.ApplicationStatus>()" class="form-select">
                                 </select>
                             </div>
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label asp-for="Form.Resume" class="form-label">Resume / CV</label>
+                            @if (!string.IsNullOrEmpty(Model.Form.ResumeUrl))
+                            {
+                                <div class="mb-2">
+                                    <a href="@Model.Form.ResumeUrl" target="_blank" class="btn btn-sm btn-outline-primary"><i class="bi bi-file-earmark-text"></i> View Current Resume</a>
+                                </div>
+                            }
+                            <input asp-for="Form.Resume" class="form-control" type="file" accept=".pdf,.doc,.docx" />
+                            <div class="form-text">Max 2MB. Allowed types: PDF, DOC, DOCX. Uploading a new file will replace the existing one.</div>
+                            <span asp-validation-for="Form.Resume" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">

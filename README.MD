@@ -13,6 +13,7 @@ A modern Vertical Slice Architecture Web App for tracking job applications and i
 - **Unit Testing:** Comprehensive test suite for all features using xUnit and EF Core In-Memory(DB).
 - **Observability:** Centralized exception logging via MediatR Pipeline Behavior.
 - **Security:** "Secure by Default" policy. All endpoints require authentication unless marked `[AllowAnonymous]`.
+- **Cloud Storage:** Secure document storage (Resumes/CVs) integration using Azure Blob Storage with strict server-side validation (Magic Numbers checking) and private-by-default access policies.
 
 ## API Documentation
 For detailed API information, interactive testing, and schema definitions, visit our **OpenAPI Documentation** powered by [Scalar](https://github.com/scalar/scalar) (a modern alternative to Swagger UI).
@@ -42,6 +43,7 @@ This project implements a professional, fully automated **CI/CD pipeline** targe
 - **.NET 10 SDK**
 - **Visual Studio 2026** (or SQL Server LocalDB installed separately)
 - **Auth0 Account** (free tier is fine)
+- **Azurite** (Azure Storage Emulator for testing local Blob Storage uploads)
 
 ## Quick Start
 
@@ -70,8 +72,9 @@ The project is configured to use **SQL Server LocalDB** (`(localdb)\mssqllocaldb
       }
     }
     ```
+4.  Ensure **Azurite** is running in your development environment. If using VS Code, start the Azurite Blob Service from the command palette.
 
-4. Restore client-side libraries, apply database migrations, and start the server:
+5. Restore client-side libraries, apply database migrations, and start the server:
 ```bash
 # Install Entity Framework Core tools and libman if not already installed
 dotnet tool install --global dotnet-ef

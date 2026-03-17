@@ -13,5 +13,6 @@ public record EditJobApplicationCommand
     DateTime AppliedAt,
     ApplicationStatus Status,
     string? Notes,
-    string? CoverLetter
+    string? CoverLetter,
+    IFormFile? Resume
 ) : IRequest<Result>;

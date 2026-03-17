@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using JobTrackerVSA.Web.Features.Maintenance;
 using JobTrackerVSA.Web.Features.JobApplications.List;
 using Scalar.AspNetCore;
+using JobTrackerVSA.Web.Infrastructure.Storage;
+using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +55,11 @@ builder.Services.AddMediatR(cfg => {
 // Auth Services
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<JobTrackerVSA.Web.Infrastructure.Auth.ICurrentUserService, JobTrackerVSA.Web.Infrastructure.Auth.CurrentUserService>();
+
+// Blob Storage Service
+builder.Services.Configure<BlobStorageSettings>(builder.Configuration.GetSection("BlobStorage"));
+builder.Services.AddSingleton(x => new BlobServiceClient(builder.Configuration.GetConnectionString("BlobStorage") ?? builder.Configuration["BlobStorage:ConnectionString"]));
+builder.Services.AddScoped<IResumeStorageService, AzureBlobResumeStorageService>();
 
 // Add services to the container.
 builder.Services.AddRazorPages()

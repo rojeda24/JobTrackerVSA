@@ -15,6 +15,7 @@ public record JobApplicationSummaryViewModel
             : $"https://{JobDescriptionUrl}";
     public DateTime? NextInterviewAt { get; init; }
     public ApplicationStatus Status { get; init; }
+    public string? ResumeUrl { get; init; }
 
     public string StatusDisplay => Status switch
     {

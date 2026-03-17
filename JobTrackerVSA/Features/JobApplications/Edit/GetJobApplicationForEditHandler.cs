@@ -27,6 +27,7 @@ public class GetJobApplicationForEditHandler (AppDbContext context): IRequestHan
             Status = app.Status,
             Notes = app.Notes,
             CoverLetter = app.CoverLetter,
+            ResumeUrl = app.ResumeUrl,
             Interviews = app.Interviews.Select(i => new EditModel.InterviewSummaryViewModel(
                 i.Id,
                 DateTime.SpecifyKind(i.ScheduledAt, DateTimeKind.Utc),
