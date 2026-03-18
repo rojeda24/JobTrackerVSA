@@ -25,5 +25,8 @@ namespace JobTrackerVSA.Web.Features.JobApplications.Add
 
         [StringLength(4000, ErrorMessage = "Cover letter cannot exceed 4000 characters.")]
         public string? CoverLetter { get; init; }
+
+        [ResumeValidation]
+        public IFormFile? Resume { get; init; }
     }
 }

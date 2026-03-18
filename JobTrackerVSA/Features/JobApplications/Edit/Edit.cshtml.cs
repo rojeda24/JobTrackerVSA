@@ -46,7 +46,8 @@ public class EditModel(IMediator mediator) : PageModel
             Form.AppliedAt,
             Form.Status,
             Form.Notes,
-            Form.CoverLetter);
+            Form.CoverLetter,
+            Form.Resume);
 
         var result = await mediator.Send(command, cancellationToken);
 
@@ -102,6 +103,7 @@ public class EditModel(IMediator mediator) : PageModel
             Form.Status = data.Status;
             Form.Notes = data.Notes;
             Form.CoverLetter = data.CoverLetter;
+            Form.ResumeUrl = data.ResumeUrl;
         }
 
         return Result<Unit>.Success(Unit.Value);
@@ -131,6 +133,11 @@ public class EditModel(IMediator mediator) : PageModel
 
         [StringLength(4000, ErrorMessage = "Cover letter cannot exceed 4000 characters.")]
         public string? CoverLetter { get; set; }
+
+        public string? ResumeUrl { get; set; }
+
+        [ResumeValidation]
+        public IFormFile? Resume { get; set; }
 
         public List<InterviewSummaryViewModel> Interviews { get; set; } = [];
     }

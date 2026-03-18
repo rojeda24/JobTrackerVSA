@@ -20,6 +20,9 @@ namespace JobTrackerVSA.Web.Data
             // Standard max length for URLs
             modelBuilder.Entity<JobApplication>()
                 .Property(j => j.JobDescriptionUrl).HasMaxLength(2048);
+
+            modelBuilder.Entity<JobApplication>()
+                .Property(j => j.ResumeUrl).HasMaxLength(2048);
                 
             modelBuilder.Entity<JobApplication>()
                 .Property(j => j.Notes).HasMaxLength(4000);

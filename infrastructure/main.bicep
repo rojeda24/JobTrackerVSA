@@ -25,6 +25,8 @@ param maintenanceApiKey string
 var appName = 'jobtracker-raul'
 var sqlServerName = 'sql-${appName}'
 var databaseName = 'JobTrackerVSA'
+var storageAccountName = 'stjob${uniqueString(resourceGroup().id)}'
+var blobContainerName = 'resumes'
 
 // 1. App Service Plan (Linux Free Tier F1)
 resource appServicePlan 'Microsoft.Web/serverfarms@2025-03-01' = {
@@ -49,13 +51,6 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
     siteConfig: {
       linuxFxVersion: 'DOTNETCORE|10.0' // Linux Runtime Stack
       alwaysOn: false
-      connectionStrings: [
-        {
-          name: 'DefaultConnection'
-          connectionString: 'Server=tcp:${sqlServer.properties.fullyQualifiedDomainName},1433;Initial Catalog=${databaseName};Persist Security Info=False;User ID=${sqlAdminLogin};Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
-          type: 'SQLAzure'
-        }
-      ]
       appSettings: [
         {
           name: 'Auth0__Domain'
@@ -81,6 +76,22 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
           name: 'Maintenance__ApiKey'
           value: maintenanceApiKey
         }
+        {
+          name: 'BlobStorage__ContainerName'
+          value: blobContainerName
+        }
+      ]
+      connectionStrings: [
+        {
+          name: 'DefaultConnection'
+          connectionString: 'Server=tcp:${sqlServer.properties.fullyQualifiedDomainName},1433;Initial Catalog=${databaseName};Persist Security Info=False;User ID=${sqlAdminLogin};Password=${sqlAdminPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+          type: 'SQLAzure'
+        }
+        {
+          name: 'BlobStorage'
+          connectionString: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+          type: 'Custom'
+        }
       ]
     }
   }
@@ -105,6 +116,33 @@ resource sqlDatabase 'Microsoft.Sql/servers/databases@2023-08-01' = {
     name: 'Standard'
     tier: 'Standard'
     capacity: 10
+  }
+}
+
+// 4.5. Storage Account for Resumes
+resource storageAccount 'Microsoft.Storage/storageAccounts@2025-06-01' = {
+  name: storageAccountName
+  location: location
+  sku: {
+    name: 'Standard_LRS'
+  }
+  kind: 'StorageV2'
+  properties: {
+    accessTier: 'Hot'
+    allowBlobPublicAccess: true
+  }
+}
+
+resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2025-06-01' = {
+  parent: storageAccount
+  name: 'default'
+}
+
+resource blobContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2025-06-01' = {
+  parent: blobService
+  name: blobContainerName
+  properties: {
+    publicAccess: 'None'
   }
 }
 

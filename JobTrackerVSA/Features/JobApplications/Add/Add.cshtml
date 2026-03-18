@@ -12,7 +12,7 @@
     <div class="col-md-8">
         <div class="card shadow-sm border-0">
             <div class="card-body">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
                     <div class="row g-3">
@@ -41,6 +41,13 @@
                                 <input asp-for="Command.JobDescriptionUrl" class="form-control" placeholder="https://linkedin.com/jobs/..." />
                             </div>
                             <span asp-validation-for="Command.JobDescriptionUrl" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Command.Resume" class="form-label">Resume / CV</label>
+                            <input asp-for="Command.Resume" class="form-control" type="file" accept=".pdf,.doc,.docx" />
+                            <div class="form-text">Max 2MB. Allowed types: PDF, DOC, DOCX.</div>
+                            <span asp-validation-for="Command.Resume" class="text-danger small"></span>
                         </div>
 
                         <div class="col-md-6">

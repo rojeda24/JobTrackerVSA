@@ -10,6 +10,7 @@
                 <th>Company</th>
                 <th>Position</th>
                 <th>Status</th>
+                <th>Resume</th>
                 <th>Notes</th>
                 <th></th>
             </tr>
@@ -58,6 +59,14 @@
                         <span class="badge @(app.Status == JobTrackerVSA.Web.Domain.JobApplication.ApplicationStatus.Rejected ? "bg-danger" : "bg-success")">
                             @app.StatusDisplay
                         </span>
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(app.ResumeUrl))
+                        {
+                            <a href="@app.ResumeUrl" target="_blank" class="text-primary" title="View Resume">
+                                <i class="bi bi-file-earmark-text fs-5"></i>
+                            </a>
+                        }
                     </td>
                     <td title="@app.Notes">
                         <small class="text-muted">@app.NotesPreview</small>

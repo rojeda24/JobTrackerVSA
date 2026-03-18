@@ -22,3 +22,10 @@ JobTrackerVSA/wwwroot/lib/
 # Local configuration
 appsettings.Local.json
 
+# Azurite (Azure Storage Emulator)
+__blobstorage__/
+__queuestorage__/
+__tablestorage__/
+__azurite_db_*.json
+azurite_debug.log
+

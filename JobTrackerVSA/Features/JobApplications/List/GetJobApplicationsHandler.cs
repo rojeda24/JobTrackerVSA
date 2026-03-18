@@ -33,7 +33,8 @@ public class GetJobApplicationsHandler(AppDbContext context): IRequestHandler<Ge
                     .Select(i => (DateTime?)i.ScheduledAt)
                     .FirstOrDefault(),
                 Status = x.Status,
-                Notes = x.Notes
+                Notes = x.Notes,
+                ResumeUrl = !string.IsNullOrEmpty(x.ResumeUrl) ? $"/job-applications/{x.Id}/resume" : null
             });
 
         var pagedApps = await projectedQuery.ToPagedListAsync(request.Page, PageSize, cancellationToken);

@@ -2,7 +2,9 @@ using FluentAssertions;
 using JobTrackerVSA.UnitTests.Data;
 using JobTrackerVSA.Web.Domain;
 using JobTrackerVSA.Web.Features.JobApplications.Edit;
-using Microsoft.EntityFrameworkCore;
+using JobTrackerVSA.Web.Infrastructure.Storage;
+using NSubstitute;
+using Microsoft.Extensions.Logging;
 
 namespace JobTrackerVSA.UnitTests.Features.JobApplications.Edit
 {
@@ -25,7 +27,9 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Edit
             context.JobApplications.Add(existingApp);
             await context.SaveChangesAsync();
 
-            var handler = new EditJobApplicationHandler(context);
+            var mockResumeStorageService = Substitute.For<IResumeStorageService>();
+            var mockLogger = Substitute.For<ILogger<EditJobApplicationHandler>>();
+            var handler = new EditJobApplicationHandler(context, mockResumeStorageService, mockLogger);
 
             var now = DateTime.UtcNow;
 
@@ -37,7 +41,8 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Edit
                 now,
                 JobApplication.ApplicationStatus.Interviewing,
                 "Updated notes",
-                "New cover letter"
+                "New cover letter",
+                null
             );
 
             // Act
@@ -62,19 +67,21 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Edit
         {
             // Arrange
             using var context = TestDbContextFactory.Create();
-            var handler = new EditJobApplicationHandler(context);
+            var mockResumeStorageService = Substitute.For<IResumeStorageService>();
+            var mockLogger = Substitute.For<ILogger<EditJobApplicationHandler>>();
+            var handler = new EditJobApplicationHandler(context, mockResumeStorageService, mockLogger);
 
             var command = new EditJobApplicationCommand(
                 Guid.NewGuid(), // Random ID
-                "Company", 
-                "Position", 
-                null, 
-                DateTime.UtcNow, 
-                JobApplication.ApplicationStatus.Applied, 
+                "Company",
+                "Position",
+                null,
+                DateTime.UtcNow,
+                JobApplication.ApplicationStatus.Applied,
+                null,
                 null,
                 null
             );
-
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
 
