@@ -1,6 +1,5 @@
 using MediatR;
 using JobTrackerVSA.Web.Infrastructure.Shared;
-using JobTrackerVSA.Web.Domain;
 
 namespace JobTrackerVSA.Web.Features.JobApplications.List;
 

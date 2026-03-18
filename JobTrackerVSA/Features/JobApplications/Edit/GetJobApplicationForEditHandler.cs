@@ -27,7 +27,7 @@ public class GetJobApplicationForEditHandler (AppDbContext context): IRequestHan
             Status = app.Status,
             Notes = app.Notes,
             CoverLetter = app.CoverLetter,
-            ResumeUrl = app.ResumeUrl,
+            ResumeUrl = !string.IsNullOrEmpty(app.ResumeUrl) ? $"/job-applications/{app.Id}/resume" : null,
             Interviews = app.Interviews.Select(i => new EditModel.InterviewSummaryViewModel(
                 i.Id,
                 DateTime.SpecifyKind(i.ScheduledAt, DateTimeKind.Utc),

@@ -2,8 +2,6 @@ using FluentAssertions;
 using JobTrackerVSA.UnitTests.Data;
 using JobTrackerVSA.Web.Domain;
 using JobTrackerVSA.Web.Features.JobApplications.Edit;
-using Microsoft.EntityFrameworkCore;
-using Xunit;
 
 namespace JobTrackerVSA.UnitTests.Features.JobApplications.Edit
 {
@@ -37,7 +35,7 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Edit
             context.JobApplications.Add(jobApp);
             context.Interviews.Add(interview);
             await context.SaveChangesAsync();
-
+            
             var handler = new GetJobApplicationForEditHandler(context);
             var query = new GetJobApplicationForEditQuery(jobApp.Id);
 
@@ -71,7 +69,7 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Edit
             };
             context.JobApplications.Add(jobApp);
             await context.SaveChangesAsync();
-
+            
             var handler = new GetJobApplicationForEditHandler(context);
             var query = new GetJobApplicationForEditQuery(jobApp.Id);
 
@@ -87,7 +85,7 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.Edit
         public async Task Handle_Should_ReturnFailure_When_JobDoesNotExist()
         {
             // Arrange
-            using var context = TestDbContextFactory.Create();
+            using var context = TestDbContextFactory.Create();            
             var handler = new GetJobApplicationForEditHandler(context);
             var query = new GetJobApplicationForEditQuery(Guid.NewGuid());
 

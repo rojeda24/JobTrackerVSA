@@ -2,7 +2,6 @@ using FluentAssertions;
 using JobTrackerVSA.UnitTests.Data;
 using JobTrackerVSA.Web.Domain;
 using JobTrackerVSA.Web.Features.JobApplications.List;
-using Xunit;
 
 namespace JobTrackerVSA.UnitTests.Features.JobApplications.List
 {
@@ -43,7 +42,7 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.List
             });
 
             await context.SaveChangesAsync();
-
+            
             var handler = new GetJobApplicationsHandler(context);
             var query = new GetJobApplicationsQuery();
 
@@ -63,7 +62,7 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.List
             // Arrange
             using var context = TestDbContextFactory.Create("fresh-user");
             // No data seeded for this user
-
+            
             var handler = new GetJobApplicationsHandler(context);
             var query = new GetJobApplicationsQuery();
 
@@ -95,7 +94,7 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.List
                 });
             }
             await context.SaveChangesAsync();
-
+            
             var handler = new GetJobApplicationsHandler(context);
             
             // Request Page 2. Since PageSize is 10, this should return items 11-20 (sorted descending by date)
@@ -138,7 +137,7 @@ namespace JobTrackerVSA.UnitTests.Features.JobApplications.List
                 new JobApplication { CompanyName = "Amazon", Position = "Architect", UserId = currentUser, AppliedAt = DateTime.UtcNow }
             );
             await context.SaveChangesAsync();
-
+            
             var handler = new GetJobApplicationsHandler(context);
             var companyQuery = new GetJobApplicationsQuery(SearchTerm: "soft");
             var positionQuery = new GetJobApplicationsQuery(SearchTerm: "rchitec");

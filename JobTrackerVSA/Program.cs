@@ -8,6 +8,7 @@ using JobTrackerVSA.Web.Features.JobApplications.List;
 using Scalar.AspNetCore;
 using JobTrackerVSA.Web.Infrastructure.Storage;
 using Azure.Storage.Blobs;
+using JobTrackerVSA.Web.Features.JobApplications.ViewResume;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,5 +96,6 @@ app.MapHealthChecks("/health").AllowAnonymous();
 
 app.MapMaintenanceEndpoints();
 app.MapJobApplicationsEndpoints();
+app.MapViewResumeEndpoint();
 
 app.Run();
