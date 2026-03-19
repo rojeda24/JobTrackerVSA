@@ -1,0 +1,40 @@
+@page "/ExportCoverLetters"
+@model JobTrackerVSA.Web.Features.JobApplications.ExportCoverLetters.ExportModel
+@{
+    ViewData["Title"] = "Export Cover Letters";
+}
+
+<div class="mb-4">
+    <h1><i class="bi bi-file-earmark-arrow-down me-2"></i>Export Cover Letters</h1>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <div class="mb-4 text-secondary">
+                        <p>
+                            Download all the cover letters you have submitted into a single <code>.md</code> file.
+                        </p>
+                        <p>
+                            This file can be used to provide context to external Large Language Models (LLMs) like <strong>ChatGPT</strong> or <strong>Gemini</strong>, helping them generate new, highly personalized cover letters based on your past applications and writing style.
+                        </p>
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-between">
+                        <a href="/" class="btn btn-outline-secondary px-4">
+                            <i class="bi bi-arrow-left"></i> Cancel
+                        </a>
+
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-download"></i> Download Context File
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
