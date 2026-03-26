@@ -29,3 +29,8 @@ This file provides the context and architectural boundaries necessary to write c
 - **Modern C# Tooling**: Prioritize modern .NET 8/10 features. Favor `collection expressions []`, `target-typed new()`, and `primary constructors`.
 - **SOLID Principles**: Apply SOLID principles to all modifications. Ensure classes have a single responsibility, are open for extension but closed for modification, follow Liskov substitution, keep interfaces segregated, and depend on abstractions where appropriate.
 - **Commits**: Never auto-commit or stage files without explicit user permission. If asked to write a commit message, YOU MUST explicitly run a terminal command like `git diff` or `git diff --staged` to inspect the exact changes before generating the message. Never assume the changes based merely on what files were modified or previous conversation context, as the user might have made manual edits. Use conventional commits (`feat: `, `fix: `).
+
+## ✅ Definition of Done (DoD)
+Before making a commit, or when asked to generate a commit message, YOU MUST review and verify the following Definition of Done:
+- **Unit Tests**: Create or update unit tests if applicable.
+- **Documentation**: Update the `README.md` (or other relevant documentation) if applicable.
