@@ -25,10 +25,10 @@ public record JobApplicationSummaryViewModel
         _ => Status.ToString()
     };
 
-    public string? Notes { get; init; }
-    public string NotesPreview => string.IsNullOrWhiteSpace(Notes)
-        ? "---"
-        : Notes.Length <= 20
-            ? Notes
-            : $"{Notes.Substring(0, 20)}...";
+    private readonly string? _notes;
+    public string? Notes 
+    { 
+        get => string.IsNullOrWhiteSpace(_notes) ? "---" : _notes;
+        init => _notes = value;
+    }
 }
