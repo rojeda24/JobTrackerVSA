@@ -14,7 +14,10 @@ This file provides the context and architectural boundaries necessary to write c
 ## 💾 Data & State Management
 - **Entity Framework Core**: The `AppDbContext` (`Data/AppDbContext.cs`) applies Global Query Filters for user isolation. Never circumvent this isolation.
 - **Interceptors**: State change side-effects (like syncing an application status when an interview is added) are handled in `Data/Interceptors/` (e.g., `InterviewStatusInterceptor.cs`).
-- **Auth & Storage**: Inject `ICurrentUserService` (`Infrastructure/Auth/`) to get the current user ID, and `IResumeStorageService` (`Infrastructure/Storage/`) for Azure Blob interactions (Azurite during dev).
+- **Auth & Document Storage**: Inject `ICurrentUserService` (`Infrastructure/Auth/`) to get the current user ID, and `IResumeStorageService` (`Infrastructure/Storage/`) for Azure Blob interactions (Azurite during dev).
+  - **Architecture**: Resumes/CVs are saved securely in Azure Blob Storage using a private-by-default container (`publicAccess: 'None'`).
+  - **Upload Validation**: File uploads enforce strict server-side validation (e.g., Magic Numbers checking) to prevent malicious files.
+  - **Viewing Documents**: Direct public access to the blob URLs is forbidden. To view a document, the system generates a secure, short-lived SAS (Shared Access Signature) URL and redirects the user to it (e.g., handled in `ViewResumeEndpoint.cs` via `/job-applications/{id:guid}/resume`).
 
 ## 🛠 Critical Developer Workflows
 - **Migrations**: Always specify the web project when creating and applying migrations from the root folder:

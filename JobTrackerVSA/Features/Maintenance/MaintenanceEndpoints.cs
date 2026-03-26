@@ -79,6 +79,7 @@ public static class MaintenanceEndpoints
                 AppliedAt = today.AddDays(-14),
                 JobDescriptionUrl = "https://careers.techgiant.example/jobs/123",
                 Notes = "Referral from Sarah. Great benefits package.",
+                CoverLetter = "I am excited to apply for this Senior .NET Developer role.",
                 Interviews =
                 [
                     new() { ScheduledAt = today.AddDays(-5), Type = InterviewType.HR, Notes = "Cultural fit interview" },
@@ -93,6 +94,7 @@ public static class MaintenanceEndpoints
                 Status = ApplicationStatus.TechnicalTest,
                 AppliedAt = today.AddDays(-7),
                 Notes = "Remote first culture. Using React and Node.js.",
+                CoverLetter = "With my background in React and Node.js, I'd love to join your team.",
                 Interviews =
                 [
                     new() { ScheduledAt = today.AddDays(-2), Type = InterviewType.General, Notes = "Intro with CTO" }
@@ -106,6 +108,7 @@ public static class MaintenanceEndpoints
                 Status = ApplicationStatus.Rejected,
                 AppliedAt = today.AddDays(-30),
                 Notes = "They required 5 days in office.",
+                CoverLetter = "I have 10 years of experience building secure backend architectures.",
                 Interviews = []
             },
             new()
@@ -116,6 +119,7 @@ public static class MaintenanceEndpoints
                 Status = ApplicationStatus.Applied,
                 AppliedAt = today.AddDays(-2),
                 Notes = "Applied via LinkedIn Easy Apply.",
+                CoverLetter = "My passion for automation makes me a great fit for DevOps.",
                 Interviews = []
             },
             new()
@@ -126,6 +130,7 @@ public static class MaintenanceEndpoints
                 Status = ApplicationStatus.Applied,
                 AppliedAt = today.AddDays(-5),
                 Notes = "Ubicación: Planta Saltillo. Requieren inglés conversacional.",
+                CoverLetter = "Me interesa mucho la vacante de Ingeniero de Calidad.",
                 Interviews = []
             },
             new()
@@ -137,10 +142,83 @@ public static class MaintenanceEndpoints
                 AppliedAt = today.AddDays(-10),
                 JobDescriptionUrl = "https://futuremotors.mx/carreras/embedded-dev",
                 Notes = "Proyecto de vehículos autónomos.",
+                CoverLetter = "Tengo gran interés en el desarrollo de software para vehículos autónomos.",
                 Interviews =
                 [
                     new() { ScheduledAt = today.AddDays(-2), Type = InterviewType.HR, Notes = "Entrevista inicial con RH" },
                     new() { ScheduledAt = today.AddDays(3), Type = InterviewType.Technical, Notes = "Prueba técnica de C++ y RTOS" }
+                ]
+            },
+            new()
+            {
+                UserId = userId,
+                CompanyName = "Global Solutions LLC",
+                Position = "Project Manager",
+                Status = ApplicationStatus.Offered,
+                AppliedAt = today.AddDays(-20),
+                Notes = "Great benefits package and fully remote.",
+                CoverLetter = "I am an experienced PM looking to drive global solutions.",
+                Interviews =
+                [
+                    new() { ScheduledAt = today.AddDays(-15), Type = InterviewType.HR, Notes = "Screening" },
+                    new() { ScheduledAt = today.AddDays(-5), Type = InterviewType.General, Notes = "Final interview with VP" }
+                ]
+            },
+            new()
+            {
+                UserId = userId,
+                CompanyName = "Fintech LATAM",
+                Position = "Data Analyst",
+                Status = ApplicationStatus.Rejected,
+                AppliedAt = today.AddDays(-40),
+                Notes = "Decided to go with an internal candidate.",
+                CoverLetter = "Tengo experiencia analizando datos financieros.",
+                Interviews =
+                [
+                    new() { ScheduledAt = today.AddDays(-35), Type = InterviewType.HR, Notes = "Screening inicial" }
+                ]
+            },
+            new()
+            {
+                UserId = userId,
+                CompanyName = "EduTech Platform",
+                Position = "Frontend Developer",
+                Status = ApplicationStatus.Interviewing,
+                AppliedAt = today.AddDays(-8),
+                Notes = "Vue.js stack.",
+                CoverLetter = "I have been building educational platforms for 3 years.",
+                Interviews =
+                [
+                    new() { ScheduledAt = today.AddDays(-1), Type = InterviewType.Technical, Notes = "Live coding session" }
+                ]
+            },
+            new()
+            {
+                UserId = userId,
+                CompanyName = "HealthCore Systems",
+                Position = "QA Automation Engineer",
+                Status = ApplicationStatus.Accepted,
+                AppliedAt = today.AddDays(-45),
+                Notes = "Found on Indeed.",
+                CoverLetter = "I specialize in Cypress and Selenium automation.",
+                Interviews =
+                [
+                    new() { ScheduledAt = today.AddDays(-40), Type = InterviewType.General, Notes = "Team fit" },
+                    new() { ScheduledAt = today.AddDays(-35), Type = InterviewType.Technical, Notes = "Test framework implementation" }
+                ]
+            },
+            new()
+            {
+                UserId = userId,
+                CompanyName = "CyberShield Security",
+                Position = "Security Analyst",
+                Status = ApplicationStatus.TechnicalTest,
+                AppliedAt = today.AddDays(-15),
+                Notes = "Take-home CTF challenge.",
+                CoverLetter = "Passionate about network security and ethical hacking.",
+                Interviews =
+                [
+                    new() { ScheduledAt = today.AddDays(-10), Type = InterviewType.HR, Notes = "Introduction" }
                 ]
             }
         ];
