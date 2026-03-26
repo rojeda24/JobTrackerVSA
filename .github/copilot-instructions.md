@@ -34,3 +34,4 @@ This file provides the context and architectural boundaries necessary to write c
 Before making a commit, or when asked to generate a commit message, YOU MUST review and verify the following Definition of Done:
 - **Unit Tests**: Create or update unit tests if applicable.
 - **Documentation**: Update the `README.md` (or other relevant documentation) if applicable.
+- **Seed Data**: If a new feature or entity property is added, ensure it is included in the dummy data generation within `Features/Maintenance/MaintenanceEndpoints.cs`.
