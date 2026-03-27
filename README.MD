@@ -41,14 +41,23 @@ This project implements a professional, fully automated **CI/CD pipeline** targe
 ## Prerequisites
 
 - **.NET 10 SDK**
-- **Visual Studio 2026** (or SQL Server LocalDB installed separately)
+- **Visual Studio Code** (with C# Dev Kit extension)
+- **SQL Server LocalDB** (or a Docker SQL Server container)
 - **Auth0 Account** (free tier is fine)
-- **Azurite** (Azure Storage Emulator for testing local Blob Storage uploads)
+- **Node.js & npm** (Required to run the Azurite Storage Emulator)
+
+### Recommended VS Code Extensions
+For the best development experience in this project, install the following extensions:
+- **C# Dev Kit** (`ms-dotnettools.csdevkit`): Official C# support, Solution Explorer, and Test Explorer.
+- **C#** (`ms-dotnettools.csharp`): Base language support (installed automatically with Dev Kit).
+- **Azurite** (`Azurite.azurite`): Essential for local Azure Blob Storage emulation.
+- **Bicep** (`ms-azuretools.vscode-bicep`): Required for editing Infrastructure as Code files.
+- **GitHub Actions** (`github.vscode-github-actions`): Helpful for managing CI/CD pipelines.
 
 ## Quick Start
 
 ### 1. Database Setup
-The project is configured to use **SQL Server LocalDB** (`(localdb)\mssqllocaldb`) by default, which usually comes installed with Visual Studio's ASP.NET and web development workload. No manual database server setup is required.
+The project is configured to use **SQL Server LocalDB** (`(localdb)\mssqllocaldb`) by default. If you don't have Visual Studio installed, you can download Microsoft SQL Server Express LocalDB separately, or update the connection string in `appsettings.Local.json` to point to a Docker container.
 
 ### 2. Authentication Setup (Auth0)
 1.  Go to [Auth0 Dashboard](https://manage.auth0.com/).
@@ -72,7 +81,7 @@ The project is configured to use **SQL Server LocalDB** (`(localdb)\mssqllocaldb
       }
     }
     ```
-4.  Ensure **Azurite** is running in your development environment. If using VS Code, start the Azurite Blob Service from the command palette.
+4.  Ensure **Azurite** is installed globally via npm (`npm install -g azurite`). The VS Code launch configuration will automatically start it in the background when you run the project.
 
 5. Restore client-side libraries, apply database migrations, and start the server:
 ```bash

@@ -1,5 +1,6 @@
 using JobTrackerVSA.Web.Data;
 using JobTrackerVSA.Web.Domain;
+using JobTrackerVSA.Web.Infrastructure.Storage;
 using Microsoft.EntityFrameworkCore;
 using static JobTrackerVSA.Web.Domain.JobApplication;
 using static JobTrackerVSA.Web.Domain.Interview;
@@ -34,7 +35,9 @@ public static class MaintenanceEndpoints
     internal static async Task<IResult> HandleResetDemo(
         AppDbContext db,
         IConfiguration config,
-        HttpContext context)
+        HttpContext context,
+        IWebHostEnvironment env,
+        IResumeStorageService resumeStorage)
     {
         var requestKey = context.Request.Headers["X-Maintenance-Key"].FirstOrDefault();
         var configKey = config["Maintenance:ApiKey"];
@@ -56,15 +59,26 @@ public static class MaintenanceEndpoints
             .Where(j => j.UserId == demoUserId)
             .ExecuteDeleteAsync();
 
+        // 1.5. Upload Dummy Resume
+        var samplePdfPath = Path.Combine(env.ContentRootPath, "Data", "Seed", "sample-resume.pdf");
+        string? uploadedResumeUrl = null;
+        
+        if (File.Exists(samplePdfPath))
+        {
+            //TODO: We should check if the file already exists in storage to avoid unnecessary uploads. For simplicity, we'll upload it every time here.
+            await using var stream = File.OpenRead(samplePdfPath);
+            uploadedResumeUrl = await resumeStorage.UploadResumeAsync(stream, "sample-resume.pdf", "application/pdf");
+        }
+
         // 2. Seed: Repopulate with fresh data
-        var seedData = GetSeedData(demoUserId);
+        var seedData = GetSeedData(demoUserId, uploadedResumeUrl);
         db.JobApplications.AddRange(seedData);
         await db.SaveChangesAsync();
 
         return Results.Ok(new { message = $"Reset completed. {deletedCount} items deleted, {seedData.Count} items seeded." });
     }
 
-    internal static List<JobApplication> GetSeedData(string userId)
+    internal static List<JobApplication> GetSeedData(string userId, string? resumeUrl = null)
     {
         var today = DateTime.UtcNow;
 
@@ -80,6 +94,7 @@ public static class MaintenanceEndpoints
                 JobDescriptionUrl = "https://careers.techgiant.example/jobs/123",
                 Notes = "Referral from Sarah. Great benefits package.",
                 CoverLetter = "I am excited to apply for this Senior .NET Developer role.",
+                ResumeUrl = resumeUrl,
                 Interviews =
                 [
                     new() { ScheduledAt = today.AddDays(-5), Type = InterviewType.HR, Notes = "Cultural fit interview" },
@@ -95,6 +110,7 @@ public static class MaintenanceEndpoints
                 AppliedAt = today.AddDays(-7),
                 Notes = "Remote first culture. Using React and Node.js.",
                 CoverLetter = "With my background in React and Node.js, I'd love to join your team.",
+                ResumeUrl = resumeUrl,
                 Interviews =
                 [
                     new() { ScheduledAt = today.AddDays(-2), Type = InterviewType.General, Notes = "Intro with CTO" }
@@ -120,6 +136,7 @@ public static class MaintenanceEndpoints
                 AppliedAt = today.AddDays(-2),
                 Notes = "Applied via LinkedIn Easy Apply.",
                 CoverLetter = "My passion for automation makes me a great fit for DevOps.",
+                ResumeUrl = resumeUrl,
                 Interviews = []
             },
             new()
@@ -143,6 +160,7 @@ public static class MaintenanceEndpoints
                 JobDescriptionUrl = "https://futuremotors.mx/carreras/embedded-dev",
                 Notes = "Proyecto de vehículos autónomos.",
                 CoverLetter = "Tengo gran interés en el desarrollo de software para vehículos autónomos.",
+                ResumeUrl = resumeUrl,
                 Interviews =
                 [
                     new() { ScheduledAt = today.AddDays(-2), Type = InterviewType.HR, Notes = "Entrevista inicial con RH" },
