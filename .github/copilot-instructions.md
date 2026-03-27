@@ -31,10 +31,10 @@ This file provides the context and architectural boundaries necessary to write c
 - **Language**: English is mandatory for all code, documentation, and internal comments.
 - **Modern C# Tooling**: Prioritize modern .NET 8/10 features. Favor `collection expressions []`, `target-typed new()`, and `primary constructors`.
 - **SOLID Principles**: Apply SOLID principles to all modifications. Ensure classes have a single responsibility, are open for extension but closed for modification, follow Liskov substitution, keep interfaces segregated, and depend on abstractions where appropriate.
-- **Commits**: Never auto-commit or stage files without explicit user permission. If asked to write a commit message, YOU MUST explicitly run a terminal command like `git diff` or `git diff --staged` to inspect the exact changes before generating the message. Never assume the changes based merely on what files were modified or previous conversation context, as the user might have made manual edits. Use conventional commits (`feat: `, `fix: `).
+- **Commits**: Never auto-commit or stage files without explicit user permission. If asked to write a commit message, YOU MUST explicitly run `git diff` AND `git diff --staged` to inspect the exact changes before generating the message. **DO NOT HALLUCINATE OR RELY ON MEMORY.** You must generate the commit message STRICTLY based on the terminal output of the diff. Do not assume any changes based on the conversation history, as the user may have already committed, modified, or discarded files manually. Use conventional commits (`feat: `, `fix: `).
 
 ## ✅ Definition of Done (DoD)
 Before making a commit, or when asked to generate a commit message, YOU MUST review and verify the following Definition of Done:
-- **Unit Tests**: Create or update unit tests if applicable.
+- **Unit Tests**: Create or update unit tests if applicable. **CRITICAL: You MUST run `dotnet test` in the terminal inside the `tests/JobTrackerVSA.UnitTests` folder and ensure all tests pass before considering the feature done or generating a commit message.** Do not assume tests pass without running them.
 - **Documentation**: Update the `README.md` (or other relevant documentation) if applicable.
 - **Seed Data**: If a new feature or entity property is added, ensure it is included in the dummy data generation within `Features/Maintenance/MaintenanceEndpoints.cs`.

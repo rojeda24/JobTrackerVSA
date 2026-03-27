@@ -3,11 +3,13 @@ using JobTrackerVSA.Web.Data;
 using JobTrackerVSA.Web.Domain;
 using JobTrackerVSA.Web.Features.Maintenance;
 using JobTrackerVSA.UnitTests.Data;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using JobTrackerVSA.Web.Infrastructure.Storage;
 
 namespace JobTrackerVSA.UnitTests.Features.Maintenance;
 
@@ -16,12 +18,17 @@ public class MaintenanceEndpointsTests
     private readonly AppDbContext _db;
     private readonly IConfiguration _config;
     private readonly HttpContext _httpContext;
+    private readonly IWebHostEnvironment _env;
+    private readonly IResumeStorageService _resumeStorage;
 
     public MaintenanceEndpointsTests()
     {
         _db = TestDbContextFactory.Create();
         _config = Substitute.For<IConfiguration>();
         _httpContext = new DefaultHttpContext();
+        _env = Substitute.For<IWebHostEnvironment>();
+        _env.ContentRootPath.Returns("test-path");
+        _resumeStorage = Substitute.For<IResumeStorageService>();
     }
 
     [Fact]
@@ -32,7 +39,7 @@ public class MaintenanceEndpointsTests
         _httpContext.Request.Headers["X-Maintenance-Key"] = "invalid-key";
 
         // Act
-        var result = await MaintenanceEndpoints.HandleResetDemo(_db, _config, _httpContext);
+        var result = await MaintenanceEndpoints.HandleResetDemo(_db, _config, _httpContext, _env, _resumeStorage);
 
         // Assert
         result.Should().BeOfType<UnauthorizedHttpResult>();
@@ -61,7 +68,7 @@ public class MaintenanceEndpointsTests
         // Act
         try 
         {
-            var result = await MaintenanceEndpoints.HandleResetDemo(_db, _config, _httpContext);
+            var result = await MaintenanceEndpoints.HandleResetDemo(_db, _config, _httpContext, _env, _resumeStorage);
 
             result.Should().BeOfType<Ok<object>>();
 
