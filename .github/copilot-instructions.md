@@ -40,6 +40,7 @@ Before making a commit, or when asked to generate a commit message, YOU MUST rev
 - **Documentation**: Update the `README.md` (or other relevant documentation) if applicable.
 - **Architecture Diagram**: If an architectural change is made, like a new feature or tool is implemented, or the Azure infrastructure (`infrastructure/main.bicep`) is modified, YOU MUST update the Mermaid architecture diagram in the `README.MD` to reflect these changes .
 - **Feature Design Deviations**: If a feature is implemented with a flow that deviates from the standard CQRS execution flow, YOU MUST document this deviation (e.g., by adding a note or updating the sequence diagram in the `README.MD`).
+- **Marketing / Landing Page**: If a new user-facing functionality is added, ensure it is highlighted in the "Users can:" list inside `Features/Account/Login.cshtml`.
 - **Seed Data**: If a new feature or entity property is added, ensure it is included in the dummy data generation within `Features/Maintenance/MaintenanceEndpoints.cs`.
 
 ## ☁️ Azure Infrastructure (Bicep)
