@@ -15,7 +15,42 @@ A modern Vertical Slice Architecture Web App for tracking job applications and i
 - **Security:** "Secure by Default" policy. All endpoints require authentication unless marked `[AllowAnonymous]`.
 - **Cloud Storage:** Secure document storage (Resumes/CVs) integration using Azure Blob Storage with strict server-side validation (Magic Numbers checking) and private-by-default access policies.
 
-### Architecture Diagram
+### Feature Design Pattern (Inside a Vertical Slice)
+Every feature is encapsulated in a single folder and strictly follows the **CQRS (Command Query Responsibility Segregation)** pattern using MediatR. This ensures that UI concerns, business logic, and data access are decoupled yet physically grouped together by feature.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client
+    participant View as Razor Page (.cshtml)
+    participant PageModel as PageModel (.cshtml.cs)
+    participant MediatR as MediatR Pipeline
+    participant Handler as IRequestHandler
+    participant DB as EF Core (AppDbContext)
+
+    Client->>View: HTTP Request (GET/POST)
+    View->>PageModel: Routes to Page Handler (e.g. OnPostAsync)
+    
+    rect rgba(255, 255, 255, 0.1)
+        Note over PageModel,Handler: CQRS Execution
+        PageModel->>PageModel: Instantiates Command/Query record
+        PageModel->>MediatR: _sender.Send(Command)
+        MediatR->>Handler: Routes to specific Handler
+    end
+
+    rect rgba(255, 255, 255, 0.15)
+        Note over Handler,DB: Business Logic & Data Access
+        Handler->>DB: Executes domain logic / Applies Query Filters
+        DB-->>Handler: Returns Entity / Success
+        Handler-->>MediatR: Returns Result Pattern
+    end
+
+    MediatR-->>PageModel: Result<T>
+    PageModel-->>View: Returns Page() or Redirect()
+    View-->>Client: HTTP Response (HTML View)
+```
+
+### System Architecture Diagram
 
 ```mermaid
 graph TD

@@ -4,6 +4,7 @@ This file provides the context and architectural boundaries necessary to write c
 
 ## 🏗 Architecture & Structural Patterns
 - **Vertical Slice Architecture**: Code is organized strictly by feature. Do not extract to artificial layers (e.g., Application/Services folders). Navigation starts at `Features/{FeatureName}/{Action}/` (e.g., `Features/JobApplications/Add/`).
+- **Feature Design Pattern**: When creating or modifying a feature, you MUST follow the CQRS execution flow documented in the `README.MD` under "Feature Design Pattern (Inside a Vertical Slice)".
 - **Feature Structure**: Each folder encapsulates an action. It typically contains a Razor Page (`Add.cshtml`), its PageModel (`Add.cshtml.cs`), a MediatR Request (`AddJobApplicationCommand.cs`), and its Handler (`AddJobApplicationHandler.cs`).
 - **CQRS via MediatR**:
   - **Commands** (writes) and **Queries** (reads) implement `IRequest<Result<T>>` or `IRequest<Result>`.
@@ -38,6 +39,7 @@ Before making a commit, or when asked to generate a commit message, YOU MUST rev
 - **Unit Tests**: Create or update unit tests if applicable. **CRITICAL: You MUST run `dotnet test` in the terminal inside the `tests/JobTrackerVSA.UnitTests` folder and ensure all tests pass before considering the feature done or generating a commit message.** Do not assume tests pass without running them.DEP
 - **Documentation**: Update the `README.md` (or other relevant documentation) if applicable.
 - **Architecture Diagram**: If an architectural change is made, like a new feature or tool is implemented, or the Azure infrastructure (`infrastructure/main.bicep`) is modified, YOU MUST update the Mermaid architecture diagram in the `README.MD` to reflect these changes .
+- **Feature Design Deviations**: If a feature is implemented with a flow that deviates from the standard CQRS execution flow, YOU MUST document this deviation (e.g., by adding a note or updating the sequence diagram in the `README.MD`).
 - **Seed Data**: If a new feature or entity property is added, ensure it is included in the dummy data generation within `Features/Maintenance/MaintenanceEndpoints.cs`.
 
 ## ☁️ Azure Infrastructure (Bicep)
