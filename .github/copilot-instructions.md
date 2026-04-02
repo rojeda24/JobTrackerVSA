@@ -35,6 +35,15 @@ This file provides the context and architectural boundaries necessary to write c
 
 ## ✅ Definition of Done (DoD)
 Before making a commit, or when asked to generate a commit message, YOU MUST review and verify the following Definition of Done:
-- **Unit Tests**: Create or update unit tests if applicable. **CRITICAL: You MUST run `dotnet test` in the terminal inside the `tests/JobTrackerVSA.UnitTests` folder and ensure all tests pass before considering the feature done or generating a commit message.** Do not assume tests pass without running them.
+- **Unit Tests**: Create or update unit tests if applicable. **CRITICAL: You MUST run `dotnet test` in the terminal inside the `tests/JobTrackerVSA.UnitTests` folder and ensure all tests pass before considering the feature done or generating a commit message.** Do not assume tests pass without running them.DEP
 - **Documentation**: Update the `README.md` (or other relevant documentation) if applicable.
+- **Architecture Diagram**: If an architectural change is made, like a new feature or tool is implemented, or the Azure infrastructure (`infrastructure/main.bicep`) is modified, YOU MUST update the Mermaid architecture diagram in the `README.MD` to reflect these changes .
 - **Seed Data**: If a new feature or entity property is added, ensure it is included in the dummy data generation within `Features/Maintenance/MaintenanceEndpoints.cs`.
+
+## ☁️ Azure Infrastructure (Bicep)
+The production infrastructure is defined in `infrastructure/main.bicep`. **CRITICAL:** When dealing with infrastructure, deployment, or environment-related tasks, YOU MUST explicitly read and review the `infrastructure/main.bicep` file to understand the current architecture, resource SKUs, and provisioning rules instead of relying on assumptions.
+
+## 🔄 CI/CD & Automation Workflows
+This project uses **GitHub Actions** to automate CI/CD and routine maintenance tasks. The pipelines are located in `.github/workflows/`:
+- **Deployment Pipeline (`deploy-azure.yml`)**: Triggered on `main` branch pushes. It authenticates securely via OIDC, deploys infrastructure using the Bicep template, builds the .NET 10 project, runs unit tests, runs Entity Framework Core migrations automatically, and finally deploys the artifacts to the Azure Web App.
+- **Maintenance Job (`cleanup-demo-user.yml`)**: A scheduled cron job that runs daily. It makes a secure, authenticated request (using `X-Maintenance-Key`) to the application's maintenance endpoint (`/api/maintenance/reset-demo`) to wipe and re-seed the demo account data.
